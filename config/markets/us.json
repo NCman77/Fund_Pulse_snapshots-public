@@ -1,5 +1,12 @@
 {
   "market": "us", "region": "america", "timezone": "America/New_York", "enabled": true,
   "sessions": { "regular": [{ "open": "09:30", "close": "16:00" }] },
+  "calendar": {
+    "closedDates": [],
+    "specialSessions": {
+      "2026-11-27": [{ "open": "09:30", "close": "13:00" }],
+      "2026-12-24": [{ "open": "09:30", "close": "13:00" }]
+    }
+  },
   "source": { "status": "approved", "name": "yahoo-finance-chart" }
 }

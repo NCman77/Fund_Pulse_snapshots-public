@@ -1,5 +1,11 @@
 {
   "market": "uk", "region": "europe", "timezone": "Europe/London", "enabled": true,
   "sessions": { "regular": [{ "open": "08:00", "close": "16:30" }] },
+  "calendar": {
+    "closedDates": [],
+    "specialSessions": {
+      "2026-12-31": [{ "open": "08:00", "close": "12:30" }]
+    }
+  },
   "source": { "status": "approved", "name": "yahoo-finance-chart" }
 }

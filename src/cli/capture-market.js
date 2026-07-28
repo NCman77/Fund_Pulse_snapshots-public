@@ -26,7 +26,7 @@ if (session === 'closed') {
 
 try {
   const symbols = JSON.parse(await readFile(path.join(root, 'config', 'public-symbols', 'indices.json'), 'utf8'));
-  const quotes = await collectYahooCharts(symbols.markets[market] ?? []);
+  const quotes = await collectYahooCharts(symbols.markets[market] ?? [], { timezone: config.timezone });
   const snapshot = {
     schemaVersion: '1.0', market, region: config.region, capturedAt: new Date().toISOString(), session,
     source: config.source.name, isDelayed: true, quotes
