@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Public raw market snapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "market", "region", "capturedAt", "session", "source", "isDelayed", "quotes"],
+  "properties": {
+    "schemaVersion": { "const": "1.0" },
+    "market": { "type": "string", "pattern": "^[a-z]{2,8}$" },
+    "region": { "type": "string", "enum": ["asia", "europe", "america"] },
+    "capturedAt": { "type": "string", "format": "date-time" },
+    "session": { "type": "string", "enum": ["preopen", "regular", "close"] },
+    "source": { "type": "string", "minLength": 1 },
+    "isDelayed": { "type": "boolean" },
+    "quotes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["symbol", "currency"],
+        "properties": {
+          "symbol": { "type": "string", "minLength": 1 },
+          "open": { "type": "number" },
+          "high": { "type": "number" },
+          "low": { "type": "number" },
+          "close": { "type": "number" },
+          "currency": { "type": "string", "pattern": "^[A-Z]{3}$" }
+        }
+      }
+    }
+  }
+}
+

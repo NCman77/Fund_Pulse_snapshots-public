@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Public daily market manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "market", "date", "generatedAt", "snapshots"],
+  "properties": {
+    "schemaVersion": { "const": "1.0" },
+    "market": { "type": "string", "pattern": "^[a-z]{2,8}$" },
+    "date": { "type": "string", "format": "date" },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "snapshots": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "capturedAt", "sha256"],
+        "properties": {
+          "path": { "type": "string", "pattern": "^data/raw/" },
+          "capturedAt": { "type": "string", "format": "date-time" },
+          "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+        }
+      }
+    }
+  }
+}
+
