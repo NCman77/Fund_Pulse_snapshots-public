@@ -1,19 +1,21 @@
-name: Capture Taiwan public snapshot
+name: Capture approved public market snapshots
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '5 0-21 * * 1-5'
 
 permissions:
   contents: write
 
 concurrency:
-  group: snapshot-tw
+  group: snapshot-public-markets
   cancel-in-progress: false
 
 jobs:
   capture:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -22,12 +24,16 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run validate
-      - run: npm run capture:tw
-      - name: Commit approved snapshot changes
+      - name: Capture open markets only
+        run: |
+          for market in tw jp kr cn sg uk eu us; do
+            node src/cli/capture-market.js "$market"
+          done
+      - name: Commit public snapshots
         run: |
           if [ -z "$(git status --porcelain -- data/raw/ data/latest/ data/status/)" ]; then exit 0; fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/raw/ data/latest/ data/status/
-          git commit -m "capture: tw public snapshot"
+          git commit -m "capture: approved public market snapshots"
           git push

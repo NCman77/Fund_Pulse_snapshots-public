@@ -6,10 +6,10 @@
   "scripts": {
     "test": "node --test tests/*.test.js",
     "validate": "node src/cli/validate-public-repository.js",
-    "capture:tw": "node src/cli/capture-market.js tw"
+    "capture:tw": "node src/cli/capture-market.js tw",
+    "archive:tw": "node src/cli/archive-market.js tw"
   },
   "engines": {
     "node": ">=20"
   }
 }
-

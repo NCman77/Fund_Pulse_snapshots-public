@@ -19,10 +19,13 @@ export async function writeSnapshot(root, snapshot) {
     throw new Error('Snapshot must declare a schema version and quotes array.');
   }
   const target = snapshotPath(root, snapshot);
-  await mkdir(path.dirname(target), { recursive: true });
-  const temporary = `${target}.tmp`;
-  await writeFile(temporary, `${JSON.stringify(snapshot, null, 2)}\n`, 'utf8');
-  await rename(temporary, target);
+  await writeJsonAtomically(target, snapshot);
   return target;
 }
 
+export async function writeJsonAtomically(target, value) {
+  await mkdir(path.dirname(target), { recursive: true });
+  const temporary = `${target}.tmp`;
+  await writeFile(temporary, `${JSON.stringify(value, null, 2)}\n`, 'utf8');
+  await rename(temporary, target);
+}
