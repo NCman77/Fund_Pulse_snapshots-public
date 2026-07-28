@@ -16,4 +16,3 @@ npm run validate
 ```
 
 See [the security boundary](docs/SECURITY_BOUNDARY.md) and [operations guide](docs/OPERATIONS.md) before enabling a workflow.
-
