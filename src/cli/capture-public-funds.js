@@ -28,4 +28,3 @@ for (const fund of catalog.funds ?? []) {
 }
 await writeJsonAtomically(healthPath, health);
 if (failures) process.exitCode = 1;
-
