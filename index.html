@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>台股基金 - 即時淨值預估儀表板</title>
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="台股基金即時盤中淨值預估儀表板，提供基金搜尋、持股觀察、產業配置與盤中淨值估算。">
+  <meta name="keywords" content="台股基金, 即時淨值, 淨值預估, 基金持股, 台灣科技基金, 基金估值">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📈</text></svg>">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;500;700;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS / Icon Library CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="/taiwan/index.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Top Header -->
+    <header class="app-header">
+      <div class="header-left">
+        <div class="logo-area">
+          <i data-lucide="trending-up" class="logo-icon"></i>
+          <h1>台股基金即時淨值</h1>
+        </div>
+        <nav class="site-navigation" aria-label="基金頁面切換">
+          <a href="/">主頁</a>
+          <a href="/taiwan/" class="is-current" aria-current="page">台灣基金</a>
+          <a href="/international/">國際基金</a>
+        </nav>
+      </div>
+      
+      <div class="header-right">
+        <div class="header-actions-row">
+          <div class="status-indicator">
+            <span class="pulse-dot idle" id="statusDot"></span>
+            <span class="status-text" id="statusText">正在初始化...</span>
+          </div>
+          <button class="btn btn-primary" id="btnRefresh">
+            <i data-lucide="rotate-cw" class="btn-icon"></i>
+            立即刷新
+          </button>
+        </div>
+      </div>
+      <section class="popular-funds-panel mobile-tab-section" data-mobile-section="funds">
+        <div class="popular-funds-header">
+          <span class="label">熱門基金</span>
+        </div>
+        <div class="fund-search-box">
+          <div class="fund-search-input-row">
+            <input type="search" id="fundSearchInput" placeholder="輸入基金中文名稱，例如：施羅德台灣樂活中小基金">
+            <button class="btn btn-primary" id="btnFundSearch">
+              <i data-lucide="search" class="btn-icon"></i>
+              搜尋基金
+            </button>
+          </div>
+          <div class="fund-search-results" id="fundSearchResults" aria-live="polite"></div>
+        </div>
+        <div class="popular-funds-grid" id="popularFundsGrid"></div>
+      </section>
+      <section class="current-fund-panel mobile-tab-section" data-mobile-section="summary">
+        <div class="fund-search-copy">
+          <span class="label">目前分析基金</span>
+          <h2 id="selectedFundName">安聯台灣科技基金</h2>
+          <p class="fund-meta" id="selectedFundMeta">
+            <span id="selectedFundNavDate">淨值日期：--</span>
+            <span class="fund-meta-separator">|</span>
+            <span id="snapshotStatus">持股/產業比對中...</span>
+            <span class="fund-meta-separator">|</span>
+            <span class="fund-manager-inline">
+              <span id="selectedFundManager">經理人：--</span>
+              <button type="button" class="fund-manager-badge" id="selectedFundManagerBadge" hidden title="經理人近期異動">新任</button>
+            </span>
+          </p>
+          <div class="fund-manager-alert" id="selectedFundManagerAlert" hidden>經理人異動提示載入中...</div>
+          <div class="analysis-action-row">
+            <span class="analysis-action-note" id="analysisTrackingStatus">此基金目前僅供即時查看，尚未納入每日分析。</span>
+            <div class="analysis-action-buttons">
+              <button class="btn btn-primary" id="btnAddToAnalysis" type="button">加入分析</button>
+              <button class="btn btn-secondary" id="btnRemoveFromAnalysis" type="button" hidden>移除分析</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </header>
+
+    <!-- Main Content -->
+    <main class="app-main">
+      
+      <!-- Key Statistics Bar -->
+      <section class="stat-summary-bar mobile-tab-section" data-mobile-section="summary">
+        <div class="summary-card summary-card--latest-nav">
+          <div class="summary-info">
+            <span class="label">目前最新淨值</span>
+            <div class="value-container">
+              <span class="value" id="prevOfficialNav">---.--</span>
+              <span class="unit">TWD</span>
+            </div>
+            <span class="metric-line summary-line-desktop">
+              <span>漲跌：</span>
+              <span id="selectedFundChangeAmt" class="fund-change-amt">--</span>
+              <span id="selectedFundChangePct" class="fund-change-pct">(--.--%)</span>
+            </span>
+            <span class="metric-line mobile-summary-line" id="selectedFundMobileChange">漲跌：-- (--)</span>
+            <span class="sub-label">最新公告淨值與漲跌幅</span>
+          </div>
+          <i data-lucide="landmark" class="summary-icon"></i>
+        </div>
+        
+        <div class="summary-card summary-card--taiex">
+          <div class="summary-info">
+            <span class="label">加權指數</span>
+            <div class="value-container">
+              <span class="value" id="taiexPrice">--.---</span>
+            </div>
+            <span class="metric-line summary-line-desktop">
+              <span>漲跌：</span>
+              <span id="taiexChange" class="taiex-change-pct">--.--%</span>
+              <span id="taiexChangeAmt" class="taiex-change-amt">(--.--)</span>
+            </span>
+            <span class="metric-line mobile-summary-line" id="taiexMobileChange">漲跌：--.--% (--.--)</span>
+            <span class="sub-label summary-line-desktop">台灣加權股價指數</span>
+          </div>
+          <i data-lucide="bar-chart-3" class="summary-icon"></i>
+        </div>
+
+        <div class="summary-card summary-card--top-holdings">
+          <div class="summary-info">
+            <span class="label">前十大持股比重</span>
+            <div class="value-container">
+              <span class="value" id="topHoldingsWeight">--.--</span>
+              <span class="unit">%</span>
+            </div>
+            <span class="metric-line metric-line-placeholder">　</span>
+            <span class="sub-label" id="stockPositionLabel">基金總持股比例：--.--%</span>
+          </div>
+          <i data-lucide="pie-chart" class="summary-icon"></i>
+        </div>
+
+        <div class="summary-card summary-card--undisclosed">
+          <div class="summary-info">
+            <span class="label">未揭露產業比重</span>
+            <div class="value-container">
+              <span class="value" id="undisclosedWeight">--.--</span>
+              <span class="unit">%</span>
+            </div>
+            <span class="metric-line metric-line-placeholder">　</span>
+            <span class="sub-label" id="liquidityWeightLabel">包含流動資金：--.--%</span>
+          </div>
+          <i data-lucide="layers" class="summary-icon"></i>
+        </div>
+      </section>
+
+      <!-- NAV Estimation Models -->
+      <section class="estimation-grid mobile-tab-section" data-mobile-section="summary">
+        <div class="card estimation-card" id="cardEnsemble" data-model-key="ensemble">
+          <div class="card-header">
+            <h3>智能適應預估</h3>
+            <div class="model-badge-group">
+              <span class="model-badge data-source-badge" data-model-source-badge="ensemble">即時</span>
+              <span class="model-badge recommendation-badge" hidden>推薦</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <span class="est-label">預估淨值</span>
+            <div class="est-price">
+              <span class="price-val" id="estNavEnsemble">---.--</span>
+              <span class="price-unit">TWD</span>
+            </div>
+            <div class="est-change-container">
+              <span class="est-change-amt" id="estChangeAmtEnsemble">-.--(--%)</span>
+              <span class="est-change-pct" id="estChangePctEnsemble"></span>
+            </div>
+            <p class="model-desc">
+              後端會根據當日市場風格，自動結合三種估算方式，並針對看不見的持股部位進行額外校正。
+            </p>
+          </div>
+          <div class="card-footer">
+            <span id="ensembleFooter">等待融合模型結果</span>
+          </div>
+        </div>
+        
+        <!-- Model 1 Card -->
+        <div class="card estimation-card" id="cardModel1" data-model-key="model1">
+          <div class="card-header">
+            <h3>已揭露持股等比例放大</h3>
+            <div class="model-badge-group">
+              <span class="model-badge data-source-badge" data-model-source-badge="model1">即時</span>
+              <span class="model-badge recommendation-badge" hidden>推薦</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <span class="est-label">預估淨值</span>
+            <div class="est-price">
+              <span class="price-val" id="estNavModel1">---.--</span>
+              <span class="price-unit">TWD</span>
+            </div>
+            <div class="est-change-container">
+              <span class="est-change-amt" id="estChangeAmtModel1">-.--(--%)</span>
+              <span class="est-change-pct" id="estChangePctModel1"></span>
+            </div>
+            <p class="model-desc">
+              未揭露持股報酬率，以當日有即時成交價之持股加權平均為準，不再使用昨收價作為替代。
+            </p>
+          </div>
+          <div class="card-footer">
+            <span id="model1WeightNote">估算權重：等待基金比重資料</span>
+          </div>
+        </div>
+
+        <!-- Model 2 Card (Recommended) -->
+        <div class="card estimation-card" id="cardModel2" data-model-key="model2">
+          <div class="card-header">
+            <h3>產業分類指數加權</h3>
+            <div class="model-badge-group">
+              <span class="model-badge data-source-badge" data-model-source-badge="model2">即時</span>
+              <span class="model-badge recommendation-badge" hidden>推薦</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <span class="est-label">預估淨值</span>
+            <div class="est-price">
+              <span class="price-val" id="estNavModel2">---.--</span>
+              <span class="price-unit">TWD</span>
+            </div>
+            <div class="est-change-container">
+              <span class="est-change-amt" id="estChangeAmtModel2">-.--(--%)</span>
+              <span class="est-change-pct" id="estChangePctModel2"></span>
+            </div>
+            <p class="model-desc">
+              以產業分類盤中波動做加權估算，推算未揭露持股對基金淨值的影響。
+            </p>
+          </div>
+          <div class="card-footer">
+            <span>包含個股與各產業即時分類指數波動</span>
+          </div>
+        </div>
+
+        <!-- Model 3 Card -->
+        <div class="card estimation-card" id="cardModel3" data-model-key="model3">
+          <div class="card-header">
+            <h3>已揭露持股+大盤指數</h3>
+            <div class="model-badge-group">
+              <span class="model-badge data-source-badge" data-model-source-badge="model3">即時</span>
+              <span class="model-badge recommendation-badge" hidden>推薦</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <span class="est-label">預估淨值</span>
+            <div class="est-price">
+              <span class="price-val" id="estNavModel3">---.--</span>
+              <span class="price-unit">TWD</span>
+            </div>
+            <div class="est-change-container">
+              <span class="est-change-amt" id="estChangeAmtModel3">-.--(--%)</span>
+              <span class="est-change-pct" id="estChangePctModel3"></span>
+            </div>
+            <p class="model-desc">
+              未揭露股票報酬率假設與大盤同步，並搭配已揭露持股之盤中即時行情進行估算。
+            </p>
+          </div>
+          <div class="card-footer">
+            <span id="model3WeightNote">估算權重：等待基金比重資料</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Dashboard Grid: Table and Charts -->
+      <div class="dashboard-grid mobile-tab-shell" data-mobile-shell="holdings industry">
+        
+        <!-- Left Column: Real-time Stock Holdings -->
+        <section class="card holdings-card mobile-tab-section" data-mobile-section="holdings">
+          <div class="card-title-bar">
+            <h2><i data-lucide="list-ordered" class="section-icon"></i>前十大成分股即時行情</h2>
+            <span id="holdingsDiffBadge" class="holdings-diff-badge"></span>
+            <span class="update-info" id="holdingsUpdateTime">最後更新: --:--:--</span>
+          </div>
+          
+          <div class="table-container">
+            <table class="holdings-table" id="holdingsTable">
+              <thead>
+                <tr>
+                  <th>個股名稱</th>
+                  <th class="text-right">基金比重</th>
+                  <th class="text-right">昨收價</th>
+                  <th class="text-right">即時價</th>
+                  <th class="text-right">漲跌幅</th>
+                  <th class="text-right">淨值貢獻</th>
+                </tr>
+              </thead>
+              <tbody id="holdingsTableBody">
+                <!-- Dynamic rows injected here -->
+                <tr>
+                  <td colspan="6" class="text-center text-muted py-8">載入中，請稍候...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Right Column: Charts & Sector Allocations -->
+        <section class="charts-column mobile-tab-section" data-mobile-section="industry">
+          
+          <!-- Sector Allocation Card -->
+          <div class="card chart-card">
+            <h2><i data-lucide="pie-chart" class="section-icon"></i>基金完整產業及資金分佈</h2>
+            <div class="chart-container donut">
+              <canvas id="sectorChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Historical Trend Card -->
+          <div class="card chart-card">
+            <div class="chart-card-header">
+              <h2><i data-lucide="line-chart" class="section-icon"></i>基金淨值歷史趨勢</h2>
+              <div class="history-range-toolbar">
+                <select id="historyRangePreset" aria-label="歷史區間">
+                  <option value="30d">近30日</option>
+                  <option value="90d">近90日</option>
+                  <option value="1y">近1年</option>
+                  <option value="sinceInception">成立至今</option>
+                  <option value="custom">自訂區間</option>
+                </select>
+                <input type="date" id="historyDateFrom" aria-label="開始日期">
+                <span class="history-range-separator">~</span>
+                <input type="date" id="historyDateTo" aria-label="結束日期">
+                <button class="btn btn-secondary" id="btnApplyHistoryRange" type="button">套用區間</button>
+              </div>
+            </div>
+            <div class="chart-container line">
+              <canvas id="navChart"></canvas>
+            </div>
+          </div>
+        </section>
+      </div>
+      
+      <!-- Recent 30-Day NAV History Card -->
+      <section class="card nav-history-card mobile-tab-section" data-mobile-section="history">
+        <div class="card-title-bar">
+          <h2><i data-lucide="calendar" class="section-icon"></i>最近 30 日歷史淨值表</h2>
+          <span class="update-info" id="navHistoryNote">每日自動遞延更新</span>
+        </div>
+        <div class="nav-history-dual-container">
+          <!-- Left Column (Days 1-15) -->
+          <div class="table-container nav-history-sub-container">
+            <table class="holdings-table nav-history-table">
+              <thead>
+                <tr>
+                  <th>淨值日期</th>
+                  <th class="text-right">淨值 (TWD)</th>
+                  <th class="text-right">當日漲跌</th>
+                  <th class="text-right">當日漲跌幅</th>
+                </tr>
+              </thead>
+              <tbody id="navHistoryTableBodyLeft">
+                <tr>
+                  <td colspan="4" class="text-center text-muted py-8">載入中，請稍候...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- Left Column (Days 16-30) -->
+          <div class="table-container nav-history-sub-container">
+            <table class="holdings-table nav-history-table">
+              <thead>
+                <tr>
+                  <th>淨值日期</th>
+                  <th class="text-right">淨值 (TWD)</th>
+                  <th class="text-right">當日漲跌</th>
+                  <th class="text-right">當日漲跌幅</th>
+                </tr>
+              </thead>
+              <tbody id="navHistoryTableBodyRight">
+                <tr>
+                  <td colspan="4" class="text-center text-muted py-8">載入中，請稍候...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="card model-analysis-card mobile-tab-section" data-mobile-section="analysis">
+        <div class="card-title-bar">
+          <h2><i data-lucide="flask-conical" class="section-icon"></i>模型誤差分析與優化追蹤</h2>
+          <span class="update-info" id="modelAnalysisUpdatedAt">等待誤差資料</span>
+        </div>
+        <div class="model-analysis-content">
+          <div class="model-analysis-summary-grid">
+            <div class="model-analysis-metric">
+              <span class="label">已完成比對日數</span>
+              <span class="metric-value" id="analysisCompletedDays">--</span>
+            </div>
+            <div class="model-analysis-metric">
+              <span class="label">目前最穩模型</span>
+              <span class="metric-value" id="analysisBestModel">--</span>
+            </div>
+            <div class="model-analysis-metric">
+              <span class="label">產業分類指數加權平均絕對誤差</span>
+              <span class="metric-value" id="analysisModel2AbsError">--</span>
+            </div>
+            <div class="model-analysis-metric">
+              <span class="label">產業分類指數加權平均偏差</span>
+              <span class="metric-value" id="analysisModel2Bias">--</span>
+            </div>
+          </div>
+          <div class="data-quality-banner" id="analysisDataSourceNote">資料來源：等待誤差資料</div>
+
+          <div class="model-analysis-guide-card" id="todayModelGuideCard" data-confidence="pending">
+            <div class="model-analysis-guide-header">
+              <div>
+                <div class="model-analysis-guide-kicker">今日建議模型</div>
+                <div class="model-analysis-guide-model" id="todayModelGuideModel">--</div>
+              </div>
+              <span class="model-analysis-guide-badge" id="todayModelGuideConfidence">等待分析</span>
+            </div>
+            <div class="model-analysis-guide-reason" id="todayModelGuideReason">依基金自己的歷史誤差與今日市場條件綜合判斷。</div>
+            <div class="model-analysis-guide-meta" id="todayModelGuideMeta">等待模型分析資料</div>
+            <div class="model-analysis-guide-backup" id="todayModelGuideBackup">次佳備選：--</div>
+          </div>
+
+          <div class="model-analysis-window-grid">
+            <article class="model-analysis-window-card model-analysis-window-card--decision">
+              <div class="model-analysis-window-title">下單前準確度（截至 12:55）</div>
+              <div class="model-analysis-window-model" id="decisionWindowBestModel">--</div>
+              <div class="model-analysis-window-error" id="decisionWindowBestError">平均絕對誤差 --</div>
+              <div class="model-analysis-window-meta" id="decisionWindowMeta">等待下單前比對資料</div>
+            </article>
+            <article class="model-analysis-window-card">
+              <div class="model-analysis-window-title">收盤預估準確度（截至 13:30）</div>
+              <div class="model-analysis-window-model" id="closingWindowBestModel">--</div>
+              <div class="model-analysis-window-error" id="closingWindowBestError">平均絕對誤差 --</div>
+              <div class="model-analysis-window-meta" id="closingWindowMeta">僅供收盤預估檢討</div>
+            </article>
+          </div>
+
+          <details class="model-analysis-slot-details">
+            <summary>各時段準確度明細</summary>
+            <div class="table-container">
+              <table class="holdings-table model-analysis-slot-table">
+                <thead>
+                  <tr>
+                    <th>時段</th>
+                    <th class="text-right">樣本</th>
+                    <th class="text-right">模型 1</th>
+                    <th class="text-right">模型 2</th>
+                    <th class="text-right">模型 3</th>
+                    <th class="text-right">智能融合</th>
+                    <th class="text-right">最穩模型</th>
+                  </tr>
+                </thead>
+                <tbody id="modelAnalysisSlotTableBody">
+                  <tr>
+                    <td colspan="7" class="text-center text-muted py-8">等待各時段比對資料...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+
+          <div class="model-analysis-recommendations" id="modelAnalysisRecommendations">
+            <div class="model-analysis-empty">尚未累積足夠資料，之後這裡會顯示模型優化方向。</div>
+          </div>
+
+          <div class="model-analysis-stylefactor-card" id="styleFactorStatusCard">
+            <div class="model-analysis-stylefactor-header">
+              <div>
+                <div class="model-analysis-stylefactor-title">StyleFactor 自動啟用進度</div>
+                <div class="model-analysis-stylefactor-note" id="styleFactorProgressNote">等待後端 readiness 資料</div>
+              </div>
+              <span class="model-analysis-stylefactor-badge" id="styleFactorStatusBadge">--</span>
+            </div>
+            <div class="model-analysis-stylefactor-meta" id="styleFactorMeta">啟用條件：60 天乾淨樣本、2 個持股揭露週期、walk-forward backtest 通過</div>
+            <div class="model-analysis-stylefactor-checklist" id="styleFactorChecklist">
+              <div class="model-analysis-empty">等待 readiness 資料...</div>
+            </div>
+          </div>
+
+          <div class="model-analysis-segments-grid" id="modelAnalysisSegments"></div>
+
+          <div class="table-container">
+            <table class="holdings-table model-analysis-table">
+              <thead>
+                <tr>
+                  <th>日期</th>
+                  <th class="text-right">官方淨值</th>
+                  <th class="text-right">已揭露持股等比例放大誤差</th>
+                  <th class="text-right">產業分類指數加權誤差</th>
+                  <th class="text-right">已揭露持股+大盤指數誤差</th>
+                  <th class="text-right">智能動態融合誤差</th>
+                  <th class="text-right">當日最佳</th>
+                </tr>
+              </thead>
+              <tbody id="modelAnalysisTableBody">
+                <tr>
+                  <td colspan="7" class="text-center text-muted py-8">等待誤差分析資料...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="card daily-ranking-card mobile-tab-section" data-mobile-section="analysis">
+        <div class="card-title-bar">
+          <h2 id="dailyRankingTitle"><i data-lucide="trophy" class="section-icon"></i>每日誤差排名（排名日期：--/--）</h2>
+          <span class="update-info" id="dailyRankingUpdatedAt">等待排名資料</span>
+        </div>
+        <div class="daily-ranking-content">
+          <div class="data-quality-banner" id="dailyRankingDataSourceNote">資料來源：等待排名資料</div>
+          <div class="daily-ranking-highlights-grid">
+            <div class="daily-ranking-highlight">
+              <span class="label">當日誤差最小基金</span>
+              <span class="highlight-fund" id="rankingLowestFund">--</span>
+              <span class="highlight-value" id="rankingLowestValue">--</span>
+            </div>
+            <div class="daily-ranking-highlight">
+              <span class="label">當日誤差最大基金</span>
+              <span class="highlight-fund" id="rankingHighestFund">--</span>
+              <span class="highlight-value" id="rankingHighestValue">--</span>
+            </div>
+            <div class="daily-ranking-highlight">
+              <span class="label" id="rankingModel2BestLabel">產業分類指數加權最準基金</span>
+              <span class="highlight-fund" id="rankingModel2BestFund">--</span>
+              <span class="highlight-value" id="rankingModel2BestValue">--</span>
+            </div>
+            <div class="daily-ranking-highlight">
+              <span class="label" id="rankingModel2WorstLabel">產業分類指數加權最差基金</span>
+              <span class="highlight-fund" id="rankingModel2WorstFund">--</span>
+              <span class="highlight-value" id="rankingModel2WorstValue">--</span>
+            </div>
+          </div>
+
+          <div class="daily-ranking-tables-grid">
+            <div class="table-container">
+              <table class="holdings-table daily-ranking-table">
+                <thead>
+                  <tr>
+                    <th>前 5 名最準基金</th>
+                    <th class="text-right">最佳模型</th>
+                    <th class="text-right">最小誤差</th>
+                    <th class="text-right"><span class="daily-ranking-desktop-label">產業分類指數加權誤差</span><span class="daily-ranking-mobile-label">產業分類誤差</span></th>
+                  </tr>
+                </thead>
+                <tbody id="dailyRankingBestTableBody">
+                  <tr>
+                    <td colspan="4" class="text-center text-muted py-8">等待排名資料...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="table-container">
+              <table class="holdings-table daily-ranking-table">
+                <thead>
+                  <tr>
+                    <th>前 5 名最不準基金</th>
+                    <th class="text-right">最佳模型</th>
+                    <th class="text-right">最大誤差</th>
+                    <th class="text-right"><span class="daily-ranking-desktop-label">產業分類指數加權誤差</span><span class="daily-ranking-mobile-label">產業分類誤差</span></th>
+                  </tr>
+                </thead>
+                <tbody id="dailyRankingWorstTableBody">
+                  <tr>
+                    <td colspan="4" class="text-center text-muted py-8">等待排名資料...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sector Indexes Watch Card -->
+      <section class="card sector-indexes-card mobile-tab-section" data-mobile-section="industry">
+        <div class="card-title-bar">
+          <h2><i data-lucide="activity" class="section-icon"></i>未揭露資金對照產業指數監控</h2>
+        </div>
+        <div class="summary-card summary-card--undisclosed-mobile mobile-only">
+          <div class="summary-info">
+            <span class="label">未揭露產業比重</span>
+            <div class="value-container">
+              <span class="value" id="mobileUndisclosedWeight">--.--</span>
+              <span class="unit">%</span>
+            </div>
+            <span class="metric-line metric-line-placeholder">　</span>
+            <span class="sub-label" id="mobileLiquidityWeightLabel">包含流動資金：--.--%</span>
+          </div>
+          <i data-lucide="layers" class="summary-icon"></i>
+        </div>
+        <div class="indexes-grid" id="indexesGrid">
+          <!-- Dynamic index badges -->
+        </div>
+      </section>
+      
+    </main>
+
+    <nav class="mobile-bottom-nav" id="mobileBottomNav" aria-label="手機功能導覽">
+      <a class="mobile-bottom-nav-btn mobile-bottom-nav-link" href="https://fundpulse-omega.vercel.app/">
+        <i data-lucide="house" class="mobile-bottom-nav-icon"></i>
+        <span>主頁</span>
+      </a>
+      <button class="mobile-bottom-nav-btn" type="button" data-mobile-tab="funds">
+        <i data-lucide="search" class="mobile-bottom-nav-icon"></i>
+        <span>選擇基金</span>
+      </button>
+      <button class="mobile-bottom-nav-btn active" type="button" data-mobile-tab="summary">
+        <i data-lucide="gauge" class="mobile-bottom-nav-icon"></i>
+        <span>即時估算</span>
+      </button>
+      <button class="mobile-bottom-nav-btn" type="button" data-mobile-tab="holdings">
+        <i data-lucide="list-ordered" class="mobile-bottom-nav-icon"></i>
+        <span>持股行情</span>
+      </button>
+      <button class="mobile-bottom-nav-btn" type="button" data-mobile-tab="industry">
+        <i data-lucide="pie-chart" class="mobile-bottom-nav-icon"></i>
+        <span>產業監控</span>
+      </button>
+      <button class="mobile-bottom-nav-btn" type="button" data-mobile-tab="history">
+        <i data-lucide="calendar" class="mobile-bottom-nav-icon"></i>
+        <span>歷史淨值</span>
+      </button>
+      <button class="mobile-bottom-nav-btn" type="button" data-mobile-tab="analysis">
+        <i data-lucide="flask-conical" class="mobile-bottom-nav-icon"></i>
+        <span>基金分析</span>
+      </button>
+    </nav>
+
+    <!-- App Footer -->
+    <footer class="app-footer">
+      <div class="footer-content">
+        <p>聲明：本網頁估算之即時淨值僅供學術與研究參考，不構成任何投資建議。盤中資料與基金資訊皆可能延遲，實際淨值請以基金公司正式公告為準。</p>
+        <p>&copy; 2026 台股基金即時淨值預估系統. All Rights Reserved.</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Holdings Diff Modal -->
+  <div id="holdingsDiffModal" class="modal-backdrop hidden" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3><i data-lucide="git-compare" class="section-icon"></i>持股異動對照表</h3>
+        <button id="btnCloseDiffModal" class="modal-close-btn" type="button" aria-label="關閉">&times;</button>
+      </div>
+      <div class="modal-body" id="holdingsDiffModalBody">
+        <!-- Dynamic content injected safely -->
+      </div>
+    </div>
+  </div>
+
+  <!-- App Script -->
+  <script src="/taiwan/index.js"></script>
+</body>
+</html>
