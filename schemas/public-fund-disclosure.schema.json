@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Public fund disclosure snapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "fundId", "fundName", "capturedAt", "source", "nav", "fundProfile", "holdingsDisclosure"],
+  "properties": {
+    "schemaVersion": { "const": "1.0" },
+    "fundId": { "type": "string" },
+    "fundName": { "type": "string" },
+    "capturedAt": { "type": "string", "format": "date-time" },
+    "source": { "type": "object" },
+    "nav": { "type": ["object", "null"] },
+    "fundProfile": { "type": "object" },
+    "holdingsDisclosure": { "type": "object" }
+  }
+}
