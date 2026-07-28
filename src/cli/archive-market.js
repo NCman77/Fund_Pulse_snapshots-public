@@ -13,4 +13,3 @@ const date = new Intl.DateTimeFormat('en-CA', { timeZone: config.timezone, year:
 const manifestDate = `${date.year}-${date.month}-${date.day}`;
 const target = await buildDailyManifest(root, { market, region: config.region, date: manifestDate });
 console.log(JSON.stringify({ market, status: target ? 'archived' : 'skipped', path: target && path.relative(root, target) }));
-

@@ -18,4 +18,3 @@ export function resolveMarketSession(config, now = new Date()) {
   const ranges = Array.isArray(sessions) ? sessions : [sessions];
   return ranges.some((range) => time >= minutes(range.open) && time <= minutes(range.close)) ? 'regular' : 'closed';
 }
-

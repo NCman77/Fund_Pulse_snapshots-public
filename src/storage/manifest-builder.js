@@ -36,4 +36,3 @@ export async function buildDailyManifest(root, { market, region, date }) {
   await writeJsonAtomically(target, manifest);
   return target;
 }
-
