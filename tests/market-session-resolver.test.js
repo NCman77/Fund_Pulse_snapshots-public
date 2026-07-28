@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { resolveMarketSession } from '../src/scheduling/market-session-resolver.js';
+import { isMarketDayFinished, resolveMarketSession } from '../src/scheduling/market-session-resolver.js';
 
 const china = {
   timezone: 'Asia/Shanghai',
@@ -24,4 +24,5 @@ test('uses verified closures and early-close overrides', () => {
   };
   assert.equal(resolveMarketSession(market, new Date('2026-07-03T15:00:00Z')), 'closed');
   assert.equal(resolveMarketSession(market, new Date('2026-11-27T19:00:00Z')), 'closed');
+  assert.equal(isMarketDayFinished(market, new Date('2026-11-27T19:00:00Z')), true);
 });

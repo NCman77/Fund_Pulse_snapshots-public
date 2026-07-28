@@ -16,4 +16,5 @@ test('builds a checksum manifest from raw snapshots only', async () => {
   const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
   assert.equal(manifest.snapshots.length, 1);
   assert.match(manifest.snapshots[0].sha256, /^[a-f0-9]{64}$/);
+  assert.equal(await buildDailyManifest(root, { market: 'tw', region: 'asia', date: '2026-07-28' }), null);
 });

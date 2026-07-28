@@ -26,7 +26,8 @@ jobs:
       - run: npm run validate
       - name: Capture open markets only
         run: |
-          for market in tw jp kr cn sg uk eu us; do
+          for market_config in config/markets/*.json; do
+            market="$(basename "$market_config" .json)"
             node src/cli/capture-market.js "$market"
           done
       - name: Commit public snapshots

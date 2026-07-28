@@ -21,3 +21,14 @@ export function resolveMarketSession(config, now = new Date()) {
   const ranges = Array.isArray(sessions) ? sessions : [sessions];
   return ranges.some((range) => time >= minutes(range.open) && time <= minutes(range.close)) ? 'regular' : 'closed';
 }
+
+export function isMarketDayFinished(config, now = new Date()) {
+  const local = localClock(now, config.timezone);
+  if (['Sat', 'Sun'].includes(local.weekday)) return true;
+  const date = `${local.year}-${local.month}-${local.day}`;
+  if (config.calendar?.closedDates?.includes(date)) return true;
+  const sessions = config.calendar?.specialSessions?.[date] ?? config.sessions.regular;
+  const ranges = Array.isArray(sessions) ? sessions : [sessions];
+  const finalClose = Math.max(...ranges.map((range) => minutes(range.close)));
+  return Number(local.hour) * 60 + Number(local.minute) > finalClose;
+}

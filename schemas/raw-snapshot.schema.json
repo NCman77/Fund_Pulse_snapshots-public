@@ -24,10 +24,11 @@
           "high": { "type": "number" },
           "low": { "type": "number" },
           "close": { "type": "number" },
+          "previousClose": { "type": "number" },
+          "quoteAt": { "type": "string", "format": "date-time" },
           "currency": { "type": "string", "pattern": "^[A-Z]{3}$" }
         }
       }
     }
   }
 }
-

@@ -25,8 +25,11 @@ if (session === 'closed') {
 }
 
 try {
-  const symbols = JSON.parse(await readFile(path.join(root, 'config', 'public-symbols', 'indices.json'), 'utf8'));
-  const quotes = await collectYahooCharts(symbols.markets[market] ?? [], { timezone: config.timezone });
+  const indices = JSON.parse(await readFile(path.join(root, 'config', 'public-symbols', 'indices.json'), 'utf8'));
+  const approvedTickers = JSON.parse(await readFile(path.join(root, 'config', 'public-symbols', 'approved-public-tickers.json'), 'utf8'));
+  const symbols = [...(indices.markets[market] ?? []), ...(approvedTickers.markets[market] ?? [])];
+  const uniqueSymbols = Array.from(new Map(symbols.map((item) => [item.symbol, item])).values());
+  const quotes = await collectYahooCharts(uniqueSymbols, { timezone: config.timezone });
   const snapshot = {
     schemaVersion: '1.0', market, region: config.region, capturedAt: new Date().toISOString(), session,
     source: config.source.name, isDelayed: true, quotes

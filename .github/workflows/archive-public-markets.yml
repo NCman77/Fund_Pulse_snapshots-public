@@ -28,13 +28,8 @@ jobs:
       - run: npm run validate
       - name: Build manifests for completed sessions
         run: |
-          case "${{ github.event.schedule }}" in
-            '15 9 * * 1-5') markets='tw jp kr cn sg' ;;
-            '15 20 * * 1-5') markets='uk eu' ;;
-            '15 22 * * 1-5') markets='us' ;;
-            *) markets='tw jp kr cn sg uk eu us' ;;
-          esac
-          for market in $markets; do
+          for market_config in config/markets/*.json; do
+            market="$(basename "$market_config" .json)"
             node src/cli/archive-market.js "$market"
           done
       - name: Commit daily manifests

@@ -18,7 +18,8 @@ function latestQuote(payload, symbol, currency, timezone, now) {
       }
       return Object.fromEntries([
         ['symbol', symbol], ['open', quote.open[index]], ['high', quote.high[index]], ['low', quote.low[index]],
-        ['close', quote.close[index]], ['currency', currency]
+        ['close', quote.close[index]], ['previousClose', result.meta?.regularMarketPreviousClose ?? result.meta?.previousClose],
+        ['quoteAt', new Date(result.timestamp[index] * 1_000).toISOString()], ['currency', currency]
       ].filter(([, value]) => typeof value === 'string' || Number.isFinite(value)));
     }
   }

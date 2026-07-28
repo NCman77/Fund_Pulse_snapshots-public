@@ -31,8 +31,15 @@ export async function buildDailyManifest(root, { market, region, date }) {
     };
   }));
   if (!snapshots.length) return null;
-  const manifest = { schemaVersion: '1.0', market, date, generatedAt: new Date().toISOString(), snapshots };
   const target = path.join(root, 'data', 'manifests', date.slice(0, 4), date, `${market}.json`);
+  try {
+    const existing = JSON.parse(await readFile(target, 'utf8'));
+    const isUnchanged = JSON.stringify(existing.snapshots) === JSON.stringify(snapshots);
+    if (isUnchanged) return null;
+  } catch (error) {
+    if (error.code !== 'ENOENT') throw error;
+  }
+  const manifest = { schemaVersion: '1.0', market, date, generatedAt: new Date().toISOString(), snapshots };
   await writeJsonAtomically(target, manifest);
   return target;
 }
