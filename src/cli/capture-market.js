@@ -31,8 +31,9 @@ try {
   const uniqueSymbols = Array.from(new Map(symbols.map((item) => [item.symbol, item])).values());
   const quotes = await collectYahooCharts(uniqueSymbols, { timezone: config.timezone });
   const snapshot = {
-    schemaVersion: '1.0', market, region: config.region, capturedAt: new Date().toISOString(), session,
-    source: config.source.name, isDelayed: true, quotes
+    schemaVersion: '1.1', market, region: config.region, capturedAt: new Date().toISOString(), session,
+    source: config.source.name, isDelayed: true, quoteStatus: 'current_market_date',
+    scheduleRule: process.env.CAPTURE_SCHEDULE_RULE || null, quotes
   };
   const rawPath = await writeSnapshot(root, snapshot);
   await writeJsonAtomically(path.join(root, 'data', 'latest', `${market}.json`), snapshot);

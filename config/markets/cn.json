@@ -1,5 +1,11 @@
 {
   "market": "cn", "region": "asia", "timezone": "Asia/Shanghai", "enabled": true,
   "sessions": { "regular": [{ "open": "09:30", "close": "11:30" }, { "open": "13:00", "close": "15:00" }] },
+  "calendar": {
+    "reviewedAt": "2026-07-29",
+    "sourceUrl": "https://www.sse.com.cn/disclosure/announcement/general/c/c_20251222_10802507.shtml",
+    "closedDates": ["2026-01-01", "2026-02-16", "2026-02-17", "2026-02-18", "2026-02-19", "2026-02-20", "2026-02-23", "2026-04-06", "2026-05-01", "2026-05-04", "2026-05-05", "2026-06-19", "2026-09-25", "2026-10-01", "2026-10-02", "2026-10-05", "2026-10-06", "2026-10-07"],
+    "specialSessions": {}
+  },
   "source": { "status": "approved", "name": "yahoo-finance-chart" }
 }

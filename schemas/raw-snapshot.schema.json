@@ -5,13 +5,15 @@
   "additionalProperties": false,
   "required": ["schemaVersion", "market", "region", "capturedAt", "session", "source", "isDelayed", "quotes"],
   "properties": {
-    "schemaVersion": { "const": "1.0" },
+    "schemaVersion": { "const": "1.1" },
     "market": { "type": "string", "pattern": "^[a-z]{2,8}$" },
     "region": { "type": "string", "enum": ["asia", "europe", "america"] },
     "capturedAt": { "type": "string", "format": "date-time" },
     "session": { "type": "string", "enum": ["preopen", "regular", "close"] },
     "source": { "type": "string", "minLength": 1 },
     "isDelayed": { "type": "boolean" },
+    "quoteStatus": { "type": "string", "enum": ["current_market_date"] },
+    "scheduleRule": { "type": ["string", "null"] },
     "quotes": {
       "type": "array",
       "items": {

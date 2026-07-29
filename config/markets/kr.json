@@ -1,5 +1,11 @@
 {
   "market": "kr", "region": "asia", "timezone": "Asia/Seoul", "enabled": true,
   "sessions": { "regular": [{ "open": "09:00", "close": "15:30" }] },
+  "calendar": {
+    "reviewedAt": "2026-07-29",
+    "sourceUrl": "https://open.krx.co.kr/contents/MKD/01/0110/01100305/MKD01100305.jsp",
+    "closedDates": ["2026-01-01", "2026-02-16", "2026-02-17", "2026-02-18", "2026-03-02", "2026-05-01", "2026-05-05", "2026-05-25", "2026-06-03", "2026-07-17", "2026-08-17", "2026-09-24", "2026-09-25", "2026-10-05", "2026-10-09", "2026-12-25", "2026-12-31"],
+    "specialSessions": {}
+  },
   "source": { "status": "approved", "name": "yahoo-finance-chart" }
 }

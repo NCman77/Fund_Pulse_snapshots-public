@@ -1,5 +1,11 @@
 {
   "market": "sg", "region": "asia", "timezone": "Asia/Singapore", "enabled": true,
   "sessions": { "regular": [{ "open": "09:00", "close": "12:00" }, { "open": "13:00", "close": "17:00" }] },
+  "calendar": {
+    "reviewedAt": "2026-07-29",
+    "sourceUrl": "https://www.mom.gov.sg/newsroom/press-releases/2025/0616-public-holidays-for-2026",
+    "closedDates": ["2026-01-01", "2026-02-17", "2026-02-18", "2026-04-03", "2026-05-01", "2026-05-27", "2026-06-01", "2026-08-10", "2026-11-09", "2026-12-25"],
+    "specialSessions": {}
+  },
   "source": { "status": "approved", "name": "yahoo-finance-chart" }
 }

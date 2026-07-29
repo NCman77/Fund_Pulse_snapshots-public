@@ -2,8 +2,11 @@
   "market": "uk", "region": "europe", "timezone": "Europe/London", "enabled": true,
   "sessions": { "regular": [{ "open": "08:00", "close": "16:30" }] },
   "calendar": {
-    "closedDates": [],
+    "reviewedAt": "2026-07-29",
+    "sourceUrl": "https://www.londonstockexchange.com/trade/trading-access/business-days",
+    "closedDates": ["2026-01-01", "2026-04-03", "2026-04-06", "2026-05-04", "2026-05-25", "2026-08-31", "2026-12-25", "2026-12-28"],
     "specialSessions": {
+      "2026-12-24": [{ "open": "08:00", "close": "12:30" }],
       "2026-12-31": [{ "open": "08:00", "close": "12:30" }]
     }
   },
