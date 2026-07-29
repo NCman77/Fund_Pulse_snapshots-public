@@ -3,9 +3,9 @@
   "title": "Public raw market snapshot",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schemaVersion", "market", "region", "capturedAt", "session", "source", "isDelayed", "quotes"],
+  "required": ["schemaVersion", "market", "region", "capturedAt", "session", "source", "isDelayed", "quoteStatus", "scheduleRule", "scheduledAt", "captureDelaySeconds", "timingStatus", "quotes"],
   "properties": {
-    "schemaVersion": { "const": "1.1" },
+    "schemaVersion": { "const": "1.2" },
     "market": { "type": "string", "pattern": "^[a-z]{2,8}$" },
     "region": { "type": "string", "enum": ["asia", "europe", "america"] },
     "capturedAt": { "type": "string", "format": "date-time" },
@@ -14,6 +14,9 @@
     "isDelayed": { "type": "boolean" },
     "quoteStatus": { "type": "string", "enum": ["current_market_date"] },
     "scheduleRule": { "type": ["string", "null"] },
+    "scheduledAt": { "type": ["string", "null"], "format": "date-time" },
+    "captureDelaySeconds": { "type": ["number", "null"] },
+    "timingStatus": { "type": "string", "enum": ["on_time", "late", "manual_or_unknown"] },
     "quotes": {
       "type": "array",
       "items": {

@@ -2,6 +2,7 @@ import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { collectYahooCharts } from '../collectors/yahoo-chart-collector.js';
 import { resolveMarketSession } from '../scheduling/market-session-resolver.js';
+import { buildCaptureTiming } from '../scheduling/scheduled-capture-timing.js';
 import { writeJsonAtomically, writeSnapshot } from '../storage/snapshot-writer.js';
 
 const market = process.argv[2];
@@ -30,10 +31,12 @@ try {
   const symbols = [...(indices.markets[market] ?? []), ...(approvedTickers.markets[market] ?? [])];
   const uniqueSymbols = Array.from(new Map(symbols.map((item) => [item.symbol, item])).values());
   const quotes = await collectYahooCharts(uniqueSymbols, { timezone: config.timezone });
+  const capturedAt = new Date();
   const snapshot = {
-    schemaVersion: '1.1', market, region: config.region, capturedAt: new Date().toISOString(), session,
+    schemaVersion: '1.2', market, region: config.region, capturedAt: capturedAt.toISOString(), session,
     source: config.source.name, isDelayed: true, quoteStatus: 'current_market_date',
-    scheduleRule: process.env.CAPTURE_SCHEDULE_RULE || null, quotes
+    scheduleRule: process.env.CAPTURE_SCHEDULE_RULE || null,
+    ...buildCaptureTiming(process.env.CAPTURE_SCHEDULE_RULE, capturedAt), quotes
   };
   const rawPath = await writeSnapshot(root, snapshot);
   await writeJsonAtomically(path.join(root, 'data', 'latest', `${market}.json`), snapshot);
