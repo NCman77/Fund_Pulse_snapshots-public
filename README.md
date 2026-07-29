@@ -17,6 +17,12 @@ The configured market collectors are enabled only after their public source, sym
 
 The repository is deliberately not a valuation engine. It contains no model formulas, features, confidence scores, recommendations, predicted NAV values, calibration data, training labels, or private results.
 
+## Fund holding coverage
+
+After each public fund-disclosure capture, the repository produces a public coverage file at `data/funds/coverage/latest.json`. It records each disclosed holding's public name, published weight, reviewed ticker mapping, market, and currency. The market collector includes each approved mapping for its configured market on its next run.
+
+No ticker, country, or exchange is guessed. Unknown holding names and holdings that need an unsupported market are listed in `data/status/holding-mapping-health.json` until a reviewed public mapping and, where necessary, a reviewed market-calendar configuration are added. The public onboarding process is documented in [FUND_ONBOARDING.md](docs/FUND_ONBOARDING.md).
+
 ## Scheduled collection
 
 All schedules below are GitHub-hosted, short-lived jobs. No workflow starts in the morning and waits through a full trading day.

@@ -28,7 +28,11 @@ if (session === 'closed') {
 try {
   const indices = JSON.parse(await readFile(path.join(root, 'config', 'public-symbols', 'indices.json'), 'utf8'));
   const approvedTickers = JSON.parse(await readFile(path.join(root, 'config', 'public-symbols', 'approved-public-tickers.json'), 'utf8'));
-  const symbols = [...(indices.markets[market] ?? []), ...(approvedTickers.markets[market] ?? [])];
+  const holdingMappings = JSON.parse(await readFile(path.join(root, 'config', 'public-holdings', 'approved-holding-symbols.json'), 'utf8'));
+  const holdingSymbols = (holdingMappings.mappings ?? [])
+    .filter((mapping) => mapping.market === market)
+    .map(({ symbol, currency }) => ({ symbol, currency }));
+  const symbols = [...(indices.markets[market] ?? []), ...(approvedTickers.markets[market] ?? []), ...holdingSymbols];
   const uniqueSymbols = Array.from(new Map(symbols.map((item) => [item.symbol, item])).values());
   const quotes = await collectYahooCharts(uniqueSymbols, { timezone: config.timezone });
   const capturedAt = new Date();

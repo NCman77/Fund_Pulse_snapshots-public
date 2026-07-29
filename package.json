@@ -8,7 +8,8 @@
     "validate": "node src/cli/validate-public-repository.js",
     "capture:tw": "node src/cli/capture-market.js tw",
     "archive:tw": "node src/cli/archive-market.js tw",
-    "capture:funds": "node src/cli/capture-public-funds.js"
+    "capture:funds": "node src/cli/capture-public-funds.js",
+    "build:holding-coverage": "node src/cli/build-holding-coverage.js"
   },
   "engines": {
     "node": ">=20"
