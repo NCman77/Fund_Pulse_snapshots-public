@@ -32,8 +32,12 @@ function resolveScheduledAt(scheduleRule, capturedAt = new Date()) {
   return latest;
 }
 
-function buildCaptureTiming(scheduleRule, capturedAt = new Date(), maxDelaySeconds = 120) {
-  const scheduledAt = resolveScheduledAt(scheduleRule, capturedAt);
+function buildCaptureTiming(scheduleRule, capturedAt = new Date(), maxDelaySeconds = 120, explicitScheduledAt = '') {
+  const explicit = String(explicitScheduledAt || '').trim();
+  const explicitDate = explicit ? new Date(explicit) : null;
+  const scheduledAt = explicitDate && Number.isFinite(explicitDate.getTime())
+    ? explicitDate
+    : resolveScheduledAt(scheduleRule, capturedAt);
   if (!scheduledAt) {
     return { scheduledAt: null, captureDelaySeconds: null, timingStatus: 'manual_or_unknown' };
   }

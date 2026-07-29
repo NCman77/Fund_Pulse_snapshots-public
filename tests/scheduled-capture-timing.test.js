@@ -19,3 +19,10 @@ test('handles lists and ranges used by the public snapshot workflow', () => {
     scheduledAt: null, captureDelaySeconds: null, timingStatus: 'manual_or_unknown'
   });
 });
+
+test('uses an explicit watcher target instead of inferring a cron occurrence', () => {
+  const capturedAt = new Date('2026-07-29T04:55:42.000Z');
+  assert.deepEqual(buildCaptureTiming('session-watcher', capturedAt, 120, '2026-07-29T04:55:00.000Z'), {
+    scheduledAt: '2026-07-29T04:55:00.000Z', captureDelaySeconds: 42, timingStatus: 'on_time'
+  });
+});

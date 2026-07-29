@@ -1,4 +1,4 @@
-import { mkdir, rename, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, rename, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
@@ -6,8 +6,11 @@ const MARKET = /^[a-z]{2,8}$/;
 const SESSION = /^(preopen|regular|close)$/;
 
 export function snapshotPath(root, snapshot) {
-  const date = snapshot.capturedAt.slice(0, 10);
-  const time = snapshot.capturedAt.slice(11, 16).replace(':', '');
+  const slotTimestamp = typeof snapshot.scheduledAt === 'string' && !Number.isNaN(new Date(snapshot.scheduledAt).getTime())
+    ? snapshot.scheduledAt
+    : snapshot.capturedAt;
+  const date = slotTimestamp.slice(0, 10);
+  const time = slotTimestamp.slice(11, 16).replace(':', '');
   if (!ISO_DATE.test(date) || !MARKET.test(snapshot.market) || !SESSION.test(snapshot.session)) {
     throw new Error('Snapshot has an invalid market, session, or timestamp.');
   }
@@ -19,6 +22,12 @@ export async function writeSnapshot(root, snapshot) {
     throw new Error('Snapshot must declare a schema version and quotes array.');
   }
   const target = snapshotPath(root, snapshot);
+  try {
+    const existing = JSON.parse(await readFile(target, 'utf8'));
+    if (existing?.timingStatus === 'on_time') return target;
+  } catch (error) {
+    if (error.code !== 'ENOENT') throw error;
+  }
   await writeJsonAtomically(target, snapshot);
   return target;
 }

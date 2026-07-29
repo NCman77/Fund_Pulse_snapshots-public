@@ -1,0 +1,25 @@
+name: Watch Taiwan public market session
+
+on:
+  workflow_dispatch:
+    inputs:
+      slots:
+        description: Comma-separated Asia/Taipei snapshot slots
+        required: true
+        default: 09:05,10:00,10:30,11:00,11:30,12:00,12:30,12:55,13:00,13:25,13:30
+  schedule:
+    # Start before the first Taiwan reference slot. The watcher then waits on
+    # the runner, avoiding an individual scheduled workflow start per slot.
+    - cron: '35 8 * * 1-5'
+      timezone: Asia/Taipei
+
+permissions:
+  contents: write
+
+jobs:
+  watch:
+    uses: ./.github/workflows/run-market-session-watcher.yml
+    with:
+      market: tw
+      session_name: full-day
+      slots: ${{ inputs.slots || '09:05,10:00,10:30,11:00,11:30,12:00,12:30,12:55,13:00,13:25,13:30' }}

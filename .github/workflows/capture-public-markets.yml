@@ -1,22 +1,13 @@
-name: Capture approved public market snapshots
+name: Capture public market snapshot (manual fallback)
 
 on:
   workflow_dispatch:
-  schedule:
-    # 30-minute research snapshots. The session resolver skips every market
-    # that is outside its own local regular session.
-    - cron: '5,35 0-21 * * 1-5'
-    # Taiwan pre-order reference slots, expressed in UTC. These supplement the
-    # 30-minute series; 01:05 UTC is already covered by the rule above.
-    - cron: '0,30 2-5 * * 1-5'
-    - cron: '55 4 * * 1-5'
-    - cron: '25 5 * * 1-5'
 
 permissions:
   contents: write
 
 concurrency:
-  group: snapshot-public-markets
+  group: snapshot-public-markets-manual
   cancel-in-progress: false
 
 jobs:

@@ -26,12 +26,12 @@ No ticker, country, or exchange is guessed. Unknown holding names and holdings t
 
 ## Scheduled collection
 
-All schedules below are GitHub-hosted, short-lived jobs. No workflow starts in the morning and waits through a full trading day.
+Every configured market uses a GitHub-hosted session watcher. Each watcher starts shortly before its local market session, captures its approved slots from the already-running job, then exits. Splitting markets with a midday recess into morning and afternoon watchers keeps every job well below GitHub's six-hour job limit and avoids a separate scheduled workflow starting late at a critical slot such as Taiwan 12:55.
 
 | Data | Schedule | Behaviour |
 |---|---|---|
-| Public market snapshots | Weekdays every 30 minutes from 00:05–21:35 UTC | The session resolver checks each market's local time zone, lunch break, exchange closure, and early close before writing data. Markets that are closed are skipped. |
-| Taiwan pre-order reference snapshots | Weekdays at 09:05, 10:00, 10:30, 11:00, 11:30, 12:00, 12:30, 12:55, 13:00, 13:25, and 13:30 Asia/Taipei | These supplement the 30-minute series and preserve the public inputs around the private project's pre-order decision window. |
+| Japan, Korea, China, Singapore, Europe, United States | One or two local-session watchers per market, according to the configured trading sessions | The session resolver checks local time zone, lunch break, exchange closure, and early close before writing data. Each snapshot is committed while its watcher is running. |
+| Taiwan pre-order reference snapshots | One watcher starts at 08:35 Asia/Taipei and captures 09:05, 10:00, 10:30, 11:00, 11:30, 12:00, 12:30, 12:55, 13:00, 13:25, and 13:30 | The runner remains active through the trading session, preserving the public inputs around the private project's pre-order decision window. |
 | Public fund disclosures | Weekdays at 18:35 Asia/Taipei | Captures changed public NAV and disclosure pages for the approved fund list. |
 | Daily market manifests | After regional market closes | Creates checksummed manifests for completed local market sessions. |
 

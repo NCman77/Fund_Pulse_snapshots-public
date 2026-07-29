@@ -40,7 +40,12 @@ try {
     schemaVersion: '1.2', market, region: config.region, capturedAt: capturedAt.toISOString(), session,
     source: config.source.name, isDelayed: true, quoteStatus: 'current_market_date',
     scheduleRule: process.env.CAPTURE_SCHEDULE_RULE || null,
-    ...buildCaptureTiming(process.env.CAPTURE_SCHEDULE_RULE, capturedAt), quotes
+    ...buildCaptureTiming(
+      process.env.CAPTURE_SCHEDULE_RULE,
+      capturedAt,
+      Number(process.env.CAPTURE_MAX_DELAY_SECONDS || 120),
+      process.env.CAPTURE_SCHEDULED_AT
+    ), quotes
   };
   const rawPath = await writeSnapshot(root, snapshot);
   await writeJsonAtomically(path.join(root, 'data', 'latest', `${market}.json`), snapshot);

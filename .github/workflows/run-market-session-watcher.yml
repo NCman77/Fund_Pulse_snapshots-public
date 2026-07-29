@@ -1,0 +1,78 @@
+name: Run public market session watcher
+
+on:
+  workflow_call:
+    inputs:
+      market:
+        required: true
+        type: string
+      slots:
+        required: true
+        type: string
+      session_name:
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    concurrency:
+      group: session-watch-${{ inputs.market }}-${{ inputs.session_name }}
+      cancel-in-progress: false
+    env:
+      MARKET: ${{ inputs.market }}
+      CAPTURE_SLOTS: ${{ inputs.slots }}
+      SESSION_WATCH_MAX_LATE_SECONDS: '120'
+      CAPTURE_MAX_DELAY_SECONDS: '120'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run validate
+      - name: Capture and persist every approved session slot
+        shell: bash
+        run: |
+          set -uo pipefail
+          market_region="$(node --input-type=module -e 'import { readFileSync } from "node:fs"; const config = JSON.parse(readFileSync(`config/markets/${process.env.MARKET}.json`, "utf8")); process.stdout.write(config.region);')"
+          raw_path="data/raw/$market_region/$MARKET/"
+          latest_path="data/latest/$MARKET.json"
+
+          commit_snapshots() {
+            # The aggregate health file is shared by market workflows. Each
+            # watcher commits only its isolated public raw files and latest view.
+            git restore --worktree data/status/market-health.json 2>/dev/null || true
+            if [ -z "$(git status --porcelain -- "$raw_path" "$latest_path")" ]; then
+              return 0
+            fi
+            git add "$raw_path" "$latest_path"
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "capture: $MARKET public session snapshot"
+            for attempt in 1 2 3; do
+              if git pull --rebase origin main && git push; then
+                return 0
+              fi
+              git rebase --abort 2>/dev/null || true
+              sleep "$((attempt * 5))"
+            done
+            return 1
+          }
+
+          node src/cli/watch-market-session.js "$MARKET" --slots="$CAPTURE_SLOTS" &
+          watcher_pid=$!
+          while kill -0 "$watcher_pid" 2>/dev/null; do
+            sleep 30
+            commit_snapshots || exit 1
+          done
+          watcher_status=0
+          wait "$watcher_pid" || watcher_status=$?
+          commit_snapshots || exit 1
+          exit "$watcher_status"
