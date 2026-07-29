@@ -3,6 +3,8 @@ name: Capture approved public fund disclosures
 on:
   workflow_dispatch:
   schedule:
+    # Preserve an as-of disclosure version before Taiwan's 12:55 decision slot.
+    - cron: '20 0 * * 1-5'
     - cron: '35 10 * * 1-5'
 
 permissions:
