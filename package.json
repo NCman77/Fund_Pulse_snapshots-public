@@ -9,7 +9,8 @@
     "capture:tw": "node src/cli/capture-market.js tw",
     "archive:tw": "node src/cli/archive-market.js tw",
     "capture:funds": "node src/cli/capture-public-funds.js",
-    "build:holding-coverage": "node src/cli/build-holding-coverage.js"
+    "build:holding-coverage": "node src/cli/build-holding-coverage.js",
+    "register:fund": "node src/cli/register-public-fund.js"
   },
   "engines": {
     "node": ">=20"

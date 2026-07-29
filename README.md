@@ -6,7 +6,7 @@ Approved public fund disclosures include official NAV values, public holdings an
 
 ## Status
 
-The configured market collectors are enabled only after their public source, symbol list, schedule, and output schema have been reviewed. New funds, holdings-to-ticker mappings, markets, or sources require a reviewed public commit; this repository never reads a private repository to discover them.
+The configured market collectors are enabled only after their public source, symbol list, schedule, and output schema have been reviewed. A private-site registration may add a fund through a restricted GitHub dispatch that contains only its public ID and name; this repository never reads a private repository to discover funds or any private data.
 
 ## What this repository collects
 

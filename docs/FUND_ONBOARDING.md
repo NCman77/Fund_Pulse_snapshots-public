@@ -4,15 +4,13 @@ The public repository never reads a private repository or private website to dis
 
 ## Current safe flow
 
-1. Add the public fund identifier and public name to `config/public-funds/approved-funds.json` in a reviewed public commit.
+1. Add the public fund identifier and public name to `config/public-funds/approved-funds.json` in a reviewed public commit, or let the authorized private-site registration send those same two public fields through the `fund-pulse-register-public-fund` GitHub dispatch event.
 2. The next public fund-disclosure workflow captures its public NAV, basic information, and disclosed holdings.
 3. The coverage builder matches holdings only against `config/public-holdings/approved-holding-symbols.json`.
 4. A mapped holding in an already configured market is included automatically in that market's next collector run. Unmapped names, and holdings for a market that has not been configured, remain visible for explicit review in `data/status/holding-mapping-health.json`.
 
 Adding a fund must not infer a new country, exchange, trading hours, holiday calendar, or ticker from a holding name. A newly required market needs its own reviewed public configuration before collection begins.
 
-## Future private-site automation
+## Authorized private-site registration
 
-If the owner later authorizes a private-site change, adding a fund there may create a public registration request containing only the already-public fund ID and name. It must not send user identity, watchlist metadata, model configuration, predictions, or private results. The public side must validate the fund ID and preserve a reviewed public audit trail before it begins collection.
-
-This document intentionally does not implement that private-site change.
+The private site may request registration only by dispatching an event with exactly `fundId` and `name`. The public workflow rejects every other field and adds a fund only when the identifier is not already present; it never overwrites an existing public entry. The request must not send user identity, watchlist metadata, model configuration, predictions, training data, or private results. GitHub's resulting public commit is the audit trail.

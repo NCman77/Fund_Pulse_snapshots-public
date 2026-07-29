@@ -1,0 +1,38 @@
+name: Register approved public fund
+
+on:
+  repository_dispatch:
+    types: [fund-pulse-register-public-fund]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: public-fund-registration-${{ github.event.client_payload.fundId }}
+  cancel-in-progress: false
+
+jobs:
+  register:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Validate and register public fund
+        env:
+          PUBLIC_FUND_REGISTRATION_PAYLOAD: ${{ toJson(github.event.client_payload) }}
+        run: node src/cli/register-public-fund.js
+      - name: Validate public boundary
+        run: npm run validate
+      - name: Commit approved public fund
+        run: |
+          if git diff --quiet -- config/public-funds/approved-funds.json; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add config/public-funds/approved-funds.json
+          git commit -m "register: approved public fund"
+          git push
