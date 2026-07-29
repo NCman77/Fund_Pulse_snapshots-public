@@ -1,6 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { collectMoneyDjFundDisclosure } from '../collectors/moneydj-fund-collector.js';
+import { archiveOfficialNav } from '../funds/official-nav-archive.js';
 import { writeJsonAtomically } from '../storage/snapshot-writer.js';
 
 const root = process.cwd();
@@ -17,6 +18,7 @@ for (const fund of catalog.funds ?? []) {
     const time = disclosure.capturedAt.slice(11, 16).replace(':', '');
     const rawPath = path.join(root, 'data', 'funds', 'raw', disclosure.fundId, date.slice(0, 4), date, `${time}.json`);
     await writeJsonAtomically(rawPath, disclosure);
+    await archiveOfficialNav(root, disclosure, path.relative(root, rawPath).split(path.sep).join('/'));
     await writeJsonAtomically(path.join(root, 'data', 'funds', 'latest', `${disclosure.fundId}.json`), disclosure);
     health[disclosure.fundId] = { status: 'healthy', lastSuccessAt: disclosure.capturedAt, source: disclosure.source.name };
     console.log(JSON.stringify({ fundId: disclosure.fundId, status: 'captured', holdingCount: disclosure.holdingsDisclosure.holdings.length }));

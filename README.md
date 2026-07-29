@@ -14,6 +14,7 @@ The configured market collectors are enabled only after their public source, sym
 - Approved public indices and ticker quotes for Taiwan, Japan, Korea, China, Singapore, the United Kingdom, Euronext Paris, and the United States.
 - Public market calendars, including local time zones, lunch breaks, 2026 exchange closures, and verified early-close sessions.
 - Raw source timestamps and checksummed daily manifests so a private consumer can verify exactly which public inputs it used.
+- Immutable official-NAV records keyed by each fund's published NAV date, including the public disclosure timestamp and source raw-file path.
 
 The repository is deliberately not a valuation engine. It contains no model formulas, features, confidence scores, recommendations, predicted NAV values, calibration data, training labels, or private results.
 
