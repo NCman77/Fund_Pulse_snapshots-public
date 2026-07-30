@@ -3,6 +3,8 @@ import { spawn } from 'node:child_process';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildSessionWatchPlan, localSlotToUtc, normalizeSlots } from '../scheduling/session-watch-plan.js';
+import { buildSessionCaptureReport } from '../scheduling/session-capture-report.js';
+import { writeJsonAtomically } from '../storage/snapshot-writer.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -11,6 +13,9 @@ const market = String(process.argv[2] || '').trim();
 const slotsArgument = process.argv.find((argument) => argument.startsWith('--slots='));
 const slots = slotsArgument ? slotsArgument.slice('--slots='.length) : process.env.CAPTURE_SLOTS;
 const maxLateSeconds = Number(process.env.SESSION_WATCH_MAX_LATE_SECONDS || 120);
+const maxCaptureAttempts = Math.max(1, Number(process.env.SESSION_SLOT_MAX_ATTEMPTS || 3));
+const retryDelayMilliseconds = Math.max(0, Number(process.env.SESSION_SLOT_RETRY_DELAY_SECONDS || 15) * 1_000);
+const sessionName = String(process.env.SESSION_NAME || 'default').trim() || 'default';
 
 if (!/^[a-z]{2,8}$/.test(market)) {
   throw new Error('Usage: node src/cli/watch-market-session.js <market> --slots=HH:mm,HH:mm');
@@ -20,19 +25,91 @@ function sleep(milliseconds) {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
+function parseCaptureOutput(output) {
+  const lines = String(output || '').split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
+  for (const line of lines.reverse()) {
+    try {
+      const parsed = JSON.parse(line);
+      if (parsed && typeof parsed === 'object' && parsed.status) return parsed;
+    } catch {
+      // Capture scripts may emit regular diagnostics before their JSON result.
+    }
+  }
+  return null;
+}
+
 async function runCapture({ scheduledAt }) {
-  await new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
+    let output = '';
+    let errorOutput = '';
     const child = spawn(process.execPath, [CAPTURE_SCRIPT, market], {
-      stdio: 'inherit',
+      stdio: ['ignore', 'pipe', 'pipe'],
       env: {
         ...process.env,
         CAPTURE_SCHEDULE_RULE: 'session-watcher',
         CAPTURE_SCHEDULED_AT: scheduledAt.toISOString()
       }
     });
+    child.stdout.on('data', (chunk) => {
+      const text = chunk.toString();
+      output += text;
+      process.stdout.write(text);
+    });
+    child.stderr.on('data', (chunk) => {
+      const text = chunk.toString();
+      errorOutput += text;
+      process.stderr.write(text);
+    });
     child.once('error', reject);
-    child.once('exit', (code) => code === 0 ? resolve() : reject(new Error(`Capture failed for ${market} at ${scheduledAt.toISOString()}`)));
+    child.once('exit', (code) => {
+      const result = parseCaptureOutput(output);
+      if (code !== 0) {
+        reject(new Error(`Capture failed for ${market} at ${scheduledAt.toISOString()}${errorOutput ? `: ${errorOutput.trim()}` : ''}`));
+        return;
+      }
+      if (result?.status !== 'captured' || !result.path) {
+        reject(new Error(`Capture did not persist ${market} at ${scheduledAt.toISOString()}${result?.reason ? `: ${result.reason}` : ''}`));
+        return;
+      }
+      resolve(result);
+    });
   });
+}
+
+async function captureSlotWithRetry(root, target) {
+  let lastError = null;
+  for (let attempt = 1; attempt <= maxCaptureAttempts; attempt += 1) {
+    try {
+      const result = await runCapture(target);
+      const snapshot = JSON.parse(await readFile(path.join(root, result.path), 'utf8'));
+      return {
+        slot: target.slot,
+        scheduledAt: target.scheduledAt.toISOString(),
+        status: 'captured',
+        attempts: attempt,
+        timingStatus: snapshot.timingStatus || 'unknown',
+        captureDelaySeconds: snapshot.captureDelaySeconds ?? null
+      };
+    } catch (error) {
+      lastError = error;
+      console.error(JSON.stringify({
+        market,
+        status: 'slot-capture-failed',
+        slot: target.slot,
+        attempt,
+        maxAttempts: maxCaptureAttempts,
+        error: error.message
+      }));
+      if (attempt < maxCaptureAttempts && retryDelayMilliseconds > 0) await sleep(retryDelayMilliseconds);
+    }
+  }
+  return {
+    slot: target.slot,
+    scheduledAt: target.scheduledAt.toISOString(),
+    status: 'failed',
+    attempts: maxCaptureAttempts,
+    error: lastError?.message || 'Capture failed without an error message'
+  };
 }
 
 async function main() {
@@ -57,6 +134,7 @@ async function main() {
     slots: plan.slots,
     skippedSlots: plan.skippedSlots
   }));
+  const results = [];
   for (const target of pending) {
     const delayMs = target.scheduledAt.getTime() - Date.now();
     if (delayMs > 0) await sleep(delayMs);
@@ -65,8 +143,16 @@ async function main() {
     if (lagSeconds > maxLateSeconds) {
       console.error(JSON.stringify({ market, status: 'late-start', slot: target.slot, lagSeconds }));
     }
-    await runCapture(target);
+    const result = await captureSlotWithRetry(root, target);
+    results.push(result);
+    console.log(JSON.stringify({ market, status: 'slot-finished', ...result }));
   }
+
+  const report = buildSessionCaptureReport({ market, sessionName, plan, results });
+  const reportPath = path.join(root, 'data', 'status', 'sessions', market, `${plan.localDate}-${sessionName}.json`);
+  await writeJsonAtomically(reportPath, report);
+  console.log(JSON.stringify({ market, status: report.summary.healthy ? 'session-healthy' : 'session-unhealthy', reportPath: path.relative(root, reportPath), summary: report.summary }));
+  if (!report.summary.healthy) process.exitCode = 1;
 }
 
 await main();

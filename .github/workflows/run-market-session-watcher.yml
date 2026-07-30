@@ -26,7 +26,10 @@ jobs:
     env:
       MARKET: ${{ inputs.market }}
       CAPTURE_SLOTS: ${{ inputs.slots }}
+      SESSION_NAME: ${{ inputs.session_name }}
       SESSION_WATCH_MAX_LATE_SECONDS: '120'
+      SESSION_SLOT_MAX_ATTEMPTS: '3'
+      SESSION_SLOT_RETRY_DELAY_SECONDS: '15'
       CAPTURE_MAX_DELAY_SECONDS: '120'
     steps:
       - uses: actions/checkout@v4
@@ -44,15 +47,16 @@ jobs:
           market_region="$(node --input-type=module -e 'import { readFileSync } from "node:fs"; const config = JSON.parse(readFileSync(`config/markets/${process.env.MARKET}.json`, "utf8")); process.stdout.write(config.region);')"
           raw_path="data/raw/$market_region/$MARKET/"
           latest_path="data/latest/$MARKET.json"
+          session_status_path="data/status/sessions/$MARKET/"
 
           commit_snapshots() {
             # The aggregate health file is shared by market workflows. Each
             # watcher commits only its isolated public raw files and latest view.
             git restore --worktree data/status/market-health.json 2>/dev/null || true
-            if [ -z "$(git status --porcelain -- "$raw_path" "$latest_path")" ]; then
+            if [ -z "$(git status --porcelain -- "$raw_path" "$latest_path" "$session_status_path")" ]; then
               return 0
             fi
-            git add "$raw_path" "$latest_path"
+            git add "$raw_path" "$latest_path" "$session_status_path"
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git commit -m "capture: $MARKET public session snapshot"
