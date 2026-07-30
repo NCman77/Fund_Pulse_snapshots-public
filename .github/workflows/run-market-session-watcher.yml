@@ -56,7 +56,23 @@ jobs:
             if [ -z "$(git status --porcelain -- "$raw_path" "$latest_path" "$session_status_path")" ]; then
               return 0
             fi
-            git add "$raw_path" "$latest_path" "$session_status_path"
+            # A session report is written only after the watcher finishes.  The
+            # periodic checkpoint can therefore run before this directory
+            # exists; `git add` would then abort with a pathspec error and
+            # leave the captured snapshot unstaged.
+            stage_if_present() {
+              local path="$1"
+              if [ -e "$path" ] || git ls-files --error-unmatch -- "$path" >/dev/null 2>&1; then
+                git add -A -- "$path"
+              fi
+            }
+
+            stage_if_present "$raw_path"
+            stage_if_present "$latest_path"
+            stage_if_present "$session_status_path"
+            if git diff --cached --quiet; then
+              return 0
+            fi
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git commit -m "capture: $MARKET public session snapshot"
