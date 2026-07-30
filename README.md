@@ -37,7 +37,7 @@ The following are the main watcher slots. Times are **local to each market** and
 | Europe (`Europe/Paris`) | 09:05, 09:35, 10:05, 10:35, 11:05, 11:35, 12:05, 12:35, 13:05 | 13:35, 14:05, 14:35, 15:05, 15:35, 16:05, 16:35, 17:05, 17:30 |
 | United States (`America/New_York`) | 09:35, 10:05, 10:35, 11:05, 11:35, 12:05, 12:35, 13:05 | 13:35, 14:05, 14:35, 15:05, 15:35, 16:00 |
 
-International market snapshots currently provide public audit and historical-reference data. They are not automatically converted into international-fund training samples. Any future training policy must define a decision basis before using them:
+International market snapshots are public audit and historical-reference inputs. The private Fund Pulse project may rebuild an international-fund decision sample from them only through a verified replay bridge: it verifies this repository's decision manifest and raw-file checksums, uses a fund disclosure captured no later than the decision instant, and performs private holding mapping / model calculation outside this repository. Any decision sample must use one explicit basis:
 
 1. **Taipei 12:55 decision basis** — suitable for a Taiwan-distributed fund whose actionable subscription deadline is before 13:00. At that point, use the latest verified quote for every underlying market and explicitly preserve its market/quote time.
 2. **Underlying-market close basis** — suitable for evaluating how the fund's holdings behaved by their own exchanges. It is a separate cross-market measurement and must not be mixed with the Taipei 12:55 decision sample.
@@ -54,6 +54,12 @@ The independent `Backup international decision-time public snapshots` workflow s
 | Korea | 13:55 Asia/Seoul | The Seoul regular session is open at Taipei 12:55. |
 
 Taiwan is covered by its separate 12:55 backup watcher. China and Singapore are in their configured lunch break at this point; the United Kingdom, Europe, and the United States have not opened. For those closed markets, a Taiwan 12:55 decision sample must retain the last verified available quote and its own `quoteAt` rather than fabricate an intraday quote.
+
+### Public cross-market input set
+
+Every public market snapshot also captures the approved public FX symbols (`TWD=X`, `JPY=X`, `KRW=X`, `CNY=X`) and the public market / sector proxies required for reproducible cross-market replay: `SOXX`, `1321.T`, `102110.KS`, `0050.TW`, `000300.SS`, `ACWI`, `XLI`, and `XLY`. They are public prices only; they do not disclose portfolio weights, model coefficients, calibration results, or a predicted NAV.
+
+At 13:10 Asia/Taipei, `Build Taipei 12:55 decision manifest` records exactly which raw file is admissible for each market. A market open at 12:55 may use only a capture persisted within 120 seconds; a closed market may use only its latest capture at or before 12:55. This prevents a post-decision reopening or later market close from entering the replay input set.
 
 ## Proposed data acceptance tiers
 
