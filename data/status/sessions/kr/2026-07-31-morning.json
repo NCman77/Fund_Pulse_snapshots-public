@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "1.0",
+  "generatedAt": "2026-07-31T03:05:01.155Z",
+  "market": "kr",
+  "sessionName": "morning",
+  "localDate": "2026-07-31",
+  "timezone": "Asia/Seoul",
+  "expectedSlots": [
+    "09:05",
+    "09:35",
+    "10:05",
+    "10:35",
+    "11:05",
+    "11:35",
+    "12:05"
+  ],
+  "skippedSlots": [],
+  "summary": {
+    "expectedSlotCount": 7,
+    "capturedSlotCount": 6,
+    "onTimeSlotCount": 6,
+    "lateSlotCount": 0,
+    "failedSlotCount": 1,
+    "complete": false,
+    "healthy": false
+  },
+  "slots": [
+    {
+      "slot": "09:05",
+      "scheduledAt": "2026-07-31T00:05:00.626Z",
+      "status": "failed",
+      "attempts": 3,
+      "timingStatus": "",
+      "captureDelaySeconds": null,
+      "error": "Capture failed for kr at 2026-07-31T00:05:00.626Z: {\"market\":\"kr\",\"status\":\"failed\",\"error\":\"public-quote-collection-failed\"}"
+    },
+    {
+      "slot": "09:35",
+      "scheduledAt": "2026-07-31T00:35:00.626Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 0,
+      "error": ""
+    },
+    {
+      "slot": "10:05",
+      "scheduledAt": "2026-07-31T01:05:00.626Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 0,
+      "error": ""
+    },
+    {
+      "slot": "10:35",
+      "scheduledAt": "2026-07-31T01:35:00.626Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 0,
+      "error": ""
+    },
+    {
+      "slot": "11:05",
+      "scheduledAt": "2026-07-31T02:05:00.626Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 0,
+      "error": ""
+    },
+    {
+      "slot": "11:35",
+      "scheduledAt": "2026-07-31T02:35:00.626Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 0,
+      "error": ""
+    },
+    {
+      "slot": "12:05",
+      "scheduledAt": "2026-07-31T03:05:00.626Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 1,
+      "error": ""
+    }
+  ]
+}
