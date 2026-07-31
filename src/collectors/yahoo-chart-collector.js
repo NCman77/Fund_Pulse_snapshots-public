@@ -27,11 +27,18 @@ function latestQuote(payload, symbol, currency, timezone, now) {
 }
 
 export async function collectYahooCharts(symbols, { timezone, now = new Date(), fetchImpl = fetch }) {
-  return Promise.all(symbols.map(async ({ symbol, currency }) => {
-    const response = await fetchImpl(`${ENDPOINT}${encodeURIComponent(symbol)}?range=1d&interval=1m`, {
-      headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(20_000)
-    });
-    if (!response.ok) throw new Error(`Public quote request failed for ${symbol}`);
-    return latestQuote(await response.json(), symbol, currency, timezone, now);
+  const results = await Promise.all(symbols.map(async ({ symbol, currency }) => {
+    try {
+      const response = await fetchImpl(`${ENDPOINT}${encodeURIComponent(symbol)}?range=1d&interval=1m`, {
+        headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(20_000)
+      });
+      if (!response.ok) throw new Error(`Public quote request failed for ${symbol}`);
+      return latestQuote(await response.json(), symbol, currency, timezone, now);
+    } catch (error) {
+      if (symbol.startsWith('^')) throw error;
+      console.warn(`[yahoo-collector] Skipping symbol ${symbol}: ${error.message}`);
+      return null;
+    }
   }));
+  return results.filter(Boolean);
 }

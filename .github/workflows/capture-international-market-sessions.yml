@@ -4,139 +4,213 @@ on:
   workflow_dispatch:
     inputs:
       watch:
-        description: all, jp-morning, jp-afternoon, kr-morning, kr-afternoon, cn-morning, cn-afternoon, sg-morning, sg-afternoon, uk-morning, uk-afternoon, eu-morning, eu-afternoon, us-morning, or us-afternoon
+        description: >-
+          all, jp-morning, jp-afternoon, kr-morning, kr-afternoon,
+          cn-morning, cn-afternoon, sg-morning, sg-afternoon,
+          uk-morning, uk-midday, uk-afternoon,
+          eu-morning, eu-midday, eu-afternoon,
+          us-morning, or us-afternoon
         required: true
         default: all
         type: string
   schedule:
-    - cron: '20 8 * * 1-5'
+    # Each cron expression uses a UNIQUE minute value so that
+    # github.event.schedule can unambiguously identify which job to run.
+    #
+    # ── Asia ──────────────────────────────────────────────────────
+    # JP  segment-1: boot 06:00 → run until 12:00 (6 h)
+    - cron: '0 6 * * 1-5'
       timezone: Asia/Tokyo
-    - cron: '20 11 * * 1-5'
+    # JP  segment-2: boot 09:30 → run until 15:30 (6 h)
+    - cron: '30 9 * * 1-5'
       timezone: Asia/Tokyo
-    - cron: '21 8 * * 1-5'
+    # KR  segment-1: boot 06:01 → run until 12:01 (6 h)
+    - cron: '1 6 * * 1-5'
       timezone: Asia/Seoul
-    - cron: '21 11 * * 1-5'
+    # KR  segment-2: boot 09:31 → run until 15:31 (6 h)
+    - cron: '31 9 * * 1-5'
       timezone: Asia/Seoul
-    - cron: '50 8 * * 1-5'
+    # CN  segment-1: boot 06:30 → run until 12:30 (6 h)
+    - cron: '30 6 * * 1-5'
       timezone: Asia/Shanghai
-    - cron: '20 12 * * 1-5'
+    # CN  segment-2: boot 09:02 → run until 15:02 (6 h)
+    - cron: '2 9 * * 1-5'
       timezone: Asia/Shanghai
-    - cron: '22 8 * * 1-5'
+    # SG  segment-1: boot 06:03 → run until 12:03 (6 h)
+    - cron: '3 6 * * 1-5'
       timezone: Asia/Singapore
-    - cron: '21 12 * * 1-5'
+    # SG  segment-2: boot 11:00 → run until 17:00 (6 h)
+    - cron: '0 11 * * 1-5'
       timezone: Asia/Singapore
-    - cron: '20 7 * * 1-5'
+    # ── Europe ────────────────────────────────────────────────────
+    # UK  segment-1: boot 05:00 → run until 11:00 (6 h)
+    - cron: '0 5 * * 1-5'
       timezone: Europe/London
-    - cron: '22 11 * * 1-5'
+    # UK  segment-2: boot 08:04 → run until 14:04 (6 h)
+    - cron: '4 8 * * 1-5'
       timezone: Europe/London
-    - cron: '23 8 * * 1-5'
+    # UK  segment-3: boot 10:30 → run until 16:30 (6 h)
+    - cron: '30 10 * * 1-5'
+      timezone: Europe/London
+    # EU  segment-1: boot 06:05 → run until 12:05 (6 h)
+    - cron: '5 6 * * 1-5'
       timezone: Europe/Paris
-    - cron: '50 12 * * 1-5'
+    # EU  segment-2: boot 09:06 → run until 15:06 (6 h)
+    - cron: '6 9 * * 1-5'
       timezone: Europe/Paris
-    - cron: '51 8 * * 1-5'
+    # EU  segment-3: boot 11:30 → run until 17:30 (6 h)
+    - cron: '30 11 * * 1-5'
+      timezone: Europe/Paris
+    # ── America ───────────────────────────────────────────────────
+    # US  segment-1: boot 06:30 → run until 12:30 (6 h)
+    - cron: '32 6 * * 1-5'
       timezone: America/New_York
-    - cron: '51 12 * * 1-5'
+    # US  segment-2: boot 10:00 → run until 16:00 (6 h)
+    - cron: '0 10 * * 1-5'
       timezone: America/New_York
 
 permissions:
   contents: write
 
 jobs:
+  # ════════════════════════════════════════════════════════════════
+  # Japan (JP)  market 09:00-11:30 + 12:30-15:30  Asia/Tokyo
+  # ════════════════════════════════════════════════════════════════
   jp_morning:
-    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '20 8 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'jp-morning')) }}
+    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '0 6 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'jp-morning')) }}
     uses: ./.github/workflows/run-market-session-watcher.yml
     with:
       market: jp
       session_name: morning
       slots: 09:05,09:35,10:05,10:35,11:05,11:30
   jp_afternoon:
-    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '20 11 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'jp-afternoon')) }}
+    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '30 9 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'jp-afternoon')) }}
     uses: ./.github/workflows/run-market-session-watcher.yml
     with:
       market: jp
       session_name: afternoon
       slots: 12:35,13:05,13:35,14:05,14:35,15:05,15:30
+
+  # ════════════════════════════════════════════════════════════════
+  # Korea (KR)  market 09:00-15:30  Asia/Seoul
+  # ════════════════════════════════════════════════════════════════
   kr_morning:
-    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '21 8 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'kr-morning')) }}
+    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '1 6 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'kr-morning')) }}
     uses: ./.github/workflows/run-market-session-watcher.yml
     with:
       market: kr
       session_name: morning
       slots: 09:05,09:35,10:05,10:35,11:05,11:35,12:05
   kr_afternoon:
-    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '21 11 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'kr-afternoon')) }}
+    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '31 9 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'kr-afternoon')) }}
     uses: ./.github/workflows/run-market-session-watcher.yml
     with:
       market: kr
       session_name: afternoon
       slots: 12:35,13:05,13:35,14:05,14:35,15:05,15:30
+
+  # ════════════════════════════════════════════════════════════════
+  # China (CN)  market 09:30-11:30 + 13:00-15:00  Asia/Shanghai
+  # ════════════════════════════════════════════════════════════════
   cn_morning:
-    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '50 8 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'cn-morning')) }}
+    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '30 6 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'cn-morning')) }}
     uses: ./.github/workflows/run-market-session-watcher.yml
     with:
       market: cn
       session_name: morning
       slots: 09:35,10:05,10:35,11:05,11:30
   cn_afternoon:
-    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '20 12 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'cn-afternoon')) }}
+    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '2 9 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'cn-afternoon')) }}
     uses: ./.github/workflows/run-market-session-watcher.yml
     with:
       market: cn
       session_name: afternoon
       slots: 13:05,13:35,14:05,14:35,15:00
+
+  # ════════════════════════════════════════════════════════════════
+  # Singapore (SG)  market 09:00-12:00 + 13:00-17:00  Asia/Singapore
+  # ════════════════════════════════════════════════════════════════
   sg_morning:
-    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '22 8 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'sg-morning')) }}
+    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '3 6 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'sg-morning')) }}
     uses: ./.github/workflows/run-market-session-watcher.yml
     with:
       market: sg
       session_name: morning
       slots: 09:05,09:35,10:05,10:35,11:05,11:35,12:00
   sg_afternoon:
-    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '21 12 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'sg-afternoon')) }}
+    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '0 11 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'sg-afternoon')) }}
     uses: ./.github/workflows/run-market-session-watcher.yml
     with:
       market: sg
       session_name: afternoon
       slots: 13:05,13:35,14:05,14:35,15:05,15:35,16:05,16:35,17:00
+
+  # ════════════════════════════════════════════════════════════════
+  # United Kingdom (UK)  market 08:00-16:30  Europe/London
+  # 8.5 h trading — requires THREE segments
+  # ════════════════════════════════════════════════════════════════
   uk_morning:
-    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '20 7 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'uk-morning')) }}
+    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '0 5 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'uk-morning')) }}
     uses: ./.github/workflows/run-market-session-watcher.yml
     with:
       market: uk
       session_name: morning
-      slots: 08:05,08:35,09:05,09:35,10:05,10:35,11:05,11:35,12:05
+      slots: 08:05,08:35,09:05,09:35,10:05,10:35
+  uk_midday:
+    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '4 8 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'uk-midday')) }}
+    uses: ./.github/workflows/run-market-session-watcher.yml
+    with:
+      market: uk
+      session_name: midday
+      slots: 11:05,11:35,12:05,12:35,13:05,13:35
   uk_afternoon:
-    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '22 11 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'uk-afternoon')) }}
+    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '30 10 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'uk-afternoon')) }}
     uses: ./.github/workflows/run-market-session-watcher.yml
     with:
       market: uk
       session_name: afternoon
-      slots: 12:35,13:05,13:35,14:05,14:35,15:05,15:35,16:05,16:30
+      slots: 14:05,14:35,15:05,15:35,16:05,16:30
+
+  # ════════════════════════════════════════════════════════════════
+  # Europe (EU)  market 09:00-17:30  Europe/Paris
+  # 8.5 h trading — requires THREE segments
+  # ════════════════════════════════════════════════════════════════
   eu_morning:
-    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '23 8 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'eu-morning')) }}
+    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '5 6 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'eu-morning')) }}
     uses: ./.github/workflows/run-market-session-watcher.yml
     with:
       market: eu
       session_name: morning
-      slots: 09:05,09:35,10:05,10:35,11:05,11:35,12:05,12:35,13:05
+      slots: 09:05,09:35,10:05,10:35,11:05,11:35
+  eu_midday:
+    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '6 9 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'eu-midday')) }}
+    uses: ./.github/workflows/run-market-session-watcher.yml
+    with:
+      market: eu
+      session_name: midday
+      slots: 12:05,12:35,13:05,13:35,14:05,14:35
   eu_afternoon:
-    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '50 12 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'eu-afternoon')) }}
+    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '30 11 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'eu-afternoon')) }}
     uses: ./.github/workflows/run-market-session-watcher.yml
     with:
       market: eu
       session_name: afternoon
-      slots: 13:35,14:05,14:35,15:05,15:35,16:05,16:35,17:05,17:30
+      slots: 15:05,15:35,16:05,16:35,17:05,17:30
+
+  # ════════════════════════════════════════════════════════════════
+  # United States (US)  market 09:30-16:00  America/New_York
+  # ════════════════════════════════════════════════════════════════
   us_morning:
-    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '51 8 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'us-morning')) }}
+    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '32 6 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'us-morning')) }}
     uses: ./.github/workflows/run-market-session-watcher.yml
     with:
       market: us
       session_name: morning
-      slots: 09:35,10:05,10:35,11:05,11:35,12:05,12:35,13:05
+      slots: 09:35,10:05,10:35,11:05,11:35,12:05
   us_afternoon:
-    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '51 12 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'us-afternoon')) }}
+    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '0 10 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'us-afternoon')) }}
     uses: ./.github/workflows/run-market-session-watcher.yml
     with:
       market: us
       session_name: afternoon
-      slots: 13:35,14:05,14:35,15:05,15:35,16:00
+      slots: 12:35,13:05,13:35,14:05,14:35,15:05,15:35,16:00
