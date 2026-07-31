@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "1.0",
+  "generatedAt": "2026-07-31T04:00:00.653Z",
+  "market": "sg",
+  "sessionName": "morning",
+  "localDate": "2026-07-31",
+  "timezone": "Asia/Singapore",
+  "expectedSlots": [
+    "09:05",
+    "09:35",
+    "10:05",
+    "10:35",
+    "11:05",
+    "11:35",
+    "12:00"
+  ],
+  "skippedSlots": [],
+  "summary": {
+    "expectedSlotCount": 7,
+    "capturedSlotCount": 7,
+    "onTimeSlotCount": 1,
+    "lateSlotCount": 6,
+    "failedSlotCount": 0,
+    "complete": true,
+    "healthy": false
+  },
+  "slots": [
+    {
+      "slot": "09:05",
+      "scheduledAt": "2026-07-31T01:05:00.338Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "late",
+      "captureDelaySeconds": 10197,
+      "error": ""
+    },
+    {
+      "slot": "09:35",
+      "scheduledAt": "2026-07-31T01:35:00.338Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "late",
+      "captureDelaySeconds": 8397,
+      "error": ""
+    },
+    {
+      "slot": "10:05",
+      "scheduledAt": "2026-07-31T02:05:00.338Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "late",
+      "captureDelaySeconds": 6598,
+      "error": ""
+    },
+    {
+      "slot": "10:35",
+      "scheduledAt": "2026-07-31T02:35:00.338Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "late",
+      "captureDelaySeconds": 4798,
+      "error": ""
+    },
+    {
+      "slot": "11:05",
+      "scheduledAt": "2026-07-31T03:05:00.338Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "late",
+      "captureDelaySeconds": 2998,
+      "error": ""
+    },
+    {
+      "slot": "11:35",
+      "scheduledAt": "2026-07-31T03:35:00.338Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "late",
+      "captureDelaySeconds": 1199,
+      "error": ""
+    },
+    {
+      "slot": "12:00",
+      "scheduledAt": "2026-07-31T04:00:00.338Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 0,
+      "error": ""
+    }
+  ]
+}
