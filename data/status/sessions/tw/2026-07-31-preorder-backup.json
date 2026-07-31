@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "1.0",
+  "generatedAt": "2026-07-31T07:34:25.545Z",
+  "market": "tw",
+  "sessionName": "preorder-backup",
+  "localDate": "2026-07-31",
+  "timezone": "Asia/Taipei",
+  "expectedSlots": [
+    "12:55"
+  ],
+  "skippedSlots": [],
+  "summary": {
+    "expectedSlotCount": 1,
+    "capturedSlotCount": 0,
+    "onTimeSlotCount": 0,
+    "lateSlotCount": 0,
+    "failedSlotCount": 1,
+    "complete": false,
+    "healthy": false
+  },
+  "slots": [
+    {
+      "slot": "12:55",
+      "scheduledAt": "2026-07-31T04:55:00.359Z",
+      "status": "failed",
+      "attempts": 3,
+      "timingStatus": "",
+      "captureDelaySeconds": null,
+      "error": "Capture did not persist tw at 2026-07-31T04:55:00.359Z: market-closed"
+    }
+  ]
+}
