@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "1.0",
+  "generatedAt": "2026-07-31T02:30:32.115Z",
+  "market": "jp",
+  "sessionName": "morning",
+  "localDate": "2026-07-31",
+  "timezone": "Asia/Tokyo",
+  "expectedSlots": [
+    "09:05",
+    "09:35",
+    "10:05",
+    "10:35",
+    "11:05",
+    "11:30"
+  ],
+  "skippedSlots": [],
+  "summary": {
+    "expectedSlotCount": 6,
+    "capturedSlotCount": 0,
+    "onTimeSlotCount": 0,
+    "lateSlotCount": 0,
+    "failedSlotCount": 6,
+    "complete": false,
+    "healthy": false
+  },
+  "slots": [
+    {
+      "slot": "09:05",
+      "scheduledAt": "2026-07-31T00:05:00.954Z",
+      "status": "failed",
+      "attempts": 3,
+      "timingStatus": "",
+      "captureDelaySeconds": null,
+      "error": "Capture failed for jp at 2026-07-31T00:05:00.954Z: {\"market\":\"jp\",\"status\":\"failed\",\"error\":\"public-quote-collection-failed\"}"
+    },
+    {
+      "slot": "09:35",
+      "scheduledAt": "2026-07-31T00:35:00.954Z",
+      "status": "failed",
+      "attempts": 3,
+      "timingStatus": "",
+      "captureDelaySeconds": null,
+      "error": "Capture failed for jp at 2026-07-31T00:35:00.954Z: {\"market\":\"jp\",\"status\":\"failed\",\"error\":\"public-quote-collection-failed\"}"
+    },
+    {
+      "slot": "10:05",
+      "scheduledAt": "2026-07-31T01:05:00.954Z",
+      "status": "failed",
+      "attempts": 3,
+      "timingStatus": "",
+      "captureDelaySeconds": null,
+      "error": "Capture failed for jp at 2026-07-31T01:05:00.954Z: {\"market\":\"jp\",\"status\":\"failed\",\"error\":\"public-quote-collection-failed\"}"
+    },
+    {
+      "slot": "10:35",
+      "scheduledAt": "2026-07-31T01:35:00.954Z",
+      "status": "failed",
+      "attempts": 3,
+      "timingStatus": "",
+      "captureDelaySeconds": null,
+      "error": "Capture failed for jp at 2026-07-31T01:35:00.954Z: {\"market\":\"jp\",\"status\":\"failed\",\"error\":\"public-quote-collection-failed\"}"
+    },
+    {
+      "slot": "11:05",
+      "scheduledAt": "2026-07-31T02:05:00.954Z",
+      "status": "failed",
+      "attempts": 3,
+      "timingStatus": "",
+      "captureDelaySeconds": null,
+      "error": "Capture failed for jp at 2026-07-31T02:05:00.954Z: {\"market\":\"jp\",\"status\":\"failed\",\"error\":\"public-quote-collection-failed\"}"
+    },
+    {
+      "slot": "11:30",
+      "scheduledAt": "2026-07-31T02:30:00.954Z",
+      "status": "failed",
+      "attempts": 3,
+      "timingStatus": "",
+      "captureDelaySeconds": null,
+      "error": "Capture failed for jp at 2026-07-31T02:30:00.954Z: {\"market\":\"jp\",\"status\":\"failed\",\"error\":\"public-quote-collection-failed\"}"
+    }
+  ]
+}
