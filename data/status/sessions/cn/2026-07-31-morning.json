@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "1.0",
+  "generatedAt": "2026-07-31T04:16:34.529Z",
+  "market": "cn",
+  "sessionName": "morning",
+  "localDate": "2026-07-31",
+  "timezone": "Asia/Shanghai",
+  "expectedSlots": [
+    "09:35",
+    "10:05",
+    "10:35",
+    "11:05",
+    "11:30"
+  ],
+  "skippedSlots": [],
+  "summary": {
+    "expectedSlotCount": 5,
+    "capturedSlotCount": 0,
+    "onTimeSlotCount": 0,
+    "lateSlotCount": 0,
+    "failedSlotCount": 5,
+    "complete": false,
+    "healthy": false
+  },
+  "slots": [
+    {
+      "slot": "09:35",
+      "scheduledAt": "2026-07-31T01:35:00.604Z",
+      "status": "failed",
+      "attempts": 3,
+      "timingStatus": "",
+      "captureDelaySeconds": null,
+      "error": "Capture did not persist cn at 2026-07-31T01:35:00.604Z: market-closed"
+    },
+    {
+      "slot": "10:05",
+      "scheduledAt": "2026-07-31T02:05:00.604Z",
+      "status": "failed",
+      "attempts": 3,
+      "timingStatus": "",
+      "captureDelaySeconds": null,
+      "error": "Capture did not persist cn at 2026-07-31T02:05:00.604Z: market-closed"
+    },
+    {
+      "slot": "10:35",
+      "scheduledAt": "2026-07-31T02:35:00.604Z",
+      "status": "failed",
+      "attempts": 3,
+      "timingStatus": "",
+      "captureDelaySeconds": null,
+      "error": "Capture did not persist cn at 2026-07-31T02:35:00.604Z: market-closed"
+    },
+    {
+      "slot": "11:05",
+      "scheduledAt": "2026-07-31T03:05:00.604Z",
+      "status": "failed",
+      "attempts": 3,
+      "timingStatus": "",
+      "captureDelaySeconds": null,
+      "error": "Capture did not persist cn at 2026-07-31T03:05:00.604Z: market-closed"
+    },
+    {
+      "slot": "11:30",
+      "scheduledAt": "2026-07-31T03:30:00.604Z",
+      "status": "failed",
+      "attempts": 3,
+      "timingStatus": "",
+      "captureDelaySeconds": null,
+      "error": "Capture did not persist cn at 2026-07-31T03:30:00.604Z: market-closed"
+    }
+  ]
+}
