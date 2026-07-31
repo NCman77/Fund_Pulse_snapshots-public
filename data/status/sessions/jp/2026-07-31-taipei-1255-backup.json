@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "1.0",
+  "generatedAt": "2026-07-31T07:34:08.709Z",
+  "market": "jp",
+  "sessionName": "taipei-1255-backup",
+  "localDate": "2026-07-31",
+  "timezone": "Asia/Tokyo",
+  "expectedSlots": [
+    "13:55"
+  ],
+  "skippedSlots": [],
+  "summary": {
+    "expectedSlotCount": 1,
+    "capturedSlotCount": 0,
+    "onTimeSlotCount": 0,
+    "lateSlotCount": 0,
+    "failedSlotCount": 1,
+    "complete": false,
+    "healthy": false
+  },
+  "slots": [
+    {
+      "slot": "13:55",
+      "scheduledAt": "2026-07-31T04:55:00.520Z",
+      "status": "failed",
+      "attempts": 3,
+      "timingStatus": "",
+      "captureDelaySeconds": null,
+      "error": "Capture did not persist jp at 2026-07-31T04:55:00.520Z: market-closed"
+    }
+  ]
+}
