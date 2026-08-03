@@ -5,6 +5,7 @@ import path from 'node:path';
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 const MARKET = /^[a-z]{2,8}$/;
 const SESSION = /^(preopen|regular|close)$/;
+const PRODUCER = /^[a-z0-9][a-z0-9-]{0,63}$/;
 
 export function snapshotPath(root, snapshot) {
   const slotTimestamp = typeof snapshot.scheduledAt === 'string' && !Number.isNaN(new Date(snapshot.scheduledAt).getTime())
@@ -15,7 +16,10 @@ export function snapshotPath(root, snapshot) {
   if (!ISO_DATE.test(date) || !MARKET.test(snapshot.market) || !SESSION.test(snapshot.session)) {
     throw new Error('Snapshot has an invalid market, session, or timestamp.');
   }
-  return path.join(root, 'data', 'raw', snapshot.region, snapshot.market, date.slice(0, 4), date, snapshot.session, `${time}.json`);
+  const producerId = String(snapshot?.producer?.id || '').trim();
+  if (producerId && !PRODUCER.test(producerId)) throw new Error('Snapshot producer ID is invalid.');
+  const base = path.join(root, 'data', 'raw', snapshot.region, snapshot.market, date.slice(0, 4), date, snapshot.session);
+  return producerId ? path.join(base, 'producers', producerId, `${time}.json`) : path.join(base, `${time}.json`);
 }
 
 export async function writeSnapshot(root, snapshot) {
@@ -25,7 +29,8 @@ export async function writeSnapshot(root, snapshot) {
   const target = snapshotPath(root, snapshot);
   try {
     const existing = JSON.parse(await readFile(target, 'utf8'));
-    if (existing?.timingStatus === 'on_time') return target;
+    if (JSON.stringify(existing) === JSON.stringify(snapshot)) return target;
+    throw new Error(`Immutable snapshot collision at ${target}`);
   } catch (error) {
     if (error.code !== 'ENOENT') throw error;
   }

@@ -15,6 +15,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
   watch:
@@ -27,6 +28,8 @@ jobs:
       MARKET: ${{ inputs.market }}
       CAPTURE_SLOTS: ${{ inputs.slots }}
       SESSION_NAME: ${{ inputs.session_name }}
+      CAPTURE_PRODUCER_ID: ${{ inputs.session_name }}
+      CAPTURE_PRODUCER_ROLE: ${{ contains(inputs.session_name, 'backup') && 'backup' || 'primary' }}
       SESSION_WATCH_MAX_LATE_SECONDS: '120'
       SESSION_SLOT_MAX_ATTEMPTS: '3'
       SESSION_SLOT_RETRY_DELAY_SECONDS: '15'
@@ -42,16 +45,17 @@ jobs:
       - run: npm run validate
       - name: Capture and persist every approved session slot
         shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -uo pipefail
           market_region="$(node --input-type=module -e 'import { readFileSync } from "node:fs"; const config = JSON.parse(readFileSync(`config/markets/${process.env.MARKET}.json`, "utf8")); process.stdout.write(config.region);')"
           raw_path="data/raw/$market_region/$MARKET/"
-          latest_path="data/latest/$MARKET.json"
           session_status_path="data/status/sessions/$MARKET/"
 
           commit_snapshots() {
             # The aggregate health file is shared by market workflows. Each
-            # watcher commits only its isolated public raw files and latest view.
+            # watcher commits only its isolated immutable raw files and own report.
             git restore --worktree data/status/market-health.json 2>/dev/null || true
             # A session report is written only after the watcher finishes.  The
             # periodic checkpoint can therefore run before this directory
@@ -65,7 +69,6 @@ jobs:
             }
 
             stage_if_present "$raw_path"
-            stage_if_present "$latest_path"
             stage_if_present "$session_status_path"
             if git diff --cached --quiet; then
               return 0
@@ -73,14 +76,18 @@ jobs:
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git commit -m "capture: $MARKET public session snapshot"
-            for attempt in 1 2 3; do
-              if git pull --rebase origin main && git push; then
-                return 0
+            if ! git push origin HEAD:main; then
+              # This watcher owns only immutable producer raw files and its
+              # own session report, so a normal merge is safe. Do not rebase
+              # and resend a stale commit containing shared mutable JSON.
+              git fetch origin main
+              if ! git merge --no-edit origin/main || ! git push origin HEAD:main; then
+                git merge --abort 2>/dev/null || true
+                return 1
               fi
-              git rebase --abort 2>/dev/null || true
-              sleep "$((attempt * 5))"
-            done
-            return 1
+            fi
+            gh workflow run publish-market-latest.yml -f market="$MARKET"
+            return 0
           }
 
           node src/cli/watch-market-session.js "$MARKET" --slots="$CAPTURE_SLOTS" &

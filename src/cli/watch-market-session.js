@@ -16,6 +16,8 @@ const maxLateSeconds = Number(process.env.SESSION_WATCH_MAX_LATE_SECONDS || 120)
 const maxCaptureAttempts = Math.max(1, Number(process.env.SESSION_SLOT_MAX_ATTEMPTS || 3));
 const retryDelayMilliseconds = Math.max(0, Number(process.env.SESSION_SLOT_RETRY_DELAY_SECONDS || 15) * 1_000);
 const sessionName = String(process.env.SESSION_NAME || 'default').trim() || 'default';
+const producerId = String(process.env.CAPTURE_PRODUCER_ID || `primary-${sessionName}`).trim();
+const producerRole = String(process.env.CAPTURE_PRODUCER_ROLE || 'primary').trim() === 'backup' ? 'backup' : 'primary';
 
 if (!/^[a-z]{2,8}$/.test(market)) {
   throw new Error('Usage: node src/cli/watch-market-session.js <market> --slots=HH:mm,HH:mm');
@@ -47,7 +49,9 @@ async function runCapture({ scheduledAt }) {
       env: {
         ...process.env,
         CAPTURE_SCHEDULE_RULE: 'session-watcher',
-        CAPTURE_SCHEDULED_AT: scheduledAt.toISOString()
+        CAPTURE_SCHEDULED_AT: scheduledAt.toISOString(),
+        CAPTURE_PRODUCER_ID: producerId,
+        CAPTURE_PRODUCER_ROLE: producerRole
       }
     });
     child.stdout.on('data', (chunk) => {
@@ -160,7 +164,10 @@ async function main() {
     console.log(JSON.stringify({ market, status: 'slot-finished', ...result }));
   }
 
-  const report = buildSessionCaptureReport({ market, sessionName, plan, results });
+  const report = {
+    ...buildSessionCaptureReport({ market, sessionName, plan, results }),
+    producer: { id: producerId, role: producerRole }
+  };
   const reportPath = path.join(root, 'data', 'status', 'sessions', market, `${plan.localDate}-${sessionName}.json`);
   await writeJsonAtomically(reportPath, report);
   console.log(JSON.stringify({ market, status: report.summary.healthy ? 'session-healthy' : 'session-unhealthy', reportPath: path.relative(root, reportPath), summary: report.summary }));

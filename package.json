@@ -7,6 +7,8 @@
     "test": "node --test tests/*.test.js",
     "validate": "node src/cli/validate-public-repository.js",
     "capture:tw": "node src/cli/capture-market.js tw",
+    "publish:market-latest": "node src/cli/publish-market-latest.js",
+    "publish:market-health": "node src/cli/publish-market-health.js",
     "watch:market-session": "node src/cli/watch-market-session.js",
     "archive:tw": "node src/cli/archive-market.js tw",
     "capture:funds": "node src/cli/capture-public-funds.js",

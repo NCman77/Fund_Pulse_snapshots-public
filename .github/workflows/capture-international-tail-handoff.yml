@@ -1,0 +1,34 @@
+name: Warm-standby international tail handoff
+
+on:
+  workflow_dispatch:
+    inputs:
+      market:
+        description: UK or EU tail handoff to run
+        required: true
+        type: choice
+        options: [uk, eu]
+  schedule:
+    - cron: '30 13 * * 1-5'
+      timezone: Europe/London
+    - cron: '30 14 * * 1-5'
+      timezone: Europe/Paris
+
+permissions:
+  contents: write
+
+jobs:
+  uk_tail:
+    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '30 13 * * 1-5') || (github.event_name == 'workflow_dispatch' && inputs.market == 'uk') }}
+    uses: ./.github/workflows/run-market-session-watcher.yml
+    with:
+      market: uk
+      session_name: uk-tail-handoff-backup
+      slots: 14:05,14:35,15:05,15:35,16:05,16:30
+  eu_tail:
+    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '30 14 * * 1-5') || (github.event_name == 'workflow_dispatch' && inputs.market == 'eu') }}
+    uses: ./.github/workflows/run-market-session-watcher.yml
+    with:
+      market: eu
+      session_name: eu-tail-handoff-backup
+      slots: 15:05,15:35,16:05,16:35,17:05,17:30

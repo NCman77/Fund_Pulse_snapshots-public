@@ -5,6 +5,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 concurrency:
   group: snapshot-tw
@@ -22,12 +23,29 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run validate
-      - run: npm run capture:tw
-      - name: Commit approved snapshot changes
+      - name: Synchronize immutable raw inputs before capture
         run: |
-          if [ -z "$(git status --porcelain -- data/raw/ data/latest/ data/status/)" ]; then exit 0; fi
+          git fetch origin main
+          git reset --hard origin/main
+      - run: npm run capture:tw
+        env:
+          CAPTURE_PRODUCER_ID: manual-tw-fallback
+          CAPTURE_PRODUCER_ROLE: backup
+      - name: Commit approved snapshot changes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -z "$(git status --porcelain -- data/raw/)" ]; then exit 0; fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/raw/ data/latest/ data/status/
+          git add data/raw/
           git commit -m "capture: tw public snapshot"
-          git push
+          if ! git push origin HEAD:main; then
+            git fetch origin main
+            if ! git merge --no-edit origin/main || ! git push origin HEAD:main; then
+              git merge --abort 2>/dev/null || true
+              echo "Unable to merge the immutable Taiwan raw snapshot commit safely" >&2
+              exit 1
+            fi
+          fi
+          gh workflow run publish-market-latest.yml -f market=tw

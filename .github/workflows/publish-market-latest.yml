@@ -1,0 +1,49 @@
+name: Publish verified market latest
+
+on:
+  workflow_dispatch:
+    inputs:
+      market:
+        description: Market ID whose immutable raw snapshots should be published
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    concurrency:
+      group: market-latest-${{ inputs.market }}
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Rebuild and publish the one market-owned latest view
+        env:
+          MARKET: ${{ inputs.market }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            npm run publish:market-latest -- "$MARKET"
+            git add -- "data/latest/$MARKET.json" "data/status/markets/$MARKET.json"
+            if git diff --cached --quiet; then exit 0; fi
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "publish: verified $MARKET latest snapshot"
+            if git push origin HEAD:main; then
+              gh workflow run publish-market-health.yml
+              exit 0
+            fi
+            sleep "$((attempt * 5))"
+          done
+          exit 1

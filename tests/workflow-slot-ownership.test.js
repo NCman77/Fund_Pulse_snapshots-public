@@ -22,8 +22,10 @@ function parseSchedules(source) {
 }
 
 function parseWatchJobs(source, workflow) {
-  const jobs = source.slice(source.indexOf('\njobs:\n') + 7);
-  return [...jobs.matchAll(/^  ([a-z][\w-]*):\n([\s\S]*?)(?=^  [a-z][\w-]*:\n|(?![\s\S]))/gm)].map((match) => {
+  const jobsIndex = source.search(/\r?\njobs:\r?\n/);
+  if (jobsIndex < 0) return [];
+  const jobs = source.slice(jobsIndex);
+  return [...jobs.matchAll(/^  ([a-z][\w-]*):\r?\n([\s\S]*?)(?=^  [a-z][\w-]*:\r?\n|(?![\s\S]))/gm)].map((match) => {
     const [, job, body] = match;
     const market = body.match(/market:\s*([a-z]{2,8})/)?.[1];
     const slots = body.match(/slots:\s*'([^']+)'/)?.[1];

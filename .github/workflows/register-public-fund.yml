@@ -8,7 +8,8 @@ permissions:
   contents: write
 
 concurrency:
-  group: public-fund-registration-${{ github.event.client_payload.fundId }}
+  # Every registration rewrites the same approved-fund catalog.
+  group: public-fund-registration
   cancel-in-progress: false
 
 jobs:
@@ -29,11 +30,19 @@ jobs:
       - name: Validate public boundary
         run: npm run validate
       - name: Commit approved public fund
+        env:
+          PUBLIC_FUND_REGISTRATION_PAYLOAD: ${{ toJson(github.event.client_payload) }}
         run: |
           target="config/public-funds/approved-funds.json"
-          if [ ! -e "$target" ] || git diff --quiet -- "$target"; then exit 0; fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add "$target"
-          git commit -m "register: approved public fund"
-          git push
+          for attempt in 1 2 3; do
+            git fetch origin main && git reset --hard origin/main
+            node src/cli/register-public-fund.js
+            npm run validate
+            if [ ! -e "$target" ] || git diff --quiet -- "$target"; then exit 0; fi
+            git config user.name "github-actions[bot]"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add -- "$target"
+            git commit -m "register: approved public fund"
+            if git push origin HEAD:main; then exit 0; fi
+            sleep "$((attempt * 5))"
+          done
+          exit 1

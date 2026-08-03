@@ -5,6 +5,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 concurrency:
   group: snapshot-public-markets-manual
@@ -22,19 +23,37 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run validate
+      - name: Synchronize immutable raw inputs before capture
+        run: |
+          git fetch origin main
+          git reset --hard origin/main
       - name: Capture open markets only
         env:
           CAPTURE_SCHEDULE_RULE: ${{ github.event.schedule }}
+          CAPTURE_PRODUCER_ID: manual-fallback
+          CAPTURE_PRODUCER_ROLE: backup
         run: |
           for market_config in config/markets/*.json; do
             market="$(basename "$market_config" .json)"
             node src/cli/capture-market.js "$market"
           done
       - name: Commit public snapshots
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          if [ -z "$(git status --porcelain -- data/raw/ data/latest/ data/status/)" ]; then exit 0; fi
+          if [ -z "$(git status --porcelain -- data/raw/)" ]; then exit 0; fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/raw/ data/latest/ data/status/
+          git add data/raw/
           git commit -m "capture: approved public market snapshots"
-          git push
+          if ! git push origin HEAD:main; then
+            git fetch origin main
+            if ! git merge --no-edit origin/main || ! git push origin HEAD:main; then
+              git merge --abort 2>/dev/null || true
+              echo "Unable to merge an immutable raw snapshot commit safely" >&2
+              exit 1
+            fi
+          fi
+          for market_config in config/markets/*.json; do
+            gh workflow run publish-market-latest.yml -f market="$(basename "$market_config" .json)"
+          done

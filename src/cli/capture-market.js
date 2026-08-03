@@ -3,7 +3,7 @@ import path from 'node:path';
 import { collectYahooCharts } from '../collectors/yahoo-chart-collector.js';
 import { resolveMarketSession } from '../scheduling/market-session-resolver.js';
 import { buildCaptureTiming } from '../scheduling/scheduled-capture-timing.js';
-import { writeJsonAtomically, writeSnapshot } from '../storage/snapshot-writer.js';
+import { writeSnapshot } from '../storage/snapshot-writer.js';
 
 const market = process.argv[2];
 if (!market || !/^[a-z]{2,8}$/.test(market)) {
@@ -44,6 +44,8 @@ try {
   const uniqueSymbols = Array.from(new Map(symbols.map((item) => [item.symbol, item])).values());
   const quotes = await collectYahooCharts(uniqueSymbols, { timezone: config.timezone });
   const capturedAt = new Date();
+  const producerId = String(process.env.CAPTURE_PRODUCER_ID || '').trim();
+  const producerRole = String(process.env.CAPTURE_PRODUCER_ROLE || 'primary').trim();
   const snapshot = {
     schemaVersion: '1.2', market, region: config.region, capturedAt: capturedAt.toISOString(), session,
     source: config.source.name, isDelayed: true, quoteStatus: 'current_market_date',
@@ -53,20 +55,10 @@ try {
       capturedAt,
       Number(process.env.CAPTURE_MAX_DELAY_SECONDS || 120),
       process.env.CAPTURE_SCHEDULED_AT
-    ), quotes
+    ), quotes,
+    producer: producerId ? { id: producerId, role: producerRole === 'backup' ? 'backup' : 'primary' } : undefined
   };
   const rawPath = await writeSnapshot(root, snapshot);
-  await writeJsonAtomically(path.join(root, 'data', 'latest', `${market}.json`), snapshot);
-  let health = {};
-  try {
-    health = JSON.parse(await readFile(path.join(root, 'data', 'status', 'market-health.json'), 'utf8'));
-  } catch (error) {
-    if (error.code !== 'ENOENT') throw error;
-  }
-  health[market] = { status: 'healthy', lastSuccessAt: snapshot.capturedAt, source: config.source.name };
-  await writeJsonAtomically(path.join(root, 'data', 'status', 'market-health.json'), {
-    ...health
-  });
   console.log(JSON.stringify({ market, status: 'captured', path: path.relative(root, rawPath) }));
 } catch {
   console.error(JSON.stringify({ market, status: 'failed', error: 'public-quote-collection-failed' }));
