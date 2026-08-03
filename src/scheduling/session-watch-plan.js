@@ -68,10 +68,14 @@ function buildSessionWatchPlan(config, slots, now = new Date()) {
 function localSlotToUtc(localDate, slot, timezone, referenceDate = new Date()) {
   const [year, month, day] = localDate.split('-').map(Number);
   const [hour, minute] = slot.split(':').map(Number);
-  const localClock = formatLocalClock(referenceDate, timezone);
+  // Wall-clock slot timestamps are minute-granular.  Drop reference
+  // milliseconds before deriving the timezone offset so audit timestamps stay
+  // canonical (`...:00.000Z`) instead of inheriting runner clock precision.
+  const referenceSecond = new Date(Math.floor(referenceDate.getTime() / 1_000) * 1_000);
+  const localClock = formatLocalClock(referenceSecond, timezone);
   const [localHour, localMinute, localSecond] = localClock.time.split(':').map(Number);
   const localAsUtc = Date.UTC(year, month - 1, day, localHour, localMinute, localSecond);
-  const offsetMs = localAsUtc - referenceDate.getTime();
+  const offsetMs = localAsUtc - referenceSecond.getTime();
   return new Date(Date.UTC(year, month - 1, day, hour, minute, 0) - offsetMs);
 }
 

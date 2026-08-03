@@ -1,25 +1,35 @@
-name: Watch Taiwan public market session
+name: Watch Taiwan public market sessions
 
 on:
   workflow_dispatch:
     inputs:
-      slots:
-        description: Comma-separated Asia/Taipei snapshot slots
+      watch:
+        description: all or one segment id (tw_s1, tw_s2, tw_s3)
         required: true
-        default: 09:05,10:00,10:30,11:00,11:30,12:00,12:30,12:55,13:00,13:25,13:30
+        default: all
+        type: string
   schedule:
-    # Start before the first Taiwan reference slot. The watcher then waits on
-    # the runner, avoiding an individual scheduled workflow start per slot.
-    - cron: '45 7 * * 1-5'
+    # Each runner starts at least four hours before its first owned slot.
+    - cron: '5 5 * * 1-5' # tw_s1: 09:05-10:30
+      timezone: Asia/Taipei
+    - cron: '59 6 * * 1-5' # tw_s2: 11:00-12:30
+      timezone: Asia/Taipei
+    - cron: '59 8 * * 1-5' # tw_s3: 13:00-13:30
       timezone: Asia/Taipei
 
 permissions:
   contents: write
 
 jobs:
-  watch:
+  tw_s1:
+    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '5 5 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'tw_s1')) }}
     uses: ./.github/workflows/run-market-session-watcher.yml
-    with:
-      market: tw
-      session_name: full-day
-      slots: ${{ inputs.slots || '09:05,10:00,10:30,11:00,11:30,12:00,12:30,12:55,13:00,13:25,13:30' }}
+    with: { market: tw, session_name: s1, slots: '09:05,10:00,10:30' }
+  tw_s2:
+    uses: ./.github/workflows/run-market-session-watcher.yml
+    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '59 6 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'tw_s2')) }}
+    with: { market: tw, session_name: s2, slots: '11:00,11:30,12:00,12:30' }
+  tw_s3:
+    uses: ./.github/workflows/run-market-session-watcher.yml
+    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '59 8 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'tw_s3')) }}
+    with: { market: tw, session_name: s3, slots: '13:00,13:25,13:30' }

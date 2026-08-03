@@ -142,6 +142,18 @@ async function main() {
     const lagSeconds = Math.round((Date.now() - target.scheduledAt.getTime()) / 1_000);
     if (lagSeconds > maxLateSeconds) {
       console.error(JSON.stringify({ market, status: 'late-start', slot: target.slot, lagSeconds }));
+      const result = {
+        slot: target.slot,
+        scheduledAt: target.scheduledAt.toISOString(),
+        status: 'missed',
+        attempts: 0,
+        timingStatus: 'missed',
+        captureDelaySeconds: lagSeconds,
+        error: `Watcher started ${lagSeconds}s after the approved ${maxLateSeconds}s capture tolerance; no late replacement was written.`
+      };
+      results.push(result);
+      console.log(JSON.stringify({ market, status: 'slot-finished', ...result }));
+      continue;
     }
     const result = await captureSlotWithRetry(root, target);
     results.push(result);

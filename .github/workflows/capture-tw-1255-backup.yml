@@ -1,10 +1,11 @@
-name: Backup Taiwan 12:55 public snapshot
+name: Capture Taiwan 12:55 decision public snapshot
 
 on:
   workflow_dispatch:
   schedule:
-    # Independent GitHub-only standby for the only decision-time sample.
-    - cron: '45 12 * * 1-5'
+    # This is the sole owner of 12:55.  It starts four hours early so a
+    # GitHub Actions delay of up to three hours cannot miss the decision slot.
+    - cron: '55 8 * * 1-5'
       timezone: Asia/Taipei
 
 permissions:
@@ -15,5 +16,5 @@ jobs:
     uses: ./.github/workflows/run-market-session-watcher.yml
     with:
       market: tw
-      session_name: preorder-backup
+      session_name: decision-owner
       slots: '12:55'

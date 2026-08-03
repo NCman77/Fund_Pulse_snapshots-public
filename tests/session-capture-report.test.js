@@ -35,3 +35,16 @@ test('keeps late and failed slots in the report while marking the session unheal
   assert.equal(report.summary.lateSlotCount, 1);
   assert.equal(report.summary.failedSlotCount, 1);
 });
+
+test('records a missed late-start slot without treating it as a captured snapshot', () => {
+  const report = buildSessionCaptureReport({
+    market: 'tw', sessionName: 'full-day', plan,
+    results: [
+      { slot: '09:05', status: 'missed', timingStatus: 'missed', attempts: 0, captureDelaySeconds: 180 },
+      { slot: '12:55', status: 'captured', timingStatus: 'on_time', attempts: 1 }
+    ]
+  });
+  assert.equal(report.summary.capturedSlotCount, 1);
+  assert.equal(report.summary.failedSlotCount, 1);
+  assert.equal(report.summary.healthy, false);
+});

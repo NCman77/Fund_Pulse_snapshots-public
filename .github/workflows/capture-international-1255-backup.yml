@@ -1,11 +1,11 @@
-name: Backup international decision-time public snapshots
+name: Capture international decision-time public snapshots
 
 on:
   workflow_dispatch:
   schedule:
-    # This starts before the Taiwan 12:55 subscription decision point. The
-    # reusable watchers stay alive until their own local 12:55-equivalent slot.
-    - cron: '40 12 * * 1-5'
+    # This workflow is the sole owner of the JP/KR 13:55 decision slots.
+    # It starts four hours before the 12:55 Taipei decision point.
+    - cron: '55 8 * * 1-5'
       timezone: Asia/Taipei
 
 permissions:
@@ -16,13 +16,13 @@ jobs:
     uses: ./.github/workflows/run-market-session-watcher.yml
     with:
       market: jp
-      session_name: taipei-1255-backup
+      session_name: decision-owner
       # Asia/Tokyo is one hour ahead of Taipei.
       slots: '13:55'
   korea:
     uses: ./.github/workflows/run-market-session-watcher.yml
     with:
       market: kr
-      session_name: taipei-1255-backup
+      session_name: decision-owner
       # Asia/Seoul is one hour ahead of Taipei.
       slots: '13:55'

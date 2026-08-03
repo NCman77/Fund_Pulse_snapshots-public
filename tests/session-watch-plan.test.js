@@ -31,7 +31,7 @@ test('skips a reviewed market closure without waiting for the session slots', ()
 });
 
 test('converts a Taipei local capture slot to its intended UTC instant', () => {
-  const scheduledAt = localSlotToUtc('2026-07-28', '12:55', 'Asia/Taipei', new Date('2026-07-28T00:35:00.000Z'));
+  const scheduledAt = localSlotToUtc('2026-07-28', '12:55', 'Asia/Taipei', new Date('2026-07-28T00:35:00.789Z'));
   assert.equal(scheduledAt.toISOString(), '2026-07-28T04:55:00.000Z');
   assert.deepEqual(normalizeSlots(['13:30', '09:05', '09:05']), ['09:05', '13:30']);
 });

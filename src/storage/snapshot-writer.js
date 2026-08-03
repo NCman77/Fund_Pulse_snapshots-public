@@ -1,4 +1,5 @@
 import { mkdir, readFile, rename, writeFile } from 'node:fs/promises';
+import { randomUUID } from 'node:crypto';
 import path from 'node:path';
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
@@ -34,7 +35,10 @@ export async function writeSnapshot(root, snapshot) {
 
 export async function writeJsonAtomically(target, value) {
   await mkdir(path.dirname(target), { recursive: true });
-  const temporary = `${target}.tmp`;
+  // A target may be written by an operator-triggered replay while a scheduled
+  // watcher is finishing.  A per-write temp name keeps those atomic writes
+  // independent; writeSnapshot still preserves an existing on-time snapshot.
+  const temporary = `${target}.${randomUUID()}.tmp`;
   await writeFile(temporary, `${JSON.stringify(value, null, 2)}\n`, 'utf8');
   await rename(temporary, target);
 }
