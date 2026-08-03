@@ -35,6 +35,14 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          dispatch_latest() {
+            for dispatch_attempt in 1 2 3; do
+              if gh workflow run publish-market-latest.yml -f market=tw; then return 0; fi
+              sleep "$((dispatch_attempt * 5))"
+            done
+            echo "Unable to dispatch the tw latest publisher after three attempts" >&2
+            return 1
+          }
           if [ -z "$(git status --porcelain -- data/raw/)" ]; then exit 0; fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -48,4 +56,4 @@ jobs:
               exit 1
             fi
           fi
-          gh workflow run publish-market-latest.yml -f market=tw
+          dispatch_latest

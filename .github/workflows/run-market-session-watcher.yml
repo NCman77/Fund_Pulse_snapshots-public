@@ -86,8 +86,14 @@ jobs:
                 return 1
               fi
             fi
-            gh workflow run publish-market-latest.yml -f market="$MARKET"
-            return 0
+            for dispatch_attempt in 1 2 3; do
+              if gh workflow run publish-market-latest.yml -f market="$MARKET"; then
+                return 0
+              fi
+              sleep "$((dispatch_attempt * 5))"
+            done
+            echo "Unable to dispatch the $MARKET latest publisher after three attempts" >&2
+            return 1
           }
 
           node src/cli/watch-market-session.js "$MARKET" --slots="$CAPTURE_SLOTS" &

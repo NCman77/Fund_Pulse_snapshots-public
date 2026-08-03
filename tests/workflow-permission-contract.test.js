@@ -32,6 +32,11 @@ test('workflow dispatchers and reusable callers meet their permission contracts'
     const permissions = writePermissions(source);
     if (/\bgh\s+workflow\s+run\b/.test(source)) {
       assert.ok(permissions.has('actions'), `${name} dispatches a workflow and must grant actions: write`);
+      assert.match(
+        source,
+        /for dispatch_attempt in 1 2 3; do[\s\S]*?gh workflow run[\s\S]*?(?:return|exit) 1/,
+        `${name} must retry and surface a failed workflow dispatch`
+      );
     }
 
     for (const calleeName of localReusableCalls(source)) {

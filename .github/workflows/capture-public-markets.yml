@@ -41,6 +41,15 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          dispatch_latest() {
+            local market="$1"
+            for dispatch_attempt in 1 2 3; do
+              if gh workflow run publish-market-latest.yml -f market="$market"; then return 0; fi
+              sleep "$((dispatch_attempt * 5))"
+            done
+            echo "Unable to dispatch the $market latest publisher after three attempts" >&2
+            return 1
+          }
           if [ -z "$(git status --porcelain -- data/raw/)" ]; then exit 0; fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -55,5 +64,5 @@ jobs:
             fi
           fi
           for market_config in config/markets/*.json; do
-            gh workflow run publish-market-latest.yml -f market="$(basename "$market_config" .json)"
+            dispatch_latest "$(basename "$market_config" .json)" || exit 1
           done

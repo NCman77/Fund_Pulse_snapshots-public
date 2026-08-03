@@ -40,7 +40,7 @@ function parseWatchJobs(source, workflow) {
   }).filter(Boolean);
 }
 
-test('scheduled market slots have one owner and a four-hour runner lead', async () => {
+test('scheduled market slots have one owner and fit the watcher runtime budget', async () => {
   const workflows = await Promise.all(workflowFiles.map(async (workflow) => {
     const source = await readFile(path.join(root, '.github', 'workflows', workflow), 'utf8');
     const schedules = parseSchedules(source);
@@ -62,6 +62,10 @@ test('scheduled market slots have one owner and a four-hour runner lead', async 
     assert.ok(
       minutes(job.slots[0]) - (hour * 60 + minute) >= 240,
       `${job.workflow}:${job.job} starts less than four hours before ${job.slots[0]}`
+    );
+    assert.ok(
+      minutes(job.slots.at(-1)) - (hour * 60 + minute) <= 340,
+      `${job.workflow}:${job.job} leaves less than twenty minutes before the six-hour watcher timeout`
     );
   }
   assert.equal(owners.size, 116, 'all reviewed market slots must remain assigned exactly once');

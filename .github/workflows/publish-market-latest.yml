@@ -41,8 +41,12 @@ jobs:
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git commit -m "publish: verified $MARKET latest snapshot"
             if git push origin HEAD:main; then
-              gh workflow run publish-market-health.yml
-              exit 0
+              for dispatch_attempt in 1 2 3; do
+                if gh workflow run publish-market-health.yml; then exit 0; fi
+                sleep "$((dispatch_attempt * 5))"
+              done
+              echo "Unable to dispatch aggregate market health after three attempts" >&2
+              exit 1
             fi
             sleep "$((attempt * 5))"
           done
