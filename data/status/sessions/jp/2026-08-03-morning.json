@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "1.0",
+  "generatedAt": "2026-08-03T02:30:00.353Z",
+  "market": "jp",
+  "sessionName": "morning",
+  "localDate": "2026-08-03",
+  "timezone": "Asia/Tokyo",
+  "expectedSlots": [
+    "09:05",
+    "09:35",
+    "10:05",
+    "10:35",
+    "11:05",
+    "11:30"
+  ],
+  "skippedSlots": [],
+  "summary": {
+    "expectedSlotCount": 6,
+    "capturedSlotCount": 5,
+    "onTimeSlotCount": 5,
+    "lateSlotCount": 0,
+    "failedSlotCount": 1,
+    "complete": false,
+    "healthy": false
+  },
+  "slots": [
+    {
+      "slot": "09:05",
+      "scheduledAt": "2026-08-03T00:05:00.007Z",
+      "status": "failed",
+      "attempts": 3,
+      "timingStatus": "",
+      "captureDelaySeconds": null,
+      "error": "Capture failed for jp at 2026-08-03T00:05:00.007Z: [yahoo-collector] Skipping symbol 6723.T: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 8035.T: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 6981.T: Cannot read properties of undefined (reading 'length')\n{\"market\":\"jp\",\"status\":\"failed\",\"error\":\"public-quote-collection-failed\"}\n[yahoo-collector] Skipping symbol 6227.T: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 6857.T: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 285A.T: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 6976.T: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 1321.T: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 4062.T: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 5706.T: Cannot read properties of undefined (reading 'length')"
+    },
+    {
+      "slot": "09:35",
+      "scheduledAt": "2026-08-03T00:35:00.007Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 0,
+      "error": ""
+    },
+    {
+      "slot": "10:05",
+      "scheduledAt": "2026-08-03T01:05:00.007Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 0,
+      "error": ""
+    },
+    {
+      "slot": "10:35",
+      "scheduledAt": "2026-08-03T01:35:00.007Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 0,
+      "error": ""
+    },
+    {
+      "slot": "11:05",
+      "scheduledAt": "2026-08-03T02:05:00.007Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 0,
+      "error": ""
+    },
+    {
+      "slot": "11:30",
+      "scheduledAt": "2026-08-03T02:30:00.007Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 0,
+      "error": ""
+    }
+  ]
+}
