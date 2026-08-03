@@ -42,3 +42,18 @@ test('workflows that share mutable documents have an explicit concurrency owner'
   assert.doesNotMatch(registration, /public-fund-registration-\$\{\{/);
   assert.match(disclosures, /group: public-fund-disclosures/);
 });
+
+test('every reusable market watcher caller grants the publisher-dispatch permission', async () => {
+  const callers = await Promise.all([
+    'capture-international-market-sessions.yml',
+    'capture-tw-session.yml',
+    'capture-tw-1255-backup.yml',
+    'capture-international-1255-backup.yml',
+    'capture-international-tail-handoff.yml'
+  ].map(workflow));
+
+  callers.forEach((content) => {
+    assert.match(content, /uses: \.\/\.github\/workflows\/run-market-session-watcher\.yml/);
+    assert.match(content, /permissions:\s*\n\s*contents: write\s*\n\s*actions: write/);
+  });
+});
