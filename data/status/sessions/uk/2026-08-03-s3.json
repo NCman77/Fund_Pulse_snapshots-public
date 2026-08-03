@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "1.0",
+  "generatedAt": "2026-08-03T12:35:00.430Z",
+  "market": "uk",
+  "sessionName": "s3",
+  "localDate": "2026-08-03",
+  "timezone": "Europe/London",
+  "expectedSlots": [
+    "12:05",
+    "12:35",
+    "13:05",
+    "13:35"
+  ],
+  "skippedSlots": [],
+  "summary": {
+    "expectedSlotCount": 4,
+    "capturedSlotCount": 4,
+    "onTimeSlotCount": 4,
+    "lateSlotCount": 0,
+    "failedSlotCount": 0,
+    "complete": true,
+    "healthy": true
+  },
+  "slots": [
+    {
+      "slot": "12:05",
+      "scheduledAt": "2026-08-03T11:05:00.000Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 0,
+      "error": ""
+    },
+    {
+      "slot": "12:35",
+      "scheduledAt": "2026-08-03T11:35:00.000Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 0,
+      "error": ""
+    },
+    {
+      "slot": "13:05",
+      "scheduledAt": "2026-08-03T12:05:00.000Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 0,
+      "error": ""
+    },
+    {
+      "slot": "13:35",
+      "scheduledAt": "2026-08-03T12:35:00.000Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 0,
+      "error": ""
+    }
+  ]
+}
