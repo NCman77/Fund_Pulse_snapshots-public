@@ -1,0 +1,132 @@
+{
+  "schemaVersion": "1.0",
+  "generatedAt": "2026-08-03T05:30:00.671Z",
+  "market": "tw",
+  "sessionName": "full-day",
+  "localDate": "2026-08-03",
+  "timezone": "Asia/Taipei",
+  "expectedSlots": [
+    "09:05",
+    "10:00",
+    "10:30",
+    "11:00",
+    "11:30",
+    "12:00",
+    "12:30",
+    "12:55",
+    "13:00",
+    "13:25",
+    "13:30"
+  ],
+  "skippedSlots": [],
+  "summary": {
+    "expectedSlotCount": 11,
+    "capturedSlotCount": 10,
+    "onTimeSlotCount": 10,
+    "lateSlotCount": 0,
+    "failedSlotCount": 1,
+    "complete": false,
+    "healthy": false
+  },
+  "slots": [
+    {
+      "slot": "09:05",
+      "scheduledAt": "2026-08-03T01:05:00.109Z",
+      "status": "failed",
+      "attempts": 3,
+      "timingStatus": "",
+      "captureDelaySeconds": null,
+      "error": "Capture failed for tw at 2026-08-03T01:05:00.109Z: [yahoo-collector] Skipping symbol IX0043.TWO: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol SEC.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol EPC.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol IX0054.TWO: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol OTE.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol COI.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 2327.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 2345.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 2454.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 3017.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 3026.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 3037.TW: Cannot read properties of undefined (reading 'length')\n{\"market\":\"tw\",\"status\":\"failed\",\"error\":\"public-quote-collection-failed\"}\n[yahoo-collector] Skipping symbol BIM.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 0050.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 2308.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 3167.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 2408.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 2360.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 3036.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 4958.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 6515.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 3653.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 5347.TWO: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 2404.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 3665.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 8046.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 3443.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 2376.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 5274.TWO: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 8358.TWO: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 8299.TWO: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 2059.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 3090.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 3081.TWO: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 3189.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 6274.TWO: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 6531.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 3711.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 2303.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 8996.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 6488.TWO: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 2383.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 2330.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 3044.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 2357.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 6147.TWO: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 3481.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 6669.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 1303.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 5434.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 6223.TWO: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 2368.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 2344.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 7769.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 3264.TWO: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 3661.TW: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 5536.TWO: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 5289.TWO: Cannot read properties of undefined (reading 'length')\n[yahoo-collector] Skipping symbol 2492.TW: Cannot read properties of undefined (reading 'length')"
+    },
+    {
+      "slot": "10:00",
+      "scheduledAt": "2026-08-03T02:00:00.109Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 1,
+      "error": ""
+    },
+    {
+      "slot": "10:30",
+      "scheduledAt": "2026-08-03T02:30:00.109Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 1,
+      "error": ""
+    },
+    {
+      "slot": "11:00",
+      "scheduledAt": "2026-08-03T03:00:00.109Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 1,
+      "error": ""
+    },
+    {
+      "slot": "11:30",
+      "scheduledAt": "2026-08-03T03:30:00.109Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 0,
+      "error": ""
+    },
+    {
+      "slot": "12:00",
+      "scheduledAt": "2026-08-03T04:00:00.109Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 0,
+      "error": ""
+    },
+    {
+      "slot": "12:30",
+      "scheduledAt": "2026-08-03T04:30:00.109Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 1,
+      "error": ""
+    },
+    {
+      "slot": "12:55",
+      "scheduledAt": "2026-08-03T04:55:00.109Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 0,
+      "error": ""
+    },
+    {
+      "slot": "13:00",
+      "scheduledAt": "2026-08-03T05:00:00.109Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 1,
+      "error": ""
+    },
+    {
+      "slot": "13:25",
+      "scheduledAt": "2026-08-03T05:25:00.109Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 1,
+      "error": ""
+    },
+    {
+      "slot": "13:30",
+      "scheduledAt": "2026-08-03T05:30:00.109Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 1,
+      "error": ""
+    }
+  ]
+}
