@@ -1,0 +1,159 @@
+{
+  "schemaVersion": "1.2",
+  "market": "kr",
+  "region": "asia",
+  "capturedAt": "2026-08-04T06:30:01.011Z",
+  "session": "regular",
+  "source": "yahoo-finance-chart",
+  "isDelayed": true,
+  "quoteStatus": "current_market_date",
+  "scheduleRule": "session-watcher",
+  "scheduledAt": "2026-08-04T06:30:00.000Z",
+  "captureDelaySeconds": 1,
+  "timingStatus": "on_time",
+  "provider": {
+    "id": "yahoo-finance",
+    "endpointType": "chart"
+  },
+  "coverage": {
+    "provider": "yahoo-finance",
+    "endpointType": "chart",
+    "expectedSymbolCount": 11,
+    "capturedSymbolCount": 11,
+    "failedSymbols": [],
+    "complete": true
+  },
+  "quotes": [
+    {
+      "symbol": "^KS11",
+      "open": 6324.25,
+      "high": 6324.25,
+      "low": 6324.25,
+      "close": 6324.25,
+      "previousClose": 6257.45,
+      "quoteAt": "2026-08-04T06:00:00.000Z",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "102110.KS",
+      "open": 99965,
+      "high": 99965,
+      "low": 99965,
+      "close": 99965,
+      "previousClose": 99360,
+      "quoteAt": "2026-08-04T06:00:00.000Z",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "000660.KS",
+      "open": 1563000,
+      "high": 1563000,
+      "low": 1563000,
+      "close": 1563000,
+      "previousClose": 1567000,
+      "quoteAt": "2026-08-04T06:00:00.000Z",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "009150.KS",
+      "open": 1182000,
+      "high": 1182000,
+      "low": 1182000,
+      "close": 1182000,
+      "previousClose": 1181000,
+      "quoteAt": "2026-08-04T06:00:00.000Z",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "TWD=X",
+      "open": 32.402000427246094,
+      "high": 32.404998779296875,
+      "low": 32.39699935913086,
+      "close": 32.40399932861328,
+      "previousClose": 32.397,
+      "quoteAt": "2026-08-04T06:29:00.000Z",
+      "currency": "TWD"
+    },
+    {
+      "symbol": "JPY=X",
+      "open": 157.68099975585938,
+      "high": 157.68099975585938,
+      "low": 157.68099975585938,
+      "close": 157.68099975585938,
+      "previousClose": 157.191,
+      "quoteAt": "2026-08-04T06:29:59.000Z",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "KRW=X",
+      "open": 1431.25,
+      "high": 1432.1800537109375,
+      "low": 1431.25,
+      "close": 1431.8800048828125,
+      "previousClose": 1428.78,
+      "quoteAt": "2026-08-04T06:29:00.000Z",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "CNY=X",
+      "open": 6.751299858093262,
+      "high": 6.751299858093262,
+      "low": 6.751299858093262,
+      "close": 6.751299858093262,
+      "previousClose": 6.7464,
+      "quoteAt": "2026-08-04T06:29:32.000Z",
+      "currency": "CNY"
+    },
+    {
+      "symbol": "SGD=X",
+      "open": 1.2832900285720825,
+      "high": 1.2832900285720825,
+      "low": 1.2832900285720825,
+      "close": 1.2832900285720825,
+      "previousClose": 1.2813,
+      "quoteAt": "2026-08-04T06:29:59.000Z",
+      "currency": "SGD"
+    },
+    {
+      "symbol": "EURUSD=X",
+      "open": 1.151012897491455,
+      "high": 1.151012897491455,
+      "low": 1.151012897491455,
+      "close": 1.151012897491455,
+      "previousClose": 1.1514,
+      "quoteAt": "2026-08-04T06:29:56.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "GBPUSD=X",
+      "open": 1.342822551727295,
+      "high": 1.342822551727295,
+      "low": 1.342822551727295,
+      "close": 1.342822551727295,
+      "previousClose": 1.3427,
+      "quoteAt": "2026-08-04T06:29:56.000Z",
+      "currency": "USD"
+    }
+  ],
+  "producer": {
+    "id": "s4",
+    "role": "primary"
+  },
+  "quoteFreshness": {
+    "status": "rejected",
+    "complete": false,
+    "enforced": true,
+    "referenceAt": "2026-08-04T06:30:00.000Z",
+    "maxAgeSeconds": 300,
+    "oldestQuoteAgeSeconds": 1800,
+    "newestQuoteAgeSeconds": 1,
+    "unreliableQuoteAtSymbols": [],
+    "staleSymbols": [
+      "^KS11",
+      "102110.KS",
+      "000660.KS",
+      "009150.KS"
+    ],
+    "futureSymbols": []
+  }
+}
