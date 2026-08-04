@@ -63,5 +63,6 @@ const health = {
   unresolvedHoldingNames: unmappedNames
 };
 await writeJsonAtomically(path.join(root, 'data', 'funds', 'coverage', 'latest.json'), coverage);
+await writeJsonAtomically(path.join(root, 'data', 'funds', 'coverage', generatedAt.slice(0, 4), generatedAt.slice(0, 10), `${generatedAt.slice(11, 16).replace(':', '')}.json`), coverage);
 await writeJsonAtomically(path.join(root, 'data', 'status', 'holding-mapping-health.json'), health);
 console.log(JSON.stringify({ status: 'built', processedFundCount: processed.length, unresolvedHoldingCount: unmappedNames.length }));
