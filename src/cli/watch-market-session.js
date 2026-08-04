@@ -121,7 +121,9 @@ async function captureSlotWithRetry({
         maxAttempts: approvedMaxAttempts,
         error: error.message
       }));
-      if (attempt < approvedMaxAttempts && approvedRetryDelayMs > 0) await sleepFn(approvedRetryDelayMs);
+      if (attempt < approvedMaxAttempts && approvedRetryDelayMs > 0) {
+        await sleepFn(approvedRetryDelayMs * attempt);
+      }
     }
   }
   return {
