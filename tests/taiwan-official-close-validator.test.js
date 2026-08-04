@@ -11,7 +11,9 @@ test('converts the official ROC compact date to Gregorian date', () => {
 
 test('archives complete TWSE and TPEx official closes and compares the latest public reference', async (t) => {
   const root = await mkdtemp(path.join(os.tmpdir(), 'taiwan-close-'));
-  t.after(() => rm(root, { recursive: true, force: true }));
+  // Windows may still be releasing a file handle from the async fixture writes.
+  // Retry the test-only cleanup so that it cannot mask a successful assertion.
+  t.after(() => rm(root, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 }));
   await mkdir(path.join(root, 'config', 'public-symbols'), { recursive: true });
   await writeFile(path.join(root, 'config', 'public-symbols', 'approved-public-tickers.json'), JSON.stringify({
     markets: { tw: [{ symbol: '2330.TW' }, { symbol: '3081.TWO' }] }

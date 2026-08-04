@@ -10,6 +10,7 @@ import { assessQuoteFreshness } from '../quality/quote-freshness.js';
 const MARKET_IDS = ['tw', 'jp', 'kr', 'cn', 'sg', 'uk', 'eu', 'us'];
 const TAIPEI_TIMEZONE = 'Asia/Taipei';
 const MAX_DELAY_SECONDS = 120;
+const DEFAULT_DECISION_SLOT = '12:55';
 
 function taipeiDate(value = new Date()) {
   const parts = Object.fromEntries(new Intl.DateTimeFormat('en-CA', {
@@ -18,9 +19,15 @@ function taipeiDate(value = new Date()) {
   return `${parts.year}-${parts.month}-${parts.day}`;
 }
 
-function decisionAt(date) {
+function normalizeDecisionSlot(slot = DEFAULT_DECISION_SLOT) {
+  const normalized = String(slot || '').trim();
+  if (!/^\d{2}:\d{2}$/.test(normalized)) throw new Error('Decision manifest requires an HH:mm slot.');
+  return normalized;
+}
+
+function decisionAt(date, slot = DEFAULT_DECISION_SLOT) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(String(date))) throw new Error('Decision manifest requires YYYY-MM-DD date.');
-  return new Date(`${date}T12:55:00+08:00`);
+  return new Date(`${date}T${normalizeDecisionSlot(slot)}:00+08:00`);
 }
 
 async function walkJson(directory) {
@@ -42,6 +49,18 @@ async function readJson(filePath, fallback = null) {
     if (error.code === 'ENOENT') return fallback;
     throw error;
   }
+}
+
+async function loadHoldingCoverageAsOf(root, cutoffMs) {
+  const directory = path.join(root, 'data', 'funds', 'coverage');
+  const candidates = [];
+  for (const filePath of await walkJson(directory)) {
+    const coverage = await readJson(filePath);
+    const generatedMs = new Date(coverage?.generatedAt || '').getTime();
+    if (Number.isFinite(generatedMs) && generatedMs <= cutoffMs) candidates.push({ coverage, generatedMs, filePath });
+  }
+  candidates.sort((left, right) => left.generatedMs - right.generatedMs || left.filePath.localeCompare(right.filePath));
+  return candidates.at(-1)?.coverage || null;
 }
 
 async function findLatestSnapshot(root, market, config, cutoffMs) {
@@ -77,8 +96,9 @@ function quoteRange(quotes = []) {
   };
 }
 
-async function buildTaipeiDecisionManifest(root, { date = taipeiDate(), now = new Date() } = {}) {
-  const at = decisionAt(date);
+async function buildTaipeiDecisionManifest(root, { date = taipeiDate(), slot = DEFAULT_DECISION_SLOT, now = new Date() } = {}) {
+  const decisionSlot = normalizeDecisionSlot(slot);
+  const at = decisionAt(date, decisionSlot);
   const cutoff = new Date(at.getTime() + MAX_DELAY_SECONDS * 1_000);
   const providerPolicy = await readJson(path.join(root, 'config', 'policies', 'provider-selection.json'), {});
   const maximumQuoteAge = Number(providerPolicy?.criticalDecisionSlot?.maxQuoteAgeSeconds);
@@ -126,7 +146,7 @@ async function buildTaipeiDecisionManifest(root, { date = taipeiDate(), now = ne
   const dataQualityWithinTolerance = openMarkets.length > 0
     && openMarkets.every((entry) => entry.status === 'decision_window_capture' && entry.quoteFreshness?.complete === true);
   const [holdingCoverage, fundCoveragePolicy] = await Promise.all([
-    readJson(path.join(root, 'data', 'funds', 'coverage', 'latest.json')),
+    loadHoldingCoverageAsOf(root, at.getTime()),
     readJson(path.join(root, 'config', 'policies', 'fund-decision-coverage.json'))
   ]);
   const fundCoverage = holdingCoverage && fundCoveragePolicy
@@ -144,8 +164,9 @@ async function buildTaipeiDecisionManifest(root, { date = taipeiDate(), now = ne
       };
   const manifest = {
     schemaVersion: '1.0',
-    basis: 'taipei_1255_pre_order',
+    basis: decisionSlot === DEFAULT_DECISION_SLOT ? 'taipei_1255_pre_order' : 'taipei_slot_training',
     date,
+    decisionSlot,
     decisionAt: at.toISOString(),
     decisionWindowEndsAt: cutoff.toISOString(),
     generatedAt: now.toISOString(),
@@ -155,16 +176,17 @@ async function buildTaipeiDecisionManifest(root, { date = taipeiDate(), now = ne
     fundCoverage,
     markets: entries
   };
-  const target = path.join(root, 'data', 'decision-snapshots', date.slice(0, 4), date, 'taipei-1255.json');
+  const target = path.join(root, 'data', 'decision-snapshots', date.slice(0, 4), date, `taipei-${decisionSlot.replace(':', '')}.json`);
   await writeJsonAtomically(target, manifest);
   return { target, manifest };
 }
 
 const requestedDate = process.argv.find((arg) => arg.startsWith('--date='))?.slice('--date='.length);
+const requestedSlot = process.argv.find((arg) => arg.startsWith('--slot='))?.slice('--slot='.length);
 const isDirectRun = process.argv[1] ? path.resolve(process.argv[1]) === fileURLToPath(import.meta.url) : false;
 if (isDirectRun) {
-  const result = await buildTaipeiDecisionManifest(process.cwd(), { date: requestedDate || taipeiDate() });
-  console.log(JSON.stringify({ status: 'built', path: path.relative(process.cwd(), result.target), timingWithinTolerance: result.manifest.timingWithinTolerance }));
+  const result = await buildTaipeiDecisionManifest(process.cwd(), { date: requestedDate || taipeiDate(), slot: requestedSlot || DEFAULT_DECISION_SLOT });
+  console.log(JSON.stringify({ status: 'built', path: path.relative(process.cwd(), result.target), decisionSlot: result.manifest.decisionSlot, timingWithinTolerance: result.manifest.timingWithinTolerance }));
 }
 
-export { buildTaipeiDecisionManifest, decisionAt, taipeiDate };
+export { buildTaipeiDecisionManifest, decisionAt, normalizeDecisionSlot, taipeiDate };
