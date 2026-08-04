@@ -1,26 +1,36 @@
 {
   "schemaVersion": "1.2",
-  "market": "sg",
+  "market": "cn",
   "region": "asia",
-  "capturedAt": "2026-08-04T03:05:00.377Z",
+  "capturedAt": "2026-08-04T03:05:02.771Z",
   "session": "regular",
   "source": "yahoo-finance-chart",
   "isDelayed": true,
   "quoteStatus": "current_market_date",
   "scheduleRule": "session-watcher",
   "scheduledAt": "2026-08-04T03:05:00.000Z",
-  "captureDelaySeconds": 0,
+  "captureDelaySeconds": 3,
   "timingStatus": "on_time",
   "quotes": [
     {
-      "symbol": "^STI",
-      "open": 5621.27978515625,
-      "high": 5621.27978515625,
-      "low": 5621.27978515625,
-      "close": 5621.27978515625,
-      "previousClose": 5612.28,
-      "quoteAt": "2026-08-04T02:49:58.000Z",
-      "currency": "SGD"
+      "symbol": "000001.SS",
+      "open": 3807.80322265625,
+      "high": 3807.80322265625,
+      "low": 3807.80322265625,
+      "close": 3807.80322265625,
+      "previousClose": 3809.6628,
+      "quoteAt": "2026-08-04T02:49:55.000Z",
+      "currency": "CNY"
+    },
+    {
+      "symbol": "000300.SS",
+      "open": 4573.8984375,
+      "high": 4573.8984375,
+      "low": 4573.8984375,
+      "close": 4573.8984375,
+      "previousClose": 4543.178,
+      "quoteAt": "2026-08-04T02:49:55.000Z",
+      "currency": "CNY"
     },
     {
       "symbol": "TWD=X",
@@ -34,12 +44,12 @@
     },
     {
       "symbol": "JPY=X",
-      "open": 157.6959991455078,
-      "high": 157.6959991455078,
-      "low": 157.6959991455078,
-      "close": 157.6959991455078,
+      "open": 157.6999969482422,
+      "high": 157.6999969482422,
+      "low": 157.6999969482422,
+      "close": 157.6999969482422,
       "previousClose": 157.191,
-      "quoteAt": "2026-08-04T03:04:59.000Z",
+      "quoteAt": "2026-08-04T03:04:58.000Z",
       "currency": "JPY"
     },
     {
@@ -96,16 +106,5 @@
   "producer": {
     "id": "s2",
     "role": "primary"
-  },
-  "publishedAt": "2026-08-04T03:05:36.348Z",
-  "verification": {
-    "status": "verified",
-    "sourcePath": "data/raw/asia/sg/2026/2026-08-04/regular/producers/s2/0305.json",
-    "sourceSha256": "e641c77d2c7aa75dd26bc7a36a99e95e419182c07d6994a955ba54b5142e5993",
-    "producer": {
-      "id": "s2",
-      "role": "primary"
-    },
-    "fallbackReason": ""
   }
 }
