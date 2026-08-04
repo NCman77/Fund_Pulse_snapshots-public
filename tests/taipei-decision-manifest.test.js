@@ -25,6 +25,12 @@ test('builds a Taipei 12:55 manifest without selecting future market data', asyn
       market, capturedAt, scheduledAt: market === 'tw' ? '2026-07-30T04:55:00.000Z' : '2026-07-30T03:00:00.000Z', captureDelaySeconds: market === 'tw' ? 30 : 0,
       timingStatus: 'on_time', quotes: [{ quoteAt: capturedAt }]
     });
+    if (market === 'tw') {
+      await writeJson(path.join(root, 'data', 'raw', region, market, '2026', '2026-07-30', 'regular', 'producers', 'decision-backup', '0455.json'), {
+        market, capturedAt: '2026-07-30T04:55:40.000Z', scheduledAt: '2026-07-30T04:55:00.000Z', captureDelaySeconds: 40,
+        timingStatus: 'on_time', producer: { id: 'decision-backup', role: 'backup' }, quotes: [{ quoteAt: '2026-07-30T04:55:30.000Z' }]
+      });
+    }
     await writeJson(path.join(root, 'data', 'raw', region, market, '2026', '2026-07-30', 'regular', 'future.json'), {
       market, capturedAt: '2026-07-30T05:20:00.000Z', scheduledAt: '2026-07-30T05:20:00.000Z', captureDelaySeconds: 0,
       timingStatus: 'on_time', quotes: [{ quoteAt: '2026-07-30T05:20:00.000Z' }]
@@ -39,6 +45,7 @@ test('builds a Taipei 12:55 manifest without selecting future market data', asyn
   const { target, manifest } = await buildTaipeiDecisionManifest(root, { date: '2026-07-30', now: new Date('2026-07-30T05:10:00.000Z') });
   assert.equal(manifest.basis, 'taipei_1255_pre_order');
   assert.equal(manifest.markets.find((entry) => entry.market === 'tw').status, 'decision_window_capture');
+  assert.match(manifest.markets.find((entry) => entry.market === 'tw').path, /regular\/x\.json$/);
   assert.ok(manifest.markets.every((entry) => !String(entry.capturedAt || '').startsWith('2026-07-30T05:20')));
   const china = manifest.markets.find((entry) => entry.market === 'cn');
   assert.equal(china.status, 'latest_available_before_decision');

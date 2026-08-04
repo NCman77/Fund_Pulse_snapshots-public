@@ -83,6 +83,27 @@ test('keeps the last verified latest when no eligible raw snapshot exists', asyn
     sourcePath: '',
     producer: null,
     fallbackReason: 'no_verified_raw_snapshot',
+    coverage: {
+      status: 'legacy_unknown', complete: null, expectedSymbolCount: null, capturedSymbolCount: null, failedSymbols: []
+    },
+    latestQuoteAt: '',
+    freshnessSeconds: 86120,
+    freshnessEvaluatedAt: '2026-07-28T04:55:20.000Z',
     timezone: 'Asia/Taipei'
   });
+});
+
+test('does not promote an on-time snapshot whose declared symbol coverage is partial', async (t) => {
+  const root = await createRoot(t);
+  await writeSnapshot(root, {
+    schemaVersion: '1.2', market: 'tw', region: 'asia', session: 'regular', timingStatus: 'on_time',
+    scheduledAt: '2026-07-28T04:55:00.000Z', capturedAt: '2026-07-28T04:55:10.000Z',
+    quotes: [{ symbol: '2330.TW', quoteAt: '2026-07-28T04:55:00.000Z' }],
+    coverage: {
+      provider: 'yahoo-finance', endpointType: 'chart', expectedSymbolCount: 2,
+      capturedSymbolCount: 1, failedSymbols: ['2454.TW'], complete: false
+    }
+  });
+  const { candidate } = await selectLatestSnapshot(root, 'tw');
+  assert.equal(candidate, null);
 });

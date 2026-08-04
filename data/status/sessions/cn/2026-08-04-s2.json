@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "1.0",
+  "generatedAt": "2026-08-04T03:30:03.097Z",
+  "market": "cn",
+  "sessionName": "s2",
+  "localDate": "2026-08-04",
+  "timezone": "Asia/Shanghai",
+  "expectedSlots": [
+    "11:05",
+    "11:30"
+  ],
+  "skippedSlots": [],
+  "summary": {
+    "expectedSlotCount": 2,
+    "capturedSlotCount": 2,
+    "onTimeSlotCount": 2,
+    "lateSlotCount": 0,
+    "failedSlotCount": 0,
+    "complete": true,
+    "healthy": true
+  },
+  "slots": [
+    {
+      "slot": "11:05",
+      "scheduledAt": "2026-08-04T03:05:00.000Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 3,
+      "error": ""
+    },
+    {
+      "slot": "11:30",
+      "scheduledAt": "2026-08-04T03:30:00.000Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 3,
+      "error": ""
+    }
+  ],
+  "producer": {
+    "id": "s2",
+    "role": "primary"
+  }
+}
