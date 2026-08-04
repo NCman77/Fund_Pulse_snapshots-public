@@ -8,8 +8,10 @@ on:
         required: false
         type: string
   schedule:
+    # 20:00, 20:25, 20:45 Taipei time (12:00, 12:25, 12:45 UTC)
     - cron: '0 12 * * 1-5'
-      timezone: Asia/Taipei
+    - cron: '25 12 * * 1-5'
+    - cron: '45 12 * * 1-5'
 
 permissions:
   contents: write

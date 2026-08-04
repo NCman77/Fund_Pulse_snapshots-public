@@ -3,9 +3,10 @@ name: Capture approved public fund disclosures
 on:
   workflow_dispatch:
   schedule:
-    # Preserve an as-of disclosure version before Taiwan's 12:55 decision slot.
+    # Preserve an as-of disclosure version before Taiwan's 12:55 decision slot (08:20 Taipei / 00:20 UTC).
     - cron: '20 0 * * 1-5'
-    - cron: '35 10 * * 1-5'
+    # Capture MoneyDJ fund disclosures at 16:35, 17:35, 18:35, 19:35, 20:35 Taipei time (08:35, 09:35, 10:35, 11:35, 12:35 UTC).
+    - cron: '35 8-12 * * 1-5'
 
 permissions:
   contents: write
