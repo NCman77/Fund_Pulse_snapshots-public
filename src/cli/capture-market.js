@@ -1,6 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { collectYahooCharts, describeYahooCollectorError } from '../collectors/yahoo-chart-collector.js';
+import { createQuoteProvider } from '../providers/quote-provider.js';
 import { resolveMarketSession } from '../scheduling/market-session-resolver.js';
 import { buildCaptureTiming } from '../scheduling/scheduled-capture-timing.js';
 import { writeSnapshot } from '../storage/snapshot-writer.js';
@@ -16,6 +17,7 @@ const config = JSON.parse(await readFile(configPath, 'utf8'));
 const diagnostics = [];
 let expectedSymbols = [];
 let capturedSymbols = [];
+let selectedProvider = { id: 'yahoo-finance', endpointType: 'chart' };
 
 if (!config.enabled || config.source?.status !== 'approved') {
   console.log(JSON.stringify({ market, status: 'skipped', reason: 'collector-not-approved' }));
@@ -39,11 +41,12 @@ function buildCollectionSummary() {
     diagnostics.filter((diagnostic) => diagnostic.finalAttempt).map((diagnostic) => diagnostic.symbol)
   );
   return {
-    provider: 'yahoo-finance',
-    endpointType: 'chart',
+    provider: selectedProvider.id,
+    endpointType: selectedProvider.endpointType,
     expectedSymbolCount: expectedSymbols.length,
     capturedSymbolCount: captured.size,
-    failedSymbols: expectedSymbols.filter((symbol) => finalFailures.has(symbol) || !captured.has(symbol))
+    failedSymbols: expectedSymbols.filter((symbol) => finalFailures.has(symbol) || !captured.has(symbol)),
+    complete: expectedSymbols.length > 0 && expectedSymbols.every((symbol) => captured.has(symbol))
   };
 }
 
@@ -73,23 +76,30 @@ try {
   const deadlineAt = Number.isFinite(scheduledAtMilliseconds)
     ? new Date(scheduledAtMilliseconds + (maximumCaptureDelaySeconds * 1_000)).toISOString()
     : undefined;
-  const quotes = await collectYahooCharts(uniqueSymbols, {
-    timezone: config.timezone,
-    maxAttempts: configuredNumber('YAHOO_CHART_MAX_ATTEMPTS', yahooPolicy.maxAttempts),
-    retryDelayMilliseconds: configuredNumber('YAHOO_CHART_INITIAL_BACKOFF_MS', yahooPolicy.initialBackoffMilliseconds),
-    maxRetryDelayMilliseconds: configuredNumber('YAHOO_CHART_MAX_BACKOFF_MS', yahooPolicy.maxBackoffMilliseconds),
-    retryJitterRatio: configuredNumber('YAHOO_CHART_JITTER_RATIO', yahooPolicy.jitterRatio),
-    maxConcurrency: configuredNumber('YAHOO_CHART_MAX_CONCURRENCY', yahooPolicy.maxConcurrency),
-    timeoutMilliseconds: configuredNumber('YAHOO_CHART_TIMEOUT_MS', yahooPolicy.timeoutMilliseconds),
-    deadlineAt,
-    onDiagnostic: (diagnostic) => diagnostics.push(diagnostic),
-    diagnosticContext: {
-      captureSlot: String(process.env.CAPTURE_SLOT || '').trim(),
-      workflowRunId: String(process.env.GITHUB_RUN_ID || '').trim(),
-      workflowRunAttempt: String(process.env.GITHUB_RUN_ATTEMPT || '').trim(),
-      producerId
-    }
+  const primaryProvider = createQuoteProvider({
+    id: 'yahoo-finance',
+    endpointType: 'chart',
+    collect: (requestedSymbols, context) => collectYahooCharts(requestedSymbols, {
+      timezone: config.timezone,
+      maxAttempts: configuredNumber('YAHOO_CHART_MAX_ATTEMPTS', yahooPolicy.maxAttempts),
+      retryDelayMilliseconds: configuredNumber('YAHOO_CHART_INITIAL_BACKOFF_MS', yahooPolicy.initialBackoffMilliseconds),
+      maxRetryDelayMilliseconds: configuredNumber('YAHOO_CHART_MAX_BACKOFF_MS', yahooPolicy.maxBackoffMilliseconds),
+      retryJitterRatio: configuredNumber('YAHOO_CHART_JITTER_RATIO', yahooPolicy.jitterRatio),
+      maxConcurrency: configuredNumber('YAHOO_CHART_MAX_CONCURRENCY', yahooPolicy.maxConcurrency),
+      timeoutMilliseconds: configuredNumber('YAHOO_CHART_TIMEOUT_MS', yahooPolicy.timeoutMilliseconds),
+      deadlineAt: context.deadlineAt,
+      onDiagnostic: (diagnostic) => diagnostics.push(diagnostic),
+      diagnosticContext: {
+        captureSlot: String(process.env.CAPTURE_SLOT || '').trim(),
+        workflowRunId: String(process.env.GITHUB_RUN_ID || '').trim(),
+        workflowRunAttempt: String(process.env.GITHUB_RUN_ATTEMPT || '').trim(),
+        producerId
+      }
+    })
   });
+  selectedProvider = { id: primaryProvider.id, endpointType: primaryProvider.endpointType };
+  const collection = await primaryProvider.collect(uniqueSymbols, { deadlineAt });
+  const quotes = collection.quotes;
   capturedSymbols = quotes.map(({ symbol }) => symbol);
   const capturedAt = new Date();
   const producerRole = String(process.env.CAPTURE_PRODUCER_ROLE || 'primary').trim();
@@ -102,7 +112,10 @@ try {
       capturedAt,
       Number(process.env.CAPTURE_MAX_DELAY_SECONDS || 120),
       process.env.CAPTURE_SCHEDULED_AT
-    ), quotes,
+    ),
+    provider: selectedProvider,
+    coverage: buildCollectionSummary(),
+    quotes,
     producer: producerId ? { id: producerId, role: producerRole === 'backup' ? 'backup' : 'primary' } : undefined
   };
   const rawPath = await writeSnapshot(root, snapshot);
