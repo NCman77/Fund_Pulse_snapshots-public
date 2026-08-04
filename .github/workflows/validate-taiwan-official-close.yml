@@ -1,0 +1,53 @@
+name: Validate Taiwan official post-close prices
+
+on:
+  workflow_dispatch:
+    inputs:
+      date:
+        description: Optional Taiwan trade date (YYYY-MM-DD)
+        required: false
+        type: string
+  schedule:
+    - cron: '30 15 * * 1-5'
+      timezone: Asia/Taipei
+
+permissions:
+  contents: write
+
+concurrency:
+  group: taiwan-official-close
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run validate
+      - name: Fetch and persist official TWSE and TPEx close checks
+        env:
+          REQUESTED_DATE: ${{ inputs.date }}
+        run: |
+          for attempt in 1 2 3 4 5 6; do
+            git fetch origin main
+            git reset --hard origin/main
+            args=()
+            if [ -n "$REQUESTED_DATE" ]; then args+=("--date=$REQUESTED_DATE"); fi
+            npm run validate:tw-official-close -- "${args[@]}"
+            git add -- data/official-close/tw data/status/official-close/tw.json 2>/dev/null || true
+            if git diff --cached --quiet; then exit 0; fi
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "verify: Taiwan official post-close prices"
+            if git push origin HEAD:main; then exit 0; fi
+            sleep "$((attempt * 3 + RANDOM % 4))"
+          done
+          echo "Unable to persist Taiwan official close verification after bounded retries" >&2
+          exit 1
