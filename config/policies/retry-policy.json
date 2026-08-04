@@ -1,5 +1,13 @@
 {
   "maxAttempts": 3,
-  "initialBackoffSeconds": 15
+  "initialBackoffSeconds": 15,
+  "yahooChart": {
+    "maxAttempts": 3,
+    "initialBackoffMilliseconds": 750,
+    "maxBackoffMilliseconds": 5000,
+    "jitterRatio": 0.25,
+    "maxConcurrency": 3,
+    "timeoutMilliseconds": 20000
+  }
 }
 
