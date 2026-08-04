@@ -1,14 +1,14 @@
 {
   "market": "jp",
-  "status": "healthy",
-  "updatedAt": "2026-08-04T04:05:45.740Z",
-  "sourcePath": "data/raw/asia/jp/2026/2026-08-04/regular/producers/s3/0405.json",
-  "capturedAt": "2026-08-04T04:05:00.772Z",
+  "status": "stale",
+  "updatedAt": "2026-08-04T05:05:23.731Z",
+  "sourcePath": "data/raw/asia/jp/2026/2026-08-04/regular/producers/s3/0435.json",
+  "capturedAt": "2026-08-04T04:35:01.119Z",
   "producer": {
     "id": "s3",
     "role": "primary"
   },
-  "fallbackReason": "",
+  "fallbackReason": "no_verified_raw_snapshot",
   "coverage": {
     "status": "complete",
     "complete": true,
@@ -16,8 +16,10 @@
     "capturedSymbolCount": 18,
     "failedSymbols": []
   },
-  "latestQuoteAt": "2026-08-04T04:04:59.000Z",
-  "freshnessSeconds": 45,
-  "freshnessEvaluatedAt": "2026-08-04T04:05:45.740Z",
-  "timezone": "Asia/Tokyo"
+  "latestQuoteAt": "2026-08-04T04:34:55.000Z",
+  "freshnessSeconds": 1823,
+  "freshnessEvaluatedAt": "2026-08-04T05:05:23.731Z",
+  "timezone": "Asia/Tokyo",
+  "reason": "no_verified_raw_snapshot",
+  "quoteFreshness": null
 }

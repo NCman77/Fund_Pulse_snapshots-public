@@ -44,6 +44,14 @@ test('selector rejects quotes without reliable quoteAt or beyond the hard deadli
   assert.equal(assessment.capturedAfterDeadline, true);
 });
 
+test('selector rejects a 20-minute-old quote at a 09:05 decision slot', () => {
+  const stale = candidate({ id: 'primary' });
+  stale.quotes[0].quoteAt = '2026-08-04T00:45:00.000Z';
+  const assessment = assessQuoteCandidate(stale, { symbols, scheduledAt, deadlineAt, maxQuoteAgeSeconds: 300 });
+  assert.equal(assessment.eligible, false);
+  assert.deepEqual(assessment.staleQuoteSymbols, ['7203.T']);
+});
+
 test('hedged collection starts backup after the hedge delay and completes before the hard deadline', async () => {
   const starts = [];
   const primary = createQuoteProvider({
