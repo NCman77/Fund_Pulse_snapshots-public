@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.2",
-  "market": "sg",
+  "market": "kr",
   "region": "asia",
-  "capturedAt": "2026-08-04T01:35:00.305Z",
+  "capturedAt": "2026-08-04T01:35:00.412Z",
   "session": "regular",
   "source": "yahoo-finance-chart",
   "isDelayed": true,
@@ -13,14 +13,44 @@
   "timingStatus": "on_time",
   "quotes": [
     {
-      "symbol": "^STI",
-      "open": 5621.85986328125,
-      "high": 5621.85986328125,
-      "low": 5621.85986328125,
-      "close": 5621.85986328125,
-      "previousClose": 5612.28,
-      "quoteAt": "2026-08-04T01:19:58.000Z",
-      "currency": "SGD"
+      "symbol": "^KS11",
+      "open": 6152.490234375,
+      "high": 6152.490234375,
+      "low": 6152.490234375,
+      "close": 6152.490234375,
+      "previousClose": 6257.45,
+      "quoteAt": "2026-08-04T01:14:50.000Z",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "102110.KS",
+      "open": 97100,
+      "high": 97100,
+      "low": 97100,
+      "close": 97100,
+      "previousClose": 99360,
+      "quoteAt": "2026-08-04T01:14:59.000Z",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "000660.KS",
+      "open": 1507000,
+      "high": 1507000,
+      "low": 1507000,
+      "close": 1507000,
+      "previousClose": 1567000,
+      "quoteAt": "2026-08-04T01:14:59.000Z",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "009150.KS",
+      "open": 1135000,
+      "high": 1135000,
+      "low": 1135000,
+      "close": 1135000,
+      "previousClose": 1181000,
+      "quoteAt": "2026-08-04T01:14:59.000Z",
+      "currency": "KRW"
     },
     {
       "symbol": "TWD=X",
@@ -64,12 +94,12 @@
     },
     {
       "symbol": "SGD=X",
-      "open": 1.2823100090026855,
-      "high": 1.2823100090026855,
-      "low": 1.2823100090026855,
-      "close": 1.2823100090026855,
+      "open": 1.2823400497436523,
+      "high": 1.2823400497436523,
+      "low": 1.2823400497436523,
+      "close": 1.2823400497436523,
       "previousClose": 1.2813,
-      "quoteAt": "2026-08-04T01:34:59.000Z",
+      "quoteAt": "2026-08-04T01:34:58.000Z",
       "currency": "SGD"
     },
     {
@@ -94,18 +124,7 @@
     }
   ],
   "producer": {
-    "id": "s1",
+    "id": "s2",
     "role": "primary"
-  },
-  "publishedAt": "2026-08-04T01:35:23.604Z",
-  "verification": {
-    "status": "verified",
-    "sourcePath": "data/raw/asia/sg/2026/2026-08-04/regular/producers/s1/0135.json",
-    "sourceSha256": "1e93a26ea0f7e9c11fe5227bf0d5b1128cf84a4a8ac1abdd84277c809da08455",
-    "producer": {
-      "id": "s1",
-      "role": "primary"
-    },
-    "fallbackReason": ""
   }
 }

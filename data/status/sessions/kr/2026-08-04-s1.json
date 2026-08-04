@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "1.0",
+  "generatedAt": "2026-08-04T01:05:00.434Z",
+  "market": "kr",
+  "sessionName": "s1",
+  "localDate": "2026-08-04",
+  "timezone": "Asia/Seoul",
+  "expectedSlots": [
+    "09:05",
+    "09:35",
+    "10:05"
+  ],
+  "skippedSlots": [],
+  "summary": {
+    "expectedSlotCount": 3,
+    "capturedSlotCount": 2,
+    "onTimeSlotCount": 2,
+    "lateSlotCount": 0,
+    "failedSlotCount": 1,
+    "complete": false,
+    "healthy": false
+  },
+  "slots": [
+    {
+      "slot": "09:05",
+      "scheduledAt": "2026-08-04T00:05:00.000Z",
+      "status": "failed",
+      "attempts": 3,
+      "timingStatus": "",
+      "captureDelaySeconds": null,
+      "error": "Capture failed for kr at 2026-08-04T00:05:00.000Z: [yahoo-collector] Skipping symbol 102110.KS after 3 attempts: Yahoo chart payload is incomplete for 102110.KS (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 009150.KS after 3 attempts: Yahoo chart payload is incomplete for 009150.KS (missing timestamp or close series)\n{\"market\":\"kr\",\"status\":\"failed\",\"error\":\"public-quote-collection-failed\"}\n[yahoo-collector] Skipping symbol 000660.KS after 3 attempts: Yahoo chart payload is incomplete for 000660.KS (missing timestamp or close series)"
+    },
+    {
+      "slot": "09:35",
+      "scheduledAt": "2026-08-04T00:35:00.000Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 0,
+      "error": ""
+    },
+    {
+      "slot": "10:05",
+      "scheduledAt": "2026-08-04T01:05:00.000Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 0,
+      "error": ""
+    }
+  ],
+  "producer": {
+    "id": "s1",
+    "role": "primary"
+  }
+}
