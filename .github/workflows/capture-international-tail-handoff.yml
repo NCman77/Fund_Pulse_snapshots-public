@@ -9,10 +9,8 @@ on:
         type: choice
         options: [uk, eu]
   schedule:
-    # 20:30, 20:45, 21:00 Taipei time (12:30, 12:45, 13:00 UTC)
-    - cron: '30 12 * * 1-5'
-    - cron: '45 12 * * 1-5'
-    - cron: '0 13 * * 1-5'
+    # Long Watcher Task: Boot at 18:00 Taipei time (10:00 UTC), run until 00:00 Taipei midnight.
+    - cron: '0 10 * * 1-5'
 
 permissions:
   contents: write

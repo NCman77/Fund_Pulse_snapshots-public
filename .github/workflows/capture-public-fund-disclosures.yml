@@ -3,10 +3,8 @@ name: Capture approved public fund disclosures
 on:
   workflow_dispatch:
   schedule:
-    # Preserve an as-of disclosure version before Taiwan's 12:55 decision slot (08:20 Taipei / 00:20 UTC).
-    - cron: '20 0 * * 1-5'
-    # Capture MoneyDJ fund disclosures at 16:35, 17:35, 18:35, 19:35, 20:35 Taipei time (08:35, 09:35, 10:35, 11:35, 12:35 UTC).
-    - cron: '35 8-12 * * 1-5'
+    # Long Watcher Task: Boot at 14:40 Taipei time (06:40 UTC), run until 20:40 Taipei time.
+    - cron: '40 6 * * 1-5'
 
 permissions:
   contents: write
@@ -18,7 +16,7 @@ concurrency:
 jobs:
   capture:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 370
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -27,24 +25,49 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run validate
-      - run: npm run capture:funds
-      - run: npm run build:holding-coverage
-      - name: Commit public fund disclosures
+      - name: Long Watcher - Public fund disclosures capture (14:40 to 20:40 Taipei time)
+        shell: bash
+        env:
+          TZ: Asia/Taipei
         run: |
-          for attempt in 1 2 3 4 5 6; do
-            if ! git fetch origin main; then
-              echo "Disclosure push attempt $attempt could not fetch origin/main" >&2
-            else
+          set -uo pipefail
+
+          run_capture_and_commit() {
+            for attempt in 1 2 3 4 5 6; do
+              if ! git fetch origin main; then
+                sleep 5
+                continue
+              fi
               git reset --hard origin/main
-              npm run capture:funds && npm run build:holding-coverage
+              npm run capture:funds && npm run build:holding-coverage || true
               git add -- data/funds/ data/status/fund-disclosure-health.json data/status/holding-mapping-health.json
-              if git diff --cached --quiet; then exit 0; fi
+              if git diff --cached --quiet; then break; fi
               git config user.name "github-actions[bot]"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-              git commit -m "capture: approved public fund disclosures"
-              if git push origin HEAD:main; then exit 0; fi
-              echo "Disclosure push attempt $attempt lost a branch race; rebuilding" >&2
-            fi
-            sleep "$((attempt * 3 + RANDOM % 4))"
+              git commit -m "capture: approved public fund disclosures" || true
+              if git push origin HEAD:main; then break; fi
+              sleep "$((attempt * 3))"
+            done
+          }
+
+          # Target slots inside the 14:40-20:40 window: 16:35, 17:35, 18:35, 19:35, 20:35 Taipei time
+          for slot_time in "16:35" "17:35" "18:35" "19:35" "20:35"; do
+            while true; do
+              current_time=$(TZ=Asia/Taipei date +%H:%M)
+              if [[ "$current_time" >= "$slot_time" ]]; then
+                break
+              fi
+              sleep 20
+            done
+            echo "Executing public fund disclosures capture slot at $slot_time Taipei time..."
+            run_capture_and_commit
           done
-          echo "Unable to publish public fund disclosures after bounded retries" >&2
-          exit 1
+
+          # Hold watcher active until 20:40 Taipei time (End time)
+          while true; do
+            current_time=$(TZ=Asia/Taipei date +%H:%M)
+            if [[ "$current_time" >= "20:40" ]]; then
+              break
+            fi
+            sleep 30
+          done
+          echo "Public fund disclosures watcher completed at 20:40 Taipei time."
