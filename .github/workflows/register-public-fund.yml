@@ -34,15 +34,21 @@ jobs:
           PUBLIC_FUND_REGISTRATION_PAYLOAD: ${{ toJson(github.event.client_payload) }}
         run: |
           target="config/public-funds/approved-funds.json"
-          for attempt in 1 2 3; do
-            git fetch origin main && git reset --hard origin/main
-            node src/cli/register-public-fund.js
-            npm run validate
-            if [ ! -e "$target" ] || git diff --quiet -- "$target"; then exit 0; fi
-            git config user.name "github-actions[bot]"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add -- "$target"
-            git commit -m "register: approved public fund"
-            if git push origin HEAD:main; then exit 0; fi
-            sleep "$((attempt * 5))"
+          for attempt in 1 2 3 4 5 6; do
+            if ! git fetch origin main; then
+              echo "Registration push attempt $attempt could not fetch origin/main" >&2
+            else
+              git reset --hard origin/main
+              node src/cli/register-public-fund.js
+              npm run validate
+              if [ ! -e "$target" ] || git diff --quiet -- "$target"; then exit 0; fi
+              git config user.name "github-actions[bot]"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+              git add -- "$target"
+              git commit -m "register: approved public fund"
+              if git push origin HEAD:main; then exit 0; fi
+              echo "Registration push attempt $attempt lost a branch race; rebuilding" >&2
+            fi
+            sleep "$((attempt * 3 + RANDOM % 4))"
           done
+          echo "Unable to register the approved public fund after bounded retries" >&2
           exit 1
