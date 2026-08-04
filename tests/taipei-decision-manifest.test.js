@@ -52,3 +52,28 @@ test('builds a Taipei 12:55 manifest without selecting future market data', asyn
   assert.equal(china.capturedAt, '2026-07-30T03:00:00.000Z');
   assert.equal(JSON.parse(await readFile(target, 'utf8')).date, '2026-07-30');
 });
+
+test('builds a separately labelled manifest for each usable Taipei training slot', async () => {
+  const root = await mkdtemp(path.join(os.tmpdir(), 'slot-decision-manifest-'));
+  for (const market of ['tw', 'jp', 'kr', 'cn', 'sg', 'uk', 'eu', 'us']) {
+    const region = ['uk', 'eu'].includes(market) ? 'europe' : market === 'us' ? 'america' : 'asia';
+    await writeJson(path.join(root, 'config', 'markets', `${market}.json`), {
+      market, region, timezone: 'Asia/Taipei', sessions: { regular: [{ open: '09:00', close: '16:00' }] },
+      calendar: { closedDates: [], specialSessions: {} }
+    });
+    await writeJson(path.join(root, 'data', 'raw', region, market, '2026', '2026-07-30', 'regular', '0200.json'), {
+      market, capturedAt: '2026-07-30T02:00:10.000Z', scheduledAt: '2026-07-30T02:00:00.000Z', captureDelaySeconds: 10,
+      timingStatus: 'on_time', coverage: { complete: true }, quotes: [{ symbol: `${market}.TEST`, quoteAt: '2026-07-30T01:59:55.000Z' }]
+    });
+  }
+  await writeJson(path.join(root, 'data', 'funds', 'coverage', '2026', '2026-07-30', '0750.json'), {
+    generatedAt: '2026-07-30T01:50:00.000Z', mappingVersion: 1, funds: []
+  });
+  const { target, manifest } = await buildTaipeiDecisionManifest(root, {
+    date: '2026-07-30', slot: '10:00', now: new Date('2026-07-30T02:10:00.000Z')
+  });
+  assert.equal(manifest.basis, 'taipei_slot_training');
+  assert.equal(manifest.decisionSlot, '10:00');
+  assert.match(target, /taipei-1000\.json$/);
+  assert.equal(manifest.markets.find((entry) => entry.market === 'tw').status, 'decision_window_capture');
+});
