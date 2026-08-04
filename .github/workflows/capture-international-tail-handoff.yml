@@ -9,10 +9,10 @@ on:
         type: choice
         options: [uk, eu]
   schedule:
-    - cron: '30 13 * * 1-5'
-      timezone: Europe/London
-    - cron: '30 14 * * 1-5'
-      timezone: Europe/Paris
+    # 20:30, 20:45, 21:00 Taipei time (12:30, 12:45, 13:00 UTC)
+    - cron: '30 12 * * 1-5'
+    - cron: '45 12 * * 1-5'
+    - cron: '0 13 * * 1-5'
 
 permissions:
   contents: write
@@ -20,14 +20,14 @@ permissions:
 
 jobs:
   uk_tail:
-    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '30 13 * * 1-5') || (github.event_name == 'workflow_dispatch' && inputs.market == 'uk') }}
+    if: ${{ github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.market == 'uk') }}
     uses: ./.github/workflows/run-market-session-watcher.yml
     with:
       market: uk
       session_name: uk-tail-handoff-backup
       slots: 14:05,14:35,15:05,15:35,16:05,16:30
   eu_tail:
-    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '30 14 * * 1-5') || (github.event_name == 'workflow_dispatch' && inputs.market == 'eu') }}
+    if: ${{ github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.market == 'eu') }}
     uses: ./.github/workflows/run-market-session-watcher.yml
     with:
       market: eu
