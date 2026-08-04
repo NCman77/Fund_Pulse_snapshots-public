@@ -25,15 +25,31 @@ async function readJson(filePath, fallback = null) {
   }
 }
 
-async function fetchJson(url, fetchImpl) {
-  const response = await fetchImpl(url, {
-    headers: { Accept: 'application/json', 'User-Agent': 'Fund-Pulse-public-close-check/1.0' },
-    signal: AbortSignal.timeout(30_000)
-  });
-  if (!response.ok) throw new Error(`Official Taiwan close endpoint failed (${response.status}).`);
-  const payload = await response.json();
-  if (!Array.isArray(payload) || !payload.length) throw new Error('Official Taiwan close endpoint returned no rows.');
-  return payload;
+function sleep(milliseconds) {
+  return new Promise((resolve) => setTimeout(resolve, milliseconds));
+}
+
+async function fetchJson(url, fetchImpl, maxAttempts = 3) {
+  let lastError = null;
+  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+    try {
+      const response = await fetchImpl(url, {
+        headers: { Accept: 'application/json', 'User-Agent': 'Fund-Pulse-public-close-check/1.0' },
+        signal: AbortSignal.timeout(30_000)
+      });
+      if (!response.ok) throw new Error(`Official Taiwan close endpoint failed (${response.status}).`);
+      const payload = await response.json();
+      if (!Array.isArray(payload) || !payload.length) throw new Error('Official Taiwan close endpoint returned no rows.');
+      return payload;
+    } catch (error) {
+      lastError = error;
+      if (attempt < maxAttempts) {
+        await sleep(attempt * 2_000);
+      }
+    }
+  }
+  console.warn(`[taiwan-close-validator] Endpoint ${url} unavailable after ${maxAttempts} attempts: ${lastError?.message}`);
+  return null;
 }
 
 async function walkJson(directory) {
@@ -58,13 +74,13 @@ async function latestReferenceSnapshot(root, date) {
   return candidates.at(-1) || null;
 }
 
-function officialRowsBySymbol(twseRows, tpexRows) {
+function officialRowsBySymbol(twseRows = [], tpexRows = []) {
   const rows = new Map();
-  twseRows.forEach((row) => rows.set(`${row.Code}.TW`, {
+  (twseRows || []).forEach((row) => rows.set(`${row.Code}.TW`, {
     venue: 'TWSE', date: officialDate(row.Date), name: row.Name,
     close: numberOrNull(row.ClosingPrice), tradeVolume: numberOrNull(row.TradeVolume)
   }));
-  tpexRows.forEach((row) => rows.set(`${row.SecuritiesCompanyCode}.TWO`, {
+  (tpexRows || []).forEach((row) => rows.set(`${row.SecuritiesCompanyCode}.TWO`, {
     venue: 'TPEx', date: officialDate(row.Date), name: row.CompanyName,
     close: numberOrNull(row.Close), tradeVolume: numberOrNull(row.TradingShares)
   }));
@@ -78,6 +94,11 @@ async function validateTaiwanOfficialClose({ root, date = '', fetchImpl = fetch,
     readJson(path.join(root, 'config', 'public-symbols', 'approved-public-tickers.json')),
     readJson(path.join(root, 'config', 'public-holdings', 'approved-holding-symbols.json'), { mappings: [] })
   ]);
+
+  if (!twseRows || !tpexRows) {
+    return { status: 'not_available', requestedDate: date || null, officialDates: [] };
+  }
+
   const rows = officialRowsBySymbol(twseRows, tpexRows);
   const sourceDates = Array.from(new Set([...rows.values()].map((row) => row.date).filter(Boolean)));
   if (sourceDates.length !== 1 || (date && sourceDates[0] !== date)) {

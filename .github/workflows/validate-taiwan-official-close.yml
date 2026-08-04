@@ -8,7 +8,7 @@ on:
         required: false
         type: string
   schedule:
-    - cron: '30 15 * * 1-5'
+    - cron: '0 12 * * 1-5'
       timezone: Asia/Taipei
 
 permissions:
