@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { resolveMarketSession } from '../scheduling/market-session-resolver.js';
 import { buildFundDecisionCoverage } from '../decision/fund-decision-coverage.js';
 import { writeJsonAtomically } from '../storage/snapshot-writer.js';
+import { assessQuoteFreshness } from '../quality/quote-freshness.js';
 
 const MARKET_IDS = ['tw', 'jp', 'kr', 'cn', 'sg', 'uk', 'eu', 'us'];
 const TAIPEI_TIMEZONE = 'Asia/Taipei';
@@ -79,6 +80,8 @@ function quoteRange(quotes = []) {
 async function buildTaipeiDecisionManifest(root, { date = taipeiDate(), now = new Date() } = {}) {
   const at = decisionAt(date);
   const cutoff = new Date(at.getTime() + MAX_DELAY_SECONDS * 1_000);
+  const providerPolicy = await readJson(path.join(root, 'config', 'policies', 'provider-selection.json'), {});
+  const maximumQuoteAge = Number(providerPolicy?.criticalDecisionSlot?.maxQuoteAgeSeconds);
   const entries = [];
   for (const market of MARKET_IDS) {
     const config = JSON.parse(await readFile(path.join(root, 'config', 'markets', `${market}.json`), 'utf8'));
@@ -98,6 +101,11 @@ async function buildTaipeiDecisionManifest(root, { date = taipeiDate(), now = ne
       && latest.capturedMs <= cutoff.getTime()
       && Number.isFinite(delay)
       && delay <= MAX_DELAY_SECONDS;
+    const quoteFreshness = assessQuoteFreshness(snapshot.quotes, {
+      referenceAt: at,
+      maxAgeSeconds: sessionAtDecision === 'regular' && Number.isFinite(maximumQuoteAge) ? maximumQuoteAge : null,
+      maximumFutureSkewSeconds: providerPolicy?.quoteFreshness?.maximumFutureSkewSeconds
+    });
     entries.push({
       market,
       marketStateAtDecision: sessionAtDecision,
@@ -109,11 +117,14 @@ async function buildTaipeiDecisionManifest(root, { date = taipeiDate(), now = ne
       captureDelaySeconds: Number.isFinite(delay) ? delay : null,
       timingStatus: snapshot.timingStatus || 'unknown',
       quoteCount: Array.isArray(snapshot.quotes) ? snapshot.quotes.length : 0,
+      quoteFreshness,
       ...quoteRange(snapshot.quotes)
     });
   }
   const openMarkets = entries.filter((entry) => entry.marketStateAtDecision === 'regular');
   const timingWithinTolerance = openMarkets.length > 0 && openMarkets.every((entry) => entry.status === 'decision_window_capture');
+  const dataQualityWithinTolerance = openMarkets.length > 0
+    && openMarkets.every((entry) => entry.status === 'decision_window_capture' && entry.quoteFreshness?.complete === true);
   const [holdingCoverage, fundCoveragePolicy] = await Promise.all([
     readJson(path.join(root, 'data', 'funds', 'coverage', 'latest.json')),
     readJson(path.join(root, 'config', 'policies', 'fund-decision-coverage.json'))
@@ -128,7 +139,7 @@ async function buildTaipeiDecisionManifest(root, { date = taipeiDate(), now = ne
         policy: fundCoveragePolicy
       })
     : {
-        schemaVersion: '1.0', mode: 'shadow_only', scope: 'disclosed_holdings_only',
+        schemaVersion: '1.0', mode: fundCoveragePolicy?.mode || 'formal_gate', scope: 'disclosed_holdings_only',
         status: 'unavailable', reason: 'holding_coverage_or_policy_missing', fundCount: 0, eligibleFundCount: 0, funds: []
       };
   const manifest = {
@@ -140,6 +151,7 @@ async function buildTaipeiDecisionManifest(root, { date = taipeiDate(), now = ne
     generatedAt: now.toISOString(),
     maxOpenMarketDelaySeconds: MAX_DELAY_SECONDS,
     timingWithinTolerance,
+    dataQualityWithinTolerance,
     fundCoverage,
     markets: entries
   };
