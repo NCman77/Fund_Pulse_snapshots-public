@@ -38,7 +38,7 @@
     "market": "eu",
     "status": "stale",
     "reason": "no_verified_raw_snapshot",
-    "updatedAt": "2026-08-04T13:05:34.220Z",
+    "updatedAt": "2026-08-04T15:30:35.399Z",
     "capturedAt": "2026-08-03T15:05:00.397Z",
     "sourcePath": "",
     "producer": null,
@@ -51,8 +51,8 @@
       "failedSymbols": []
     },
     "latestQuoteAt": "2026-08-03T15:04:59.000Z",
-    "freshnessSeconds": 79234,
-    "freshnessEvaluatedAt": "2026-08-04T13:05:34.220Z",
+    "freshnessSeconds": 87935,
+    "freshnessEvaluatedAt": "2026-08-04T15:30:35.399Z",
     "quoteFreshness": null,
     "timezone": "Europe/Paris"
   },
@@ -160,7 +160,7 @@
     "market": "uk",
     "status": "stale",
     "reason": "no_verified_raw_snapshot",
-    "updatedAt": "2026-08-04T13:05:45.666Z",
+    "updatedAt": "2026-08-04T15:30:42.776Z",
     "capturedAt": "2026-08-03T15:05:00.259Z",
     "sourcePath": "",
     "producer": null,
@@ -173,22 +173,44 @@
       "failedSymbols": []
     },
     "latestQuoteAt": "2026-08-03T15:04:59.000Z",
-    "freshnessSeconds": 79245,
-    "freshnessEvaluatedAt": "2026-08-04T13:05:45.666Z",
+    "freshnessSeconds": 87943,
+    "freshnessEvaluatedAt": "2026-08-04T15:30:42.776Z",
     "quoteFreshness": null,
     "timezone": "Europe/London"
   },
   "us": {
     "market": "us",
     "status": "healthy",
-    "updatedAt": "2026-08-03T20:00:34.896Z",
-    "sourcePath": "data/raw/america/us/2026/2026-08-03/regular/producers/s4/2000.json",
-    "capturedAt": "2026-08-03T20:00:00.666Z",
+    "updatedAt": "2026-08-04T15:05:43.228Z",
+    "sourcePath": "data/raw/america/us/2026/2026-07-31/regular/1335.json",
+    "capturedAt": "2026-07-31T13:35:00.544Z",
     "producer": {
-      "id": "s4",
+      "id": "legacy",
       "role": "primary"
     },
     "fallbackReason": "",
+    "coverage": {
+      "status": "legacy_unknown",
+      "complete": null,
+      "expectedSymbolCount": null,
+      "capturedSymbolCount": null,
+      "failedSymbols": []
+    },
+    "latestQuoteAt": "2026-07-31T13:34:59.000Z",
+    "freshnessSeconds": 351043,
+    "freshnessEvaluatedAt": "2026-08-04T15:05:43.228Z",
+    "quoteFreshness": {
+      "status": "fresh",
+      "complete": true,
+      "enforced": true,
+      "referenceAt": "2026-07-31T13:35:00.030Z",
+      "maxAgeSeconds": 300,
+      "oldestQuoteAgeSeconds": 143.03,
+      "newestQuoteAgeSeconds": 1.03,
+      "unreliableQuoteAtSymbols": [],
+      "staleSymbols": [],
+      "futureSymbols": []
+    },
     "timezone": "America/New_York"
   }
 }
