@@ -5,6 +5,7 @@ import { createQuoteProvider } from '../providers/quote-provider.js';
 import { resolveMarketSession } from '../scheduling/market-session-resolver.js';
 import { buildCaptureTiming } from '../scheduling/scheduled-capture-timing.js';
 import { writeSnapshot } from '../storage/snapshot-writer.js';
+import { assessSnapshotQuoteFreshness } from '../quality/quote-freshness.js';
 
 const market = process.argv[2];
 if (!market || !/^[a-z]{2,8}$/.test(market)) {
@@ -56,6 +57,7 @@ try {
   const fxSymbols = JSON.parse(await readFile(path.join(root, 'config', 'public-symbols', 'fx.json'), 'utf8'));
   const holdingMappings = JSON.parse(await readFile(path.join(root, 'config', 'public-holdings', 'approved-holding-symbols.json'), 'utf8'));
   const retryPolicies = JSON.parse(await readFile(path.join(root, 'config', 'policies', 'retry-policy.json'), 'utf8'));
+  const providerPolicy = JSON.parse(await readFile(path.join(root, 'config', 'policies', 'provider-selection.json'), 'utf8'));
   const yahooPolicy = retryPolicies.yahooChart || {};
   const holdingSymbols = (holdingMappings.mappings ?? [])
     .filter((mapping) => mapping.market === market)
@@ -118,6 +120,7 @@ try {
     quotes,
     producer: producerId ? { id: producerId, role: producerRole === 'backup' ? 'backup' : 'primary' } : undefined
   };
+  snapshot.quoteFreshness = assessSnapshotQuoteFreshness(snapshot, providerPolicy.quoteFreshness || {});
   const rawPath = await writeSnapshot(root, snapshot);
   console.log(JSON.stringify({
     market,

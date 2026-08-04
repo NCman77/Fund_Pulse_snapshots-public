@@ -89,8 +89,25 @@ test('keeps the last verified latest when no eligible raw snapshot exists', asyn
     latestQuoteAt: '',
     freshnessSeconds: 86120,
     freshnessEvaluatedAt: '2026-07-28T04:55:20.000Z',
+    quoteFreshness: null,
     timezone: 'Asia/Taipei'
   });
+});
+
+test('does not replace latest with a complete snapshot containing a 20-minute-old quote', async (t) => {
+  const root = await createRoot(t);
+  await mkdir(path.join(root, 'config', 'policies'), { recursive: true });
+  await writeFile(path.join(root, 'config', 'policies', 'provider-selection.json'), JSON.stringify({
+    quoteFreshness: { regularMaxAgeSeconds: 300, maximumFutureSkewSeconds: 120 }
+  }));
+  await writeSnapshot(root, {
+    schemaVersion: '1.2', market: 'tw', region: 'asia', session: 'regular', timingStatus: 'on_time',
+    scheduledAt: '2026-08-04T01:05:00.000Z', capturedAt: '2026-08-04T01:05:10.000Z',
+    quotes: [{ symbol: '2330.TW', quoteAt: '2026-08-04T00:45:00.000Z' }],
+    coverage: { expectedSymbolCount: 1, capturedSymbolCount: 1, failedSymbols: [], complete: true }
+  });
+  const { candidate } = await selectLatestSnapshot(root, 'tw');
+  assert.equal(candidate, null);
 });
 
 test('does not promote an on-time snapshot whose declared symbol coverage is partial', async (t) => {
