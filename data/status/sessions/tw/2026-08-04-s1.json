@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "1.0",
+  "generatedAt": "2026-08-04T02:30:01.211Z",
+  "market": "tw",
+  "sessionName": "s1",
+  "localDate": "2026-08-04",
+  "timezone": "Asia/Taipei",
+  "expectedSlots": [
+    "09:05",
+    "10:00",
+    "10:30"
+  ],
+  "skippedSlots": [],
+  "summary": {
+    "expectedSlotCount": 3,
+    "capturedSlotCount": 2,
+    "onTimeSlotCount": 2,
+    "lateSlotCount": 0,
+    "failedSlotCount": 1,
+    "complete": false,
+    "healthy": false
+  },
+  "slots": [
+    {
+      "slot": "09:05",
+      "scheduledAt": "2026-08-04T01:05:00.000Z",
+      "status": "failed",
+      "attempts": 3,
+      "timingStatus": "",
+      "captureDelaySeconds": null,
+      "error": "Capture failed for tw at 2026-08-04T01:05:00.000Z: [yahoo-collector] Skipping symbol SEC.TW after 3 attempts: Yahoo chart payload is incomplete for SEC.TW (missing timestamp or close series)\n{\"market\":\"tw\",\"status\":\"failed\",\"error\":\"public-quote-collection-failed\"}\n[yahoo-collector] Skipping symbol IX0043.TWO after 3 attempts: Yahoo chart payload is incomplete for IX0043.TWO (missing timestamp or close series)\n[yahoo-collector] Skipping symbol IX0054.TWO after 3 attempts: Yahoo chart payload is incomplete for IX0054.TWO (missing timestamp or close series)\n[yahoo-collector] Skipping symbol EPC.TW after 3 attempts: Yahoo chart payload is incomplete for EPC.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol OTE.TW after 3 attempts: Yahoo chart payload is incomplete for OTE.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 0050.TW after 3 attempts: Yahoo chart payload is incomplete for 0050.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol COI.TW after 3 attempts: Yahoo chart payload is incomplete for COI.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol BIM.TW after 3 attempts: Yahoo chart payload is incomplete for BIM.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 2303.TW after 3 attempts: Yahoo chart payload is incomplete for 2303.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 2327.TW after 3 attempts: Yahoo chart payload is incomplete for 2327.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 2308.TW after 3 attempts: Yahoo chart payload is incomplete for 2308.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 2330.TW after 3 attempts: Yahoo chart payload is incomplete for 2330.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 2345.TW after 3 attempts: Yahoo chart payload is incomplete for 2345.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 2454.TW after 3 attempts: Yahoo chart payload is incomplete for 2454.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 2383.TW after 3 attempts: Yahoo chart payload is incomplete for 2383.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 3026.TW after 3 attempts: Yahoo chart payload is incomplete for 3026.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 3017.TW after 3 attempts: Yahoo chart payload is incomplete for 3017.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 3081.TWO after 3 attempts: Yahoo chart payload is incomplete for 3081.TWO (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 3037.TW after 3 attempts: Yahoo chart payload is incomplete for 3037.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 3167.TW after 3 attempts: Yahoo chart payload is incomplete for 3167.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 3189.TW after 3 attempts: Yahoo chart payload is incomplete for 3189.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 3711.TW after 3 attempts: Yahoo chart payload is incomplete for 3711.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 6223.TWO after 3 attempts: Yahoo chart payload is incomplete for 6223.TWO (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 6274.TWO after 3 attempts: Yahoo chart payload is incomplete for 6274.TWO (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 6488.TWO after 3 attempts: Yahoo chart payload is incomplete for 6488.TWO (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 6531.TW after 3 attempts: Yahoo chart payload is incomplete for 6531.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 2344.TW after 3 attempts: Yahoo chart payload is incomplete for 2344.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 8996.TW after 3 attempts: Yahoo chart payload is incomplete for 8996.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 2368.TW after 3 attempts: Yahoo chart payload is incomplete for 2368.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 6669.TW after 3 attempts: Yahoo chart payload is incomplete for 6669.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 3044.TW after 3 attempts: Yahoo chart payload is incomplete for 3044.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 1303.TW after 3 attempts: Yahoo chart payload is incomplete for 1303.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 2357.TW after 3 attempts: Yahoo chart payload is incomplete for 2357.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 2360.TW after 3 attempts: Yahoo chart payload is incomplete for 2360.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 5347.TWO after 3 attempts: Yahoo chart payload is incomplete for 5347.TWO (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 3036.TW after 3 attempts: Yahoo chart payload is incomplete for 3036.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 3665.TW after 3 attempts: Yahoo chart payload is incomplete for 3665.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 6147.TWO after 3 attempts: Yahoo chart payload is incomplete for 6147.TWO (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 5434.TW after 3 attempts: Yahoo chart payload is incomplete for 5434.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 2408.TW after 3 attempts: Yahoo chart payload is incomplete for 2408.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 3443.TW after 3 attempts: Yahoo chart payload is incomplete for 3443.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 2376.TW after 3 attempts: Yahoo chart payload is incomplete for 2376.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 5274.TWO after 3 attempts: Yahoo chart payload is incomplete for 5274.TWO (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 3653.TW after 3 attempts: Yahoo chart payload is incomplete for 3653.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 6515.TW after 3 attempts: Yahoo chart payload is incomplete for 6515.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 4958.TW after 3 attempts: Yahoo chart payload is incomplete for 4958.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 8358.TWO after 3 attempts: Yahoo chart payload is incomplete for 8358.TWO (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 8046.TW after 3 attempts: Yahoo chart payload is incomplete for 8046.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 3264.TWO after 3 attempts: Yahoo chart payload is incomplete for 3264.TWO (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 2404.TW after 3 attempts: Yahoo chart payload is incomplete for 2404.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 3661.TW after 3 attempts: Yahoo chart payload is incomplete for 3661.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 5289.TWO after 3 attempts: Yahoo chart payload is incomplete for 5289.TWO (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 3481.TW after 3 attempts: Yahoo chart payload is incomplete for 3481.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 5536.TWO after 3 attempts: Yahoo chart payload is incomplete for 5536.TWO (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 8299.TWO after 3 attempts: Yahoo chart payload is incomplete for 8299.TWO (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 2059.TW after 3 attempts: Yahoo chart payload is incomplete for 2059.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 2492.TW after 3 attempts: Yahoo chart payload is incomplete for 2492.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 3090.TW after 3 attempts: Yahoo chart payload is incomplete for 3090.TW (missing timestamp or close series)\n[yahoo-collector] Skipping symbol 7769.TW after 3 attempts: Yahoo chart payload is incomplete for 7769.TW (missing timestamp or close series)"
+    },
+    {
+      "slot": "10:00",
+      "scheduledAt": "2026-08-04T02:00:00.000Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 1,
+      "error": ""
+    },
+    {
+      "slot": "10:30",
+      "scheduledAt": "2026-08-04T02:30:00.000Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 1,
+      "error": ""
+    }
+  ],
+  "producer": {
+    "id": "s1",
+    "role": "primary"
+  }
+}

@@ -19,10 +19,6 @@ const sessionName = String(process.env.SESSION_NAME || 'default').trim() || 'def
 const producerId = String(process.env.CAPTURE_PRODUCER_ID || `primary-${sessionName}`).trim();
 const producerRole = String(process.env.CAPTURE_PRODUCER_ROLE || 'primary').trim() === 'backup' ? 'backup' : 'primary';
 
-if (!/^[a-z]{2,8}$/.test(market)) {
-  throw new Error('Usage: node src/cli/watch-market-session.js <market> --slots=HH:mm,HH:mm');
-}
-
 function sleep(milliseconds) {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
@@ -40,7 +36,7 @@ function parseCaptureOutput(output) {
   return null;
 }
 
-async function runCapture({ scheduledAt }) {
+async function runCapture({ scheduledAt, slot }) {
   return new Promise((resolve, reject) => {
     let output = '';
     let errorOutput = '';
@@ -50,6 +46,7 @@ async function runCapture({ scheduledAt }) {
         ...process.env,
         CAPTURE_SCHEDULE_RULE: 'session-watcher',
         CAPTURE_SCHEDULED_AT: scheduledAt.toISOString(),
+        CAPTURE_SLOT: slot,
         CAPTURE_PRODUCER_ID: producerId,
         CAPTURE_PRODUCER_ROLE: producerRole
       }
@@ -66,9 +63,11 @@ async function runCapture({ scheduledAt }) {
     });
     child.once('error', reject);
     child.once('exit', (code) => {
-      const result = parseCaptureOutput(output);
+      const result = parseCaptureOutput(`${output}\n${errorOutput}`);
       if (code !== 0) {
-        reject(new Error(`Capture failed for ${market} at ${scheduledAt.toISOString()}${errorOutput ? `: ${errorOutput.trim()}` : ''}`));
+        const error = new Error(`Capture failed for ${market} at ${scheduledAt.toISOString()}: ${result?.error || 'capture-process-failed'}`);
+        error.captureResult = result;
+        reject(error);
         return;
       }
       if (result?.status !== 'captured' || !result.path) {
@@ -80,11 +79,25 @@ async function runCapture({ scheduledAt }) {
   });
 }
 
-async function captureSlotWithRetry(root, target) {
+async function captureSlotWithRetry({
+  root,
+  target,
+  marketId = market,
+  runCaptureFn = runCapture,
+  maxAttempts = maxCaptureAttempts,
+  retryDelayMs = retryDelayMilliseconds,
+  sleepFn = sleep
+}) {
+  const approvedMaxAttempts = Math.max(1, Number(maxAttempts) || 1);
+  const approvedRetryDelayMs = Math.max(0, Number(retryDelayMs) || 0);
   let lastError = null;
-  for (let attempt = 1; attempt <= maxCaptureAttempts; attempt += 1) {
+  let lastCollection = null;
+  const diagnostics = [];
+  for (let attempt = 1; attempt <= approvedMaxAttempts; attempt += 1) {
     try {
-      const result = await runCapture(target);
+      const result = await runCaptureFn(target);
+      lastCollection = result.collection || null;
+      diagnostics.push(...(result.diagnostics || []).map((diagnostic) => ({ ...diagnostic, captureAttempt: attempt })));
       const snapshot = JSON.parse(await readFile(path.join(root, result.path), 'utf8'));
       return {
         slot: target.slot,
@@ -92,31 +105,40 @@ async function captureSlotWithRetry(root, target) {
         status: 'captured',
         attempts: attempt,
         timingStatus: snapshot.timingStatus || 'unknown',
-        captureDelaySeconds: snapshot.captureDelaySeconds ?? null
+        captureDelaySeconds: snapshot.captureDelaySeconds ?? null,
+        collection: lastCollection,
+        diagnostics
       };
     } catch (error) {
       lastError = error;
+      lastCollection = error.captureResult?.collection || lastCollection;
+      diagnostics.push(...(error.captureResult?.diagnostics || []).map((diagnostic) => ({ ...diagnostic, captureAttempt: attempt })));
       console.error(JSON.stringify({
-        market,
+        market: marketId,
         status: 'slot-capture-failed',
         slot: target.slot,
         attempt,
-        maxAttempts: maxCaptureAttempts,
+        maxAttempts: approvedMaxAttempts,
         error: error.message
       }));
-      if (attempt < maxCaptureAttempts && retryDelayMilliseconds > 0) await sleep(retryDelayMilliseconds);
+      if (attempt < approvedMaxAttempts && approvedRetryDelayMs > 0) await sleepFn(approvedRetryDelayMs);
     }
   }
   return {
     slot: target.slot,
     scheduledAt: target.scheduledAt.toISOString(),
     status: 'failed',
-    attempts: maxCaptureAttempts,
-    error: lastError?.message || 'Capture failed without an error message'
+    attempts: approvedMaxAttempts,
+    error: lastError?.message || 'Capture failed without an error message',
+    collection: lastCollection,
+    diagnostics
   };
 }
 
 async function main() {
+  if (!/^[a-z]{2,8}$/.test(market)) {
+    throw new Error('Usage: node src/cli/watch-market-session.js <market> --slots=HH:mm,HH:mm');
+  }
   const root = process.cwd();
   const config = JSON.parse(await readFile(path.join(root, 'config', 'markets', `${market}.json`), 'utf8'));
   const plan = buildSessionWatchPlan(config, normalizeSlots(slots));
@@ -159,7 +181,7 @@ async function main() {
       console.log(JSON.stringify({ market, status: 'slot-finished', ...result }));
       continue;
     }
-    const result = await captureSlotWithRetry(root, target);
+    const result = await captureSlotWithRetry({ root, target });
     results.push(result);
     console.log(JSON.stringify({ market, status: 'slot-finished', ...result }));
   }
@@ -174,4 +196,7 @@ async function main() {
   if (!report.summary.healthy) process.exitCode = 1;
 }
 
-await main();
+const isDirectRun = process.argv[1] ? path.resolve(process.argv[1]) === __filename : false;
+if (isDirectRun) await main();
+
+export { captureSlotWithRetry, main, parseCaptureOutput };

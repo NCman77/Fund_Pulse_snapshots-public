@@ -48,3 +48,29 @@ test('records a missed late-start slot without treating it as a captured snapsho
   assert.equal(report.summary.failedSlotCount, 1);
   assert.equal(report.summary.healthy, false);
 });
+
+test('persists sanitized quote coverage and collector diagnostics for each slot', () => {
+  const report = buildSessionCaptureReport({
+    market: 'jp', sessionName: 'morning', plan: { ...plan, slots: ['09:05'] },
+    results: [{
+      slot: '09:05', status: 'captured', timingStatus: 'on_time', attempts: 1,
+      collection: {
+        provider: 'yahoo-finance', endpointType: 'chart',
+        expectedSymbolCount: 2, capturedSymbolCount: 1, failedSymbols: ['MISSING.T']
+      },
+      diagnostics: [{
+        provider: 'yahoo-finance', endpointType: 'chart', symbol: 'MISSING.T',
+        attempt: 3, maxAttempts: 3, errorClass: 'schema_error', schemaStatus: 'missing_close',
+        httpStatus: 200, retryable: true, backoffMilliseconds: 0,
+        captureSlot: '09:05', workflowRunId: '123', workflowRunAttempt: '1', producerId: 'primary-morning'
+      }]
+    }]
+  });
+
+  assert.equal(report.schemaVersion, '1.1');
+  assert.deepEqual(report.slots[0].collection.failedSymbols, ['MISSING.T']);
+  assert.equal(report.slots[0].diagnostics[0].schemaStatus, 'missing_close');
+  assert.equal(report.summary.partialSlotCount, 1);
+  assert.equal(report.summary.complete, false);
+  assert.equal(report.summary.healthy, false);
+});
