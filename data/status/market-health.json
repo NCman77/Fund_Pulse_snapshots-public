@@ -2,11 +2,11 @@
   "cn": {
     "market": "cn",
     "status": "healthy",
-    "updatedAt": "2026-08-04T03:30:22.254Z",
-    "sourcePath": "data/raw/asia/cn/2026/2026-08-04/regular/producers/s2/0330.json",
-    "capturedAt": "2026-08-04T03:30:03.087Z",
+    "updatedAt": "2026-08-04T05:05:48.330Z",
+    "sourcePath": "data/raw/asia/cn/2026/2026-08-04/regular/producers/s1/0135.json",
+    "capturedAt": "2026-08-04T01:35:02.717Z",
     "producer": {
-      "id": "s2",
+      "id": "s1",
       "role": "primary"
     },
     "fallbackReason": "",
@@ -17,9 +17,21 @@
       "capturedSymbolCount": null,
       "failedSymbols": []
     },
-    "latestQuoteAt": "2026-08-04T03:29:58.000Z",
-    "freshnessSeconds": 19,
-    "freshnessEvaluatedAt": "2026-08-04T03:30:22.254Z",
+    "latestQuoteAt": "2026-08-04T01:34:59.000Z",
+    "freshnessSeconds": 12646,
+    "freshnessEvaluatedAt": "2026-08-04T05:05:48.330Z",
+    "quoteFreshness": {
+      "status": "fresh",
+      "complete": true,
+      "enforced": true,
+      "referenceAt": "2026-08-04T01:35:00.000Z",
+      "maxAgeSeconds": 300,
+      "oldestQuoteAgeSeconds": 57,
+      "newestQuoteAgeSeconds": 1,
+      "unreliableQuoteAtSymbols": [],
+      "staleSymbols": [],
+      "futureSymbols": []
+    },
     "timezone": "Asia/Shanghai"
   },
   "eu": {
@@ -29,7 +41,7 @@
   "jp": {
     "market": "jp",
     "status": "stale",
-    "updatedAt": "2026-08-04T04:55:44.998Z",
+    "updatedAt": "2026-08-04T05:05:23.731Z",
     "sourcePath": "data/raw/asia/jp/2026/2026-08-04/regular/producers/s3/0435.json",
     "capturedAt": "2026-08-04T04:35:01.119Z",
     "producer": {
@@ -45,8 +57,8 @@
       "failedSymbols": []
     },
     "latestQuoteAt": "2026-08-04T04:34:55.000Z",
-    "freshnessSeconds": 1244,
-    "freshnessEvaluatedAt": "2026-08-04T04:55:44.998Z",
+    "freshnessSeconds": 1823,
+    "freshnessEvaluatedAt": "2026-08-04T05:05:23.731Z",
     "timezone": "Asia/Tokyo",
     "reason": "no_verified_raw_snapshot",
     "quoteFreshness": null
@@ -54,7 +66,7 @@
   "kr": {
     "market": "kr",
     "status": "stale",
-    "updatedAt": "2026-08-04T04:55:48.543Z",
+    "updatedAt": "2026-08-04T05:05:45.094Z",
     "sourcePath": "data/raw/asia/kr/2026/2026-08-04/regular/producers/s3/0435.json",
     "capturedAt": "2026-08-04T04:35:00.464Z",
     "producer": {
@@ -70,23 +82,23 @@
       "failedSymbols": []
     },
     "latestQuoteAt": "2026-08-04T04:34:59.000Z",
-    "freshnessSeconds": 1248,
-    "freshnessEvaluatedAt": "2026-08-04T04:55:48.543Z",
+    "freshnessSeconds": 1845,
+    "freshnessEvaluatedAt": "2026-08-04T05:05:45.094Z",
     "timezone": "Asia/Seoul",
     "reason": "no_verified_raw_snapshot",
     "quoteFreshness": null
   },
   "sg": {
     "market": "sg",
-    "status": "healthy",
-    "updatedAt": "2026-08-04T04:00:56.767Z",
+    "status": "stale",
+    "updatedAt": "2026-08-04T05:05:50.923Z",
     "sourcePath": "data/raw/asia/sg/2026/2026-08-04/regular/producers/s2/0400.json",
     "capturedAt": "2026-08-04T04:00:00.453Z",
     "producer": {
       "id": "s2",
       "role": "primary"
     },
-    "fallbackReason": "",
+    "fallbackReason": "no_verified_raw_snapshot",
     "coverage": {
       "status": "complete",
       "complete": true,
@@ -95,14 +107,16 @@
       "failedSymbols": []
     },
     "latestQuoteAt": "2026-08-04T03:59:59.000Z",
-    "freshnessSeconds": 56,
-    "freshnessEvaluatedAt": "2026-08-04T04:00:56.767Z",
-    "timezone": "Asia/Singapore"
+    "freshnessSeconds": 3950,
+    "freshnessEvaluatedAt": "2026-08-04T05:05:50.923Z",
+    "timezone": "Asia/Singapore",
+    "reason": "no_verified_raw_snapshot",
+    "quoteFreshness": null
   },
   "tw": {
     "market": "tw",
     "status": "stale",
-    "updatedAt": "2026-08-04T04:55:40.368Z",
+    "updatedAt": "2026-08-04T05:00:51.191Z",
     "sourcePath": "data/raw/asia/tw/2026/2026-08-04/regular/producers/s2/0430.json",
     "capturedAt": "2026-08-04T04:30:03.504Z",
     "producer": {
@@ -118,8 +132,8 @@
       "failedSymbols": []
     },
     "latestQuoteAt": "2026-08-04T04:30:02.000Z",
-    "freshnessSeconds": 1537,
-    "freshnessEvaluatedAt": "2026-08-04T04:55:40.368Z",
+    "freshnessSeconds": 1848,
+    "freshnessEvaluatedAt": "2026-08-04T05:00:51.191Z",
     "timezone": "Asia/Taipei",
     "reason": "no_verified_raw_snapshot",
     "quoteFreshness": null
