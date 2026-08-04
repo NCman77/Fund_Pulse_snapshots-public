@@ -1,0 +1,58 @@
+name: Build Taipei slot training manifests
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Build immutable, per-slot training evidence only after Taiwan's final
+    # 13:30 capture has had time to persist.
+    - cron: '45 13 * * 1-5'
+      timezone: Asia/Taipei
+
+permissions:
+  contents: write
+
+concurrency:
+  group: taipei-slot-training-manifests
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run validate
+      - name: Build and persist slot manifests
+        run: |
+          for attempt in 1 2 3 4 5 6; do
+            if ! git fetch origin main; then
+              sleep "$((attempt * 3 + RANDOM % 4))"
+              continue
+            fi
+            # Preserve a prior local manifest commit if a concurrent public-data
+            # writer advanced main; merge it and retry the bounded publication.
+            if ! git merge --no-edit origin/main; then
+              echo "Unable to merge the latest main before rebuilding manifests" >&2
+              exit 1
+            fi
+            npm run build:decision-slot-manifests
+            git add -- data/decision-snapshots/
+            if git diff --cached --quiet; then
+              if git push origin HEAD:main; then exit 0; fi
+              sleep "$((attempt * 3 + RANDOM % 4))"
+              continue
+            fi
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "capture: Taipei slot training manifests"
+            if git push origin HEAD:main; then exit 0; fi
+            sleep "$((attempt * 3 + RANDOM % 4))"
+          done
+          echo "Unable to publish Taipei slot training manifests after bounded retries" >&2
+          exit 1
