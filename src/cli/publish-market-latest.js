@@ -16,6 +16,15 @@ async function walkJson(directory) {
   }))).flat();
 }
 
+async function readJson(filePath, fallback = null) {
+  try {
+    return JSON.parse(await readFile(filePath, 'utf8'));
+  } catch (error) {
+    if (error.code === 'ENOENT') return fallback;
+    throw error;
+  }
+}
+
 function candidateRank(candidate) {
   return [candidate.scheduledMs, candidate.role === 'primary' ? 1 : 0, candidate.capturedMs];
 }
@@ -46,33 +55,55 @@ async function selectLatestSnapshot(rootDirectory, marketId) {
   return { config, candidate: candidates.at(-1) || null };
 }
 
-async function main() {
-  if (!/^[a-z]{2,8}$/.test(market)) throw new Error('Usage: node src/cli/publish-market-latest.js <market>');
-  const { config, candidate } = await selectLatestSnapshot(root, market);
+async function publishMarketLatest(rootDirectory, marketId, { now = new Date() } = {}) {
+  const { config, candidate } = await selectLatestSnapshot(rootDirectory, marketId);
+  const publishedAt = new Date(now).toISOString();
   if (!candidate) {
-    console.log(JSON.stringify({ market, status: 'stale', reason: 'no_verified_raw_snapshot' }));
-    return;
+    const latestPath = path.join(rootDirectory, 'data', 'latest', `${marketId}.json`);
+    const statusPath = path.join(rootDirectory, 'data', 'status', 'markets', `${marketId}.json`);
+    const [previousLatest, previousStatus] = await Promise.all([
+      readJson(latestPath),
+      readJson(statusPath, {})
+    ]);
+    await writeJsonAtomically(statusPath, {
+      ...previousStatus,
+      market: marketId,
+      status: 'stale',
+      reason: 'no_verified_raw_snapshot',
+      updatedAt: publishedAt,
+      capturedAt: previousLatest?.capturedAt || previousStatus?.capturedAt || null,
+      sourcePath: previousLatest?.verification?.sourcePath || previousStatus?.sourcePath || '',
+      producer: previousLatest?.verification?.producer || previousStatus?.producer || null,
+      fallbackReason: 'no_verified_raw_snapshot',
+      timezone: config.timezone
+    });
+    return { market: marketId, status: 'stale', reason: 'no_verified_raw_snapshot' };
   }
-  const sourcePath = path.relative(root, candidate.filePath).split(path.sep).join('/');
+  const sourcePath = path.relative(rootDirectory, candidate.filePath).split(path.sep).join('/');
   const latest = {
     ...candidate.snapshot,
-    publishedAt: new Date().toISOString(),
+    publishedAt,
     verification: {
       status: 'verified', sourcePath, sourceSha256: createHash('sha256').update(candidate.content).digest('hex'),
       producer: candidate.snapshot.producer || { id: 'legacy', role: candidate.role },
       fallbackReason: candidate.role === 'backup' ? 'primary_missing_or_unverified_for_slot' : ''
     }
   };
-  await writeJsonAtomically(path.join(root, 'data', 'latest', `${market}.json`), latest);
-  await writeJsonAtomically(path.join(root, 'data', 'status', 'markets', `${market}.json`), {
-    market, status: 'healthy', updatedAt: latest.publishedAt, sourcePath,
+  await writeJsonAtomically(path.join(rootDirectory, 'data', 'latest', `${marketId}.json`), latest);
+  await writeJsonAtomically(path.join(rootDirectory, 'data', 'status', 'markets', `${marketId}.json`), {
+    market: marketId, status: 'healthy', updatedAt: latest.publishedAt, sourcePath,
     capturedAt: latest.capturedAt, producer: latest.verification.producer, fallbackReason: latest.verification.fallbackReason,
     timezone: config.timezone
   });
-  console.log(JSON.stringify({ market, status: 'published', sourcePath, producer: latest.verification.producer }));
+  return { market: marketId, status: 'published', sourcePath, producer: latest.verification.producer };
+}
+
+async function main() {
+  if (!/^[a-z]{2,8}$/.test(market)) throw new Error('Usage: node src/cli/publish-market-latest.js <market>');
+  console.log(JSON.stringify(await publishMarketLatest(root, market)));
 }
 
 const isDirectRun = process.argv[1] ? path.resolve(process.argv[1]) === fileURLToPath(import.meta.url) : false;
 if (isDirectRun) await main();
 
-export { compareCandidates, main, selectLatestSnapshot };
+export { compareCandidates, main, publishMarketLatest, selectLatestSnapshot };
