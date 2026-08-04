@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "liveMode": "primary_only",
+  "primary": {
+    "id": "yahoo-finance",
+    "endpointType": "chart"
+  },
+  "backup": {
+    "status": "not_configured",
+    "activationRequirement": "licensed_independent_api_and_shadow_acceptance"
+  },
+  "criticalDecisionSlot": {
+    "hedgeDelayMilliseconds": 7000,
+    "hardDeadlineSeconds": 55,
+    "requireReliableQuoteAt": true
+  }
+}

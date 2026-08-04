@@ -31,23 +31,28 @@ jobs:
           MARKET: ${{ inputs.market }}
           GH_TOKEN: ${{ github.token }}
         run: |
-          for attempt in 1 2 3; do
-            git fetch origin main
-            git reset --hard origin/main
-            npm run publish:market-latest -- "$MARKET"
-            git add -- "data/latest/$MARKET.json" "data/status/markets/$MARKET.json"
-            if git diff --cached --quiet; then exit 0; fi
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git commit -m "publish: verified $MARKET latest snapshot"
-            if git push origin HEAD:main; then
-              for dispatch_attempt in 1 2 3; do
-                if gh workflow run publish-market-health.yml; then exit 0; fi
-                sleep "$((dispatch_attempt * 5))"
-              done
-              echo "Unable to dispatch aggregate market health after three attempts" >&2
-              exit 1
+          for attempt in 1 2 3 4 5 6; do
+            if ! git fetch origin main; then
+              echo "$MARKET latest push attempt $attempt could not fetch origin/main" >&2
+            else
+              git reset --hard origin/main
+              npm run publish:market-latest -- "$MARKET"
+              git add -- "data/latest/$MARKET.json" "data/status/markets/$MARKET.json"
+              if git diff --cached --quiet; then exit 0; fi
+              git config user.name "github-actions[bot]"
+              git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+              git commit -m "publish: verified $MARKET latest snapshot"
+              if git push origin HEAD:main; then
+                for dispatch_attempt in 1 2 3; do
+                  if gh workflow run publish-market-health.yml; then exit 0; fi
+                  sleep "$((dispatch_attempt * 5))"
+                done
+                echo "Unable to dispatch aggregate market health after three attempts" >&2
+                exit 1
+              fi
+              echo "$MARKET latest push attempt $attempt lost a branch race; rebuilding" >&2
             fi
-            sleep "$((attempt * 5))"
+            sleep "$((attempt * 3 + RANDOM % 4))"
           done
+          echo "Unable to publish $MARKET latest after bounded retries" >&2
           exit 1
