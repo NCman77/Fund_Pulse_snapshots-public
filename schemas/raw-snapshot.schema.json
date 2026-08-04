@@ -17,6 +17,37 @@
     "scheduledAt": { "type": ["string", "null"], "format": "date-time" },
     "captureDelaySeconds": { "type": ["number", "null"] },
     "timingStatus": { "type": "string", "enum": ["on_time", "late", "manual_or_unknown"] },
+    "provider": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "endpointType"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "endpointType": { "type": "string", "minLength": 1 }
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "endpointType", "expectedSymbolCount", "capturedSymbolCount", "failedSymbols", "complete"],
+      "properties": {
+        "provider": { "type": "string", "minLength": 1 },
+        "endpointType": { "type": "string", "minLength": 1 },
+        "expectedSymbolCount": { "type": "integer", "minimum": 0 },
+        "capturedSymbolCount": { "type": "integer", "minimum": 0 },
+        "failedSymbols": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "complete": { "type": "boolean" }
+      }
+    },
+    "producer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "role"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,63}$" },
+        "role": { "type": "string", "enum": ["primary", "backup"] }
+      }
+    },
     "quotes": {
       "type": "array",
       "items": {

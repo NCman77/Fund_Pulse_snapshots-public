@@ -3,6 +3,7 @@ import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { resolveMarketSession } from '../scheduling/market-session-resolver.js';
+import { buildFundDecisionCoverage } from '../decision/fund-decision-coverage.js';
 import { writeJsonAtomically } from '../storage/snapshot-writer.js';
 
 const MARKET_IDS = ['tw', 'jp', 'kr', 'cn', 'sg', 'uk', 'eu', 'us'];
@@ -35,6 +36,13 @@ async function walkJson(directory) {
   return nested.flat();
 }
 
+async function readJson(filePath, fallback = null) {
+  try { return JSON.parse(await readFile(filePath, 'utf8')); } catch (error) {
+    if (error.code === 'ENOENT') return fallback;
+    throw error;
+  }
+}
+
 async function findLatestSnapshot(root, market, config, cutoffMs) {
   const directory = path.join(root, 'data', 'raw', config.region, market);
   const candidates = [];
@@ -42,10 +50,21 @@ async function findLatestSnapshot(root, market, config, cutoffMs) {
     const content = await readFile(filePath);
     const snapshot = JSON.parse(content);
     const capturedMs = new Date(snapshot?.capturedAt || '').getTime();
-    if (snapshot?.market !== market || !Number.isFinite(capturedMs) || capturedMs > cutoffMs) continue;
-    candidates.push({ filePath, content, snapshot, capturedMs, config });
+    const scheduledMs = new Date(snapshot?.scheduledAt || snapshot?.capturedAt || '').getTime();
+    const coverageComplete = snapshot?.coverage === undefined || snapshot?.coverage?.complete === true;
+    if (snapshot?.market !== market || !Number.isFinite(capturedMs) || !Number.isFinite(scheduledMs)
+      || capturedMs > cutoffMs || scheduledMs > cutoffMs || !coverageComplete) continue;
+    candidates.push({
+      filePath, content, snapshot, capturedMs, scheduledMs, config,
+      role: snapshot?.producer?.role === 'backup' ? 'backup' : 'primary'
+    });
   }
-  candidates.sort((left, right) => left.capturedMs - right.capturedMs);
+  candidates.sort((left, right) => (
+    left.scheduledMs - right.scheduledMs
+      || (left.role === right.role ? 0 : left.role === 'primary' ? 1 : -1)
+      || left.capturedMs - right.capturedMs
+      || left.filePath.localeCompare(right.filePath)
+  ));
   return candidates.at(-1) || null;
 }
 
@@ -95,6 +114,23 @@ async function buildTaipeiDecisionManifest(root, { date = taipeiDate(), now = ne
   }
   const openMarkets = entries.filter((entry) => entry.marketStateAtDecision === 'regular');
   const timingWithinTolerance = openMarkets.length > 0 && openMarkets.every((entry) => entry.status === 'decision_window_capture');
+  const [holdingCoverage, fundCoveragePolicy] = await Promise.all([
+    readJson(path.join(root, 'data', 'funds', 'coverage', 'latest.json')),
+    readJson(path.join(root, 'config', 'policies', 'fund-decision-coverage.json'))
+  ]);
+  const fundCoverage = holdingCoverage && fundCoveragePolicy
+    ? await buildFundDecisionCoverage({
+        root,
+        decisionAt: at.toISOString(),
+        decisionWindowEndsAt: cutoff.toISOString(),
+        marketEntries: entries,
+        holdingCoverage,
+        policy: fundCoveragePolicy
+      })
+    : {
+        schemaVersion: '1.0', mode: 'shadow_only', scope: 'disclosed_holdings_only',
+        status: 'unavailable', reason: 'holding_coverage_or_policy_missing', fundCount: 0, eligibleFundCount: 0, funds: []
+      };
   const manifest = {
     schemaVersion: '1.0',
     basis: 'taipei_1255_pre_order',
@@ -104,6 +140,7 @@ async function buildTaipeiDecisionManifest(root, { date = taipeiDate(), now = ne
     generatedAt: now.toISOString(),
     maxOpenMarketDelaySeconds: MAX_DELAY_SECONDS,
     timingWithinTolerance,
+    fundCoverage,
     markets: entries
   };
   const target = path.join(root, 'data', 'decision-snapshots', date.slice(0, 4), date, 'taipei-1255.json');

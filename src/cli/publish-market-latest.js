@@ -47,12 +47,42 @@ async function selectLatestSnapshot(rootDirectory, marketId) {
     const snapshot = JSON.parse(content);
     const capturedMs = new Date(snapshot?.capturedAt || '').getTime();
     const scheduledMs = new Date(snapshot?.scheduledAt || snapshot?.capturedAt || '').getTime();
-    if (snapshot?.market !== marketId || snapshot?.timingStatus !== 'on_time' || !Array.isArray(snapshot?.quotes)
+    const coverageComplete = snapshot?.coverage === undefined || snapshot?.coverage?.complete === true;
+    if (snapshot?.market !== marketId || snapshot?.timingStatus !== 'on_time' || !Array.isArray(snapshot?.quotes) || !coverageComplete
       || !Number.isFinite(capturedMs) || !Number.isFinite(scheduledMs)) continue;
     candidates.push({ filePath, content, snapshot, capturedMs, scheduledMs, role: snapshot?.producer?.role === 'backup' ? 'backup' : 'primary' });
   }
   candidates.sort(compareCandidates);
   return { config, candidate: candidates.at(-1) || null };
+}
+
+function describeCoverage(snapshot) {
+  if (!snapshot?.coverage || typeof snapshot.coverage !== 'object') {
+    return { status: 'legacy_unknown', complete: null, expectedSymbolCount: null, capturedSymbolCount: null, failedSymbols: [] };
+  }
+  return {
+    status: snapshot.coverage.complete === true ? 'complete' : 'partial',
+    complete: snapshot.coverage.complete === true,
+    expectedSymbolCount: Number(snapshot.coverage.expectedSymbolCount || 0),
+    capturedSymbolCount: Number(snapshot.coverage.capturedSymbolCount || 0),
+    failedSymbols: Array.isArray(snapshot.coverage.failedSymbols) ? snapshot.coverage.failedSymbols : []
+  };
+}
+
+function latestQuoteAt(snapshot) {
+  return (snapshot?.quotes || [])
+    .map((quote) => String(quote?.quoteAt || ''))
+    .filter((value) => Number.isFinite(new Date(value).getTime()))
+    .sort()
+    .at(-1) || '';
+}
+
+function freshnessSeconds(capturedAt, now) {
+  const capturedMs = new Date(capturedAt || '').getTime();
+  const nowMs = new Date(now).getTime();
+  return Number.isFinite(capturedMs) && Number.isFinite(nowMs)
+    ? Math.max(0, Math.round((nowMs - capturedMs) / 1_000))
+    : null;
 }
 
 async function publishMarketLatest(rootDirectory, marketId, { now = new Date() } = {}) {
@@ -75,24 +105,36 @@ async function publishMarketLatest(rootDirectory, marketId, { now = new Date() }
       sourcePath: previousLatest?.verification?.sourcePath || previousStatus?.sourcePath || '',
       producer: previousLatest?.verification?.producer || previousStatus?.producer || null,
       fallbackReason: 'no_verified_raw_snapshot',
+      coverage: previousLatest?.verification?.coverage || previousStatus?.coverage || describeCoverage(previousLatest),
+      latestQuoteAt: previousLatest?.verification?.latestQuoteAt || previousStatus?.latestQuoteAt || latestQuoteAt(previousLatest),
+      freshnessSeconds: freshnessSeconds(previousLatest?.capturedAt || previousStatus?.capturedAt, now),
+      freshnessEvaluatedAt: publishedAt,
       timezone: config.timezone
     });
     return { market: marketId, status: 'stale', reason: 'no_verified_raw_snapshot' };
   }
   const sourcePath = path.relative(rootDirectory, candidate.filePath).split(path.sep).join('/');
+  const coverage = describeCoverage(candidate.snapshot);
+  const quoteAt = latestQuoteAt(candidate.snapshot);
+  const ageSeconds = freshnessSeconds(candidate.snapshot.capturedAt, now);
   const latest = {
     ...candidate.snapshot,
     publishedAt,
     verification: {
       status: 'verified', sourcePath, sourceSha256: createHash('sha256').update(candidate.content).digest('hex'),
       producer: candidate.snapshot.producer || { id: 'legacy', role: candidate.role },
-      fallbackReason: candidate.role === 'backup' ? 'primary_missing_or_unverified_for_slot' : ''
+      fallbackReason: candidate.role === 'backup' ? 'primary_missing_or_unverified_for_slot' : '',
+      coverage,
+      latestQuoteAt: quoteAt,
+      freshnessSeconds: ageSeconds,
+      freshnessEvaluatedAt: publishedAt
     }
   };
   await writeJsonAtomically(path.join(rootDirectory, 'data', 'latest', `${marketId}.json`), latest);
   await writeJsonAtomically(path.join(rootDirectory, 'data', 'status', 'markets', `${marketId}.json`), {
     market: marketId, status: 'healthy', updatedAt: latest.publishedAt, sourcePath,
     capturedAt: latest.capturedAt, producer: latest.verification.producer, fallbackReason: latest.verification.fallbackReason,
+    coverage, latestQuoteAt: quoteAt, freshnessSeconds: ageSeconds, freshnessEvaluatedAt: publishedAt,
     timezone: config.timezone
   });
   return { market: marketId, status: 'published', sourcePath, producer: latest.verification.producer };
@@ -106,4 +148,4 @@ async function main() {
 const isDirectRun = process.argv[1] ? path.resolve(process.argv[1]) === fileURLToPath(import.meta.url) : false;
 if (isDirectRun) await main();
 
-export { compareCandidates, main, publishMarketLatest, selectLatestSnapshot };
+export { compareCandidates, describeCoverage, freshnessSeconds, latestQuoteAt, main, publishMarketLatest, selectLatestSnapshot };
