@@ -41,6 +41,24 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          persist_immutable_snapshots() {
+            for push_attempt in 1 2 3 4 5 6; do
+              if ! git fetch origin main; then
+                echo "Immutable raw push attempt $push_attempt could not fetch origin/main" >&2
+              elif ! git merge --no-edit origin/main; then
+                git merge --abort 2>/dev/null || true
+                echo "Immutable raw snapshots conflict with origin/main; refusing to overwrite" >&2
+                return 1
+              elif git push origin HEAD:main; then
+                return 0
+              else
+                echo "Immutable raw push attempt $push_attempt lost a branch race; retrying" >&2
+              fi
+              sleep "$((push_attempt * 3 + RANDOM % 4))"
+            done
+            echo "Unable to persist immutable raw snapshots after bounded retries" >&2
+            return 1
+          }
           dispatch_latest() {
             local market="$1"
             for dispatch_attempt in 1 2 3; do
@@ -55,14 +73,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/raw/
           git commit -m "capture: approved public market snapshots"
-          if ! git push origin HEAD:main; then
-            git fetch origin main
-            if ! git merge --no-edit origin/main || ! git push origin HEAD:main; then
-              git merge --abort 2>/dev/null || true
-              echo "Unable to merge an immutable raw snapshot commit safely" >&2
-              exit 1
-            fi
-          fi
+          persist_immutable_snapshots || exit 1
           for market_config in config/markets/*.json; do
             dispatch_latest "$(basename "$market_config" .json)" || exit 1
           done

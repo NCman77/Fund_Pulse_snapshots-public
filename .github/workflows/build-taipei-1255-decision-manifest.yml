@@ -30,14 +30,20 @@ jobs:
       - run: npm run build:decision-manifest
       - name: Commit decision manifest
         run: |
-          for attempt in 1 2 3; do
-            git fetch origin main && git reset --hard origin/main
-            npm run build:decision-manifest
-            git add -- data/decision-snapshots/
-            if git diff --cached --quiet; then exit 0; fi
-            git config user.name "github-actions[bot]"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git commit -m "capture: Taipei 12:55 decision manifest"
-            if git push origin HEAD:main; then exit 0; fi
-            sleep "$((attempt * 5))"
+          for attempt in 1 2 3 4 5 6; do
+            if ! git fetch origin main; then
+              echo "Decision manifest push attempt $attempt could not fetch origin/main" >&2
+            else
+              git reset --hard origin/main
+              npm run build:decision-manifest
+              git add -- data/decision-snapshots/
+              if git diff --cached --quiet; then exit 0; fi
+              git config user.name "github-actions[bot]"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+              git commit -m "capture: Taipei 12:55 decision manifest"
+              if git push origin HEAD:main; then exit 0; fi
+              echo "Decision manifest push attempt $attempt lost a branch race; rebuilding" >&2
+            fi
+            sleep "$((attempt * 3 + RANDOM % 4))"
           done
+          echo "Unable to publish the decision manifest after bounded retries" >&2
           exit 1

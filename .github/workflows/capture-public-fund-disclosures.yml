@@ -30,14 +30,20 @@ jobs:
       - run: npm run build:holding-coverage
       - name: Commit public fund disclosures
         run: |
-          for attempt in 1 2 3; do
-            git fetch origin main && git reset --hard origin/main
-            npm run capture:funds && npm run build:holding-coverage
-            git add -- data/funds/ data/status/fund-disclosure-health.json data/status/holding-mapping-health.json
-            if git diff --cached --quiet; then exit 0; fi
-            git config user.name "github-actions[bot]"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git commit -m "capture: approved public fund disclosures"
-            if git push origin HEAD:main; then exit 0; fi
-            sleep "$((attempt * 5))"
+          for attempt in 1 2 3 4 5 6; do
+            if ! git fetch origin main; then
+              echo "Disclosure push attempt $attempt could not fetch origin/main" >&2
+            else
+              git reset --hard origin/main
+              npm run capture:funds && npm run build:holding-coverage
+              git add -- data/funds/ data/status/fund-disclosure-health.json data/status/holding-mapping-health.json
+              if git diff --cached --quiet; then exit 0; fi
+              git config user.name "github-actions[bot]"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+              git commit -m "capture: approved public fund disclosures"
+              if git push origin HEAD:main; then exit 0; fi
+              echo "Disclosure push attempt $attempt lost a branch race; rebuilding" >&2
+            fi
+            sleep "$((attempt * 3 + RANDOM % 4))"
           done
+          echo "Unable to publish public fund disclosures after bounded retries" >&2
           exit 1

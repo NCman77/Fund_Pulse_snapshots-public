@@ -52,6 +52,8 @@ jobs:
           market_region="$(node --input-type=module -e 'import { readFileSync } from "node:fs"; const config = JSON.parse(readFileSync(`config/markets/${process.env.MARKET}.json`, "utf8")); process.stdout.write(config.region);')"
           raw_path="data/raw/$market_region/$MARKET/"
           session_status_path="data/status/sessions/$MARKET/"
+          capture_commit_pending=0
+          publisher_pending=0
 
           commit_snapshots() {
             # The aggregate health file is shared by market workflows. Each
@@ -70,39 +72,67 @@ jobs:
 
             stage_if_present "$raw_path"
             stage_if_present "$session_status_path"
-            if git diff --cached --quiet; then
-              return 0
+            if ! git diff --cached --quiet; then
+              git config user.name "github-actions[bot]"
+              git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+              if ! git commit -m "capture: $MARKET public session snapshot"; then
+                return 1
+              fi
+              capture_commit_pending=1
             fi
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git commit -m "capture: $MARKET public session snapshot"
-            if ! git push origin HEAD:main; then
-              # This watcher owns only immutable producer raw files and its
-              # own session report, so a normal merge is safe. Do not rebase
-              # and resend a stale commit containing shared mutable JSON.
-              git fetch origin main
-              if ! git merge --no-edit origin/main || ! git push origin HEAD:main; then
+
+            if [ "$capture_commit_pending" -eq 1 ]; then
+              for push_attempt in 1 2 3 4 5 6; do
+                if ! git fetch origin main; then
+                  sleep "$((push_attempt * 2 + RANDOM % 3))"
+                  continue
+                fi
+                # Watchers stage only producer-isolated raw and session report
+                # paths. Merge remote progress before every push so a second
+                # non-fast-forward race is retried instead of killing capture.
+                if ! git merge --no-edit origin/main; then
+                  git merge --abort 2>/dev/null || true
+                  return 1
+                fi
+                if git push origin HEAD:main; then
+                  capture_commit_pending=0
+                  publisher_pending=1
+                  break
+                fi
+                sleep "$((push_attempt * 2 + RANDOM % 3))"
+              done
+              if [ "$capture_commit_pending" -eq 1 ]; then
                 git merge --abort 2>/dev/null || true
                 return 1
               fi
             fi
-            for dispatch_attempt in 1 2 3; do
-              if gh workflow run publish-market-latest.yml -f market="$MARKET"; then
-                return 0
-              fi
-              sleep "$((dispatch_attempt * 5))"
-            done
-            echo "Unable to dispatch the $MARKET latest publisher after three attempts" >&2
-            return 1
+
+            if [ "$publisher_pending" -eq 1 ]; then
+              for dispatch_attempt in 1 2 3; do
+                if gh workflow run publish-market-latest.yml -f market="$MARKET"; then
+                  publisher_pending=0
+                  return 0
+                fi
+                sleep "$((dispatch_attempt * 5))"
+              done
+              echo "Unable to dispatch the $MARKET latest publisher after three attempts" >&2
+              return 1
+            fi
+            return 0
           }
 
           node src/cli/watch-market-session.js "$MARKET" --slots="$CAPTURE_SLOTS" &
           watcher_pid=$!
           while kill -0 "$watcher_pid" 2>/dev/null; do
             sleep 30
-            commit_snapshots || exit 1
+            if ! commit_snapshots; then
+              echo "checkpoint persistence deferred for $MARKET; watcher remains active and the next checkpoint will retry" >&2
+            fi
           done
           watcher_status=0
           wait "$watcher_pid" || watcher_status=$?
-          commit_snapshots || exit 1
+          if ! commit_snapshots; then
+            echo "final capture flush failed for $MARKET" >&2
+            exit 1
+          fi
           exit "$watcher_status"
