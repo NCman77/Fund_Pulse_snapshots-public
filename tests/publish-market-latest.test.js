@@ -8,7 +8,7 @@ import { publishMarketLatest, selectLatestSnapshot } from '../src/cli/publish-ma
 
 async function createRoot(t, { market = 'tw', region = 'asia', timezone = 'Asia/Taipei' } = {}) {
   const root = await mkdtemp(path.join(os.tmpdir(), 'latest-publisher-'));
-  t.after(async () => rm(root, { recursive: true, force: true }));
+  t.after(async () => rm(root, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 }));
   await mkdir(path.join(root, 'config', 'markets'), { recursive: true });
   await writeFile(path.join(root, 'config', 'markets', `${market}.json`), JSON.stringify({
     region,
