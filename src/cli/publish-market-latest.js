@@ -3,6 +3,7 @@ import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { writeJsonAtomically } from '../storage/snapshot-writer.js';
+import { assessSnapshotQuoteFreshness } from '../quality/quote-freshness.js';
 
 const market = String(process.argv[2] || '').trim();
 const root = process.cwd();
@@ -40,6 +41,7 @@ function compareCandidates(left, right) {
 
 async function selectLatestSnapshot(rootDirectory, marketId) {
   const config = JSON.parse(await readFile(path.join(rootDirectory, 'config', 'markets', `${marketId}.json`), 'utf8'));
+  const providerPolicy = await readJson(path.join(rootDirectory, 'config', 'policies', 'provider-selection.json'), {});
   const rawDirectory = path.join(rootDirectory, 'data', 'raw', config.region, marketId);
   const candidates = [];
   for (const filePath of await walkJson(rawDirectory)) {
@@ -48,9 +50,10 @@ async function selectLatestSnapshot(rootDirectory, marketId) {
     const capturedMs = new Date(snapshot?.capturedAt || '').getTime();
     const scheduledMs = new Date(snapshot?.scheduledAt || snapshot?.capturedAt || '').getTime();
     const coverageComplete = snapshot?.coverage === undefined || snapshot?.coverage?.complete === true;
+    const quoteFreshness = assessSnapshotQuoteFreshness(snapshot, providerPolicy.quoteFreshness || {});
     if (snapshot?.market !== marketId || snapshot?.timingStatus !== 'on_time' || !Array.isArray(snapshot?.quotes) || !coverageComplete
-      || !Number.isFinite(capturedMs) || !Number.isFinite(scheduledMs)) continue;
-    candidates.push({ filePath, content, snapshot, capturedMs, scheduledMs, role: snapshot?.producer?.role === 'backup' ? 'backup' : 'primary' });
+      || !quoteFreshness.complete || !Number.isFinite(capturedMs) || !Number.isFinite(scheduledMs)) continue;
+    candidates.push({ filePath, content, snapshot, quoteFreshness, capturedMs, scheduledMs, role: snapshot?.producer?.role === 'backup' ? 'backup' : 'primary' });
   }
   candidates.sort(compareCandidates);
   return { config, candidate: candidates.at(-1) || null };
@@ -109,6 +112,7 @@ async function publishMarketLatest(rootDirectory, marketId, { now = new Date() }
       latestQuoteAt: previousLatest?.verification?.latestQuoteAt || previousStatus?.latestQuoteAt || latestQuoteAt(previousLatest),
       freshnessSeconds: freshnessSeconds(previousLatest?.capturedAt || previousStatus?.capturedAt, now),
       freshnessEvaluatedAt: publishedAt,
+      quoteFreshness: previousLatest?.verification?.quoteFreshness || previousStatus?.quoteFreshness || null,
       timezone: config.timezone
     });
     return { market: marketId, status: 'stale', reason: 'no_verified_raw_snapshot' };
@@ -127,7 +131,8 @@ async function publishMarketLatest(rootDirectory, marketId, { now = new Date() }
       coverage,
       latestQuoteAt: quoteAt,
       freshnessSeconds: ageSeconds,
-      freshnessEvaluatedAt: publishedAt
+      freshnessEvaluatedAt: publishedAt,
+      quoteFreshness: candidate.quoteFreshness
     }
   };
   await writeJsonAtomically(path.join(rootDirectory, 'data', 'latest', `${marketId}.json`), latest);
@@ -135,6 +140,7 @@ async function publishMarketLatest(rootDirectory, marketId, { now = new Date() }
     market: marketId, status: 'healthy', updatedAt: latest.publishedAt, sourcePath,
     capturedAt: latest.capturedAt, producer: latest.verification.producer, fallbackReason: latest.verification.fallbackReason,
     coverage, latestQuoteAt: quoteAt, freshnessSeconds: ageSeconds, freshnessEvaluatedAt: publishedAt,
+    quoteFreshness: candidate.quoteFreshness,
     timezone: config.timezone
   });
   return { market: marketId, status: 'published', sourcePath, producer: latest.verification.producer };

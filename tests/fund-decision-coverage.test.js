@@ -74,3 +74,31 @@ test('keeps a fund shadow-ineligible when a quote is after cutoff or a disclosed
   assert.deepEqual(result.funds[0].statusReasons, ['unmapped_disclosed_holdings', 'missing_qualified_dependencies']);
   assert.equal(result.funds[0].missingDependencies[0].symbol, '7203.T');
 });
+
+test('formal fund gate rejects only the fund whose required quote is older than five minutes', async (t) => {
+  const root = await mkdtemp(path.join(os.tmpdir(), 'fund-decision-stale-'));
+  t.after(() => rm(root, { recursive: true, force: true }));
+  const relativePath = 'data/raw/asia/jp/2026/2026-08-04/regular/0455.json';
+  await writeJson(path.join(root, ...relativePath.split('/')), {
+    market: 'jp', quotes: [
+      { symbol: '7203.T', quoteAt: '2026-08-04T04:54:30.000Z' },
+      { symbol: '4062.T', quoteAt: '2026-08-04T04:45:00.000Z' }
+    ]
+  });
+  const result = await buildFundDecisionCoverage({
+    root, decisionAt: '2026-08-04T04:55:00.000Z', decisionWindowEndsAt: '2026-08-04T04:55:55.000Z',
+    marketEntries: [{ market: 'jp', marketStateAtDecision: 'regular', status: 'decision_window_capture', path: relativePath }],
+    holdingCoverage: {
+      generatedAt: '2026-08-04T04:50:00.000Z', mappingVersion: 1,
+      funds: [
+        { fundId: 'FRESH', status: 'processed', capturedAt: '2026-08-04T04:50:00.000Z', holdings: [{ name: 'Toyota', status: 'mapped', symbol: '7203.T', market: 'jp', currency: 'JPY', weightPercent: 10 }] },
+        { fundId: 'STALE', status: 'processed', capturedAt: '2026-08-04T04:50:00.000Z', holdings: [{ name: 'Test', status: 'mapped', symbol: '4062.T', market: 'jp', currency: 'JPY', weightPercent: 10 }] }
+      ]
+    },
+    policy: { version: 2, mode: 'formal_gate', maxRegularQuoteAgeSeconds: 300, currencyQuoteSymbols: { JPY: [] } }
+  });
+  assert.equal(result.mode, 'formal_gate');
+  assert.equal(result.eligibleFundCount, 1);
+  assert.equal(result.funds.find(({ fundId }) => fundId === 'FRESH').eligible, true);
+  assert.equal(result.funds.find(({ fundId }) => fundId === 'STALE').eligible, false);
+});

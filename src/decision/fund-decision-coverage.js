@@ -57,7 +57,7 @@ function dependencyFingerprint({ fund, holdingDependencies, fxDependencies, mapp
   });
 }
 
-async function loadQualifiedQuotes(root, marketEntries, cutoffMs) {
+async function loadQualifiedQuotes(root, marketEntries, decisionMs, cutoffMs, policy) {
   const byMarket = new Map();
   const fx = new Map();
   for (const entry of marketEntries.filter(isQualifiedMarketEntry)) {
@@ -66,7 +66,12 @@ async function loadQualifiedQuotes(root, marketEntries, cutoffMs) {
     for (const quote of snapshot?.quotes || []) {
       const symbol = String(quote?.symbol || '').trim();
       const quoteAtMs = timestamp(quote?.quoteAt);
-      if (!symbol || quoteAtMs === null || quoteAtMs > cutoffMs) continue;
+      const maximumAge = Number(policy.maxRegularQuoteAgeSeconds);
+      const isStaleRegularQuote = entry.marketStateAtDecision === 'regular'
+        && Number.isFinite(maximumAge)
+        && quoteAtMs !== null
+        && quoteAtMs < decisionMs - maximumAge * 1_000;
+      if (!symbol || quoteAtMs === null || quoteAtMs > cutoffMs || isStaleRegularQuote) continue;
       const normalized = { symbol, quoteAt: new Date(quoteAtMs).toISOString(), sourcePath: entry.path };
       const existing = marketQuotes.get(symbol);
       if (!existing || existing.quoteAt < normalized.quoteAt) marketQuotes.set(symbol, normalized);
@@ -93,7 +98,7 @@ async function buildFundDecisionCoverage({ root, decisionAt, decisionWindowEndsA
   }
   const coverageGeneratedMs = timestamp(holdingCoverage?.generatedAt);
   const coverageAsOfDecision = decisionMs !== null && coverageGeneratedMs !== null && coverageGeneratedMs <= decisionMs;
-  const quoteIndex = await loadQualifiedQuotes(root, marketEntries, cutoffMs);
+  const quoteIndex = await loadQualifiedQuotes(root, marketEntries, decisionMs, cutoffMs, policy);
   const funds = [];
 
   for (const fund of holdingCoverage?.funds || []) {
@@ -147,6 +152,9 @@ async function buildFundDecisionCoverage({ root, decisionAt, decisionWindowEndsA
     mode: policy.mode || 'shadow_only',
     scope: 'disclosed_holdings_only',
     policyVersion: policy.version,
+    maxRegularQuoteAgeSeconds: Number.isFinite(Number(policy.maxRegularQuoteAgeSeconds))
+      ? Number(policy.maxRegularQuoteAgeSeconds)
+      : null,
     mappingVersion: holdingCoverage?.mappingVersion ?? null,
     sourceCoverageGeneratedAt: holdingCoverage?.generatedAt || '',
     coverageAsOfDecision,
