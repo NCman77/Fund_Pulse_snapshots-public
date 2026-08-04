@@ -1,27 +1,17 @@
 {
   "schemaVersion": "1.2",
-  "market": "sg",
+  "market": "cn",
   "region": "asia",
-  "capturedAt": "2026-08-04T01:35:00.305Z",
+  "capturedAt": "2026-08-04T01:35:02.717Z",
   "session": "regular",
   "source": "yahoo-finance-chart",
   "isDelayed": true,
   "quoteStatus": "current_market_date",
   "scheduleRule": "session-watcher",
   "scheduledAt": "2026-08-04T01:35:00.000Z",
-  "captureDelaySeconds": 0,
+  "captureDelaySeconds": 3,
   "timingStatus": "on_time",
   "quotes": [
-    {
-      "symbol": "^STI",
-      "open": 5621.85986328125,
-      "high": 5621.85986328125,
-      "low": 5621.85986328125,
-      "close": 5621.85986328125,
-      "previousClose": 5612.28,
-      "quoteAt": "2026-08-04T01:19:58.000Z",
-      "currency": "SGD"
-    },
     {
       "symbol": "TWD=X",
       "open": 32.35900115966797,
@@ -64,10 +54,10 @@
     },
     {
       "symbol": "SGD=X",
-      "open": 1.2823100090026855,
-      "high": 1.2823100090026855,
-      "low": 1.2823100090026855,
-      "close": 1.2823100090026855,
+      "open": 1.2823400497436523,
+      "high": 1.2823400497436523,
+      "low": 1.2823400497436523,
+      "close": 1.2823400497436523,
       "previousClose": 1.2813,
       "quoteAt": "2026-08-04T01:34:59.000Z",
       "currency": "SGD"
@@ -96,16 +86,5 @@
   "producer": {
     "id": "s1",
     "role": "primary"
-  },
-  "publishedAt": "2026-08-04T01:35:23.604Z",
-  "verification": {
-    "status": "verified",
-    "sourcePath": "data/raw/asia/sg/2026/2026-08-04/regular/producers/s1/0135.json",
-    "sourceSha256": "1e93a26ea0f7e9c11fe5227bf0d5b1128cf84a4a8ac1abdd84277c809da08455",
-    "producer": {
-      "id": "s1",
-      "role": "primary"
-    },
-    "fallbackReason": ""
   }
 }
