@@ -1,9 +1,26 @@
 {
   "cn": {
-    "status": "stale",
-    "lastSuccessAt": "2026-07-29T02:46:59.181Z",
-    "source": "yahoo-finance-chart",
-    "reason": "market_latest_not_published"
+    "market": "cn",
+    "status": "healthy",
+    "updatedAt": "2026-08-04T03:30:22.254Z",
+    "sourcePath": "data/raw/asia/cn/2026/2026-08-04/regular/producers/s2/0330.json",
+    "capturedAt": "2026-08-04T03:30:03.087Z",
+    "producer": {
+      "id": "s2",
+      "role": "primary"
+    },
+    "fallbackReason": "",
+    "coverage": {
+      "status": "legacy_unknown",
+      "complete": null,
+      "expectedSymbolCount": null,
+      "capturedSymbolCount": null,
+      "failedSymbols": []
+    },
+    "latestQuoteAt": "2026-08-04T03:29:58.000Z",
+    "freshnessSeconds": 19,
+    "freshnessEvaluatedAt": "2026-08-04T03:30:22.254Z",
+    "timezone": "Asia/Shanghai"
   },
   "eu": {
     "status": "stale",
@@ -25,27 +42,51 @@
   "kr": {
     "market": "kr",
     "status": "healthy",
-    "updatedAt": "2026-08-04T00:35:18.332Z",
-    "sourcePath": "data/raw/asia/kr/2026/2026-08-04/regular/producers/s1/0035.json",
-    "capturedAt": "2026-08-04T00:35:00.428Z",
+    "updatedAt": "2026-08-04T03:05:29.819Z",
+    "sourcePath": "data/raw/asia/kr/2026/2026-08-04/regular/producers/s2/0305.json",
+    "capturedAt": "2026-08-04T03:05:00.240Z",
     "producer": {
-      "id": "s1",
+      "id": "s2",
       "role": "primary"
     },
     "fallbackReason": "",
     "timezone": "Asia/Seoul"
   },
   "sg": {
-    "status": "stale",
-    "lastSuccessAt": "2026-07-29T02:46:59.820Z",
-    "source": "yahoo-finance-chart",
-    "reason": "market_latest_not_published"
+    "market": "sg",
+    "status": "healthy",
+    "updatedAt": "2026-08-04T03:05:36.348Z",
+    "sourcePath": "data/raw/asia/sg/2026/2026-08-04/regular/producers/s2/0305.json",
+    "capturedAt": "2026-08-04T03:05:00.377Z",
+    "producer": {
+      "id": "s2",
+      "role": "primary"
+    },
+    "fallbackReason": "",
+    "timezone": "Asia/Singapore"
   },
   "tw": {
-    "status": "stale",
-    "lastSuccessAt": "2026-07-29T02:47:00.193Z",
-    "source": "yahoo-finance-chart",
-    "reason": "market_latest_not_published"
+    "market": "tw",
+    "status": "healthy",
+    "updatedAt": "2026-08-04T03:30:45.187Z",
+    "sourcePath": "data/raw/asia/tw/2026/2026-08-04/regular/producers/s2/0330.json",
+    "capturedAt": "2026-08-04T03:30:03.660Z",
+    "producer": {
+      "id": "s2",
+      "role": "primary"
+    },
+    "fallbackReason": "",
+    "coverage": {
+      "status": "legacy_unknown",
+      "complete": null,
+      "expectedSymbolCount": null,
+      "capturedSymbolCount": null,
+      "failedSymbols": []
+    },
+    "latestQuoteAt": "2026-08-04T03:30:02.000Z",
+    "freshnessSeconds": 42,
+    "freshnessEvaluatedAt": "2026-08-04T03:30:45.187Z",
+    "timezone": "Asia/Taipei"
   },
   "uk": {
     "status": "stale",

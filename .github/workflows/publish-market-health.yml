@@ -23,16 +23,21 @@ jobs:
       - run: npm ci
       - name: Rebuild aggregate health from per-market publisher reports
         run: |
-          for attempt in 1 2 3; do
-            git fetch origin main
-            git reset --hard origin/main
-            npm run publish:market-health
-            git add -- data/status/market-health.json
-            if git diff --cached --quiet; then exit 0; fi
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git commit -m "publish: aggregate market health"
-            if git push origin HEAD:main; then exit 0; fi
-            sleep "$((attempt * 5))"
+          for attempt in 1 2 3 4 5 6; do
+            if ! git fetch origin main; then
+              echo "Aggregate health push attempt $attempt could not fetch origin/main" >&2
+            else
+              git reset --hard origin/main
+              npm run publish:market-health
+              git add -- data/status/market-health.json
+              if git diff --cached --quiet; then exit 0; fi
+              git config user.name "github-actions[bot]"
+              git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+              git commit -m "publish: aggregate market health"
+              if git push origin HEAD:main; then exit 0; fi
+              echo "Aggregate health push attempt $attempt lost a branch race; rebuilding" >&2
+            fi
+            sleep "$((attempt * 3 + RANDOM % 4))"
           done
+          echo "Unable to publish aggregate market health after bounded retries" >&2
           exit 1
