@@ -8,10 +8,8 @@ on:
         required: false
         type: string
   schedule:
-    # 20:00, 20:25, 20:45 Taipei time (12:00, 12:25, 12:45 UTC)
-    - cron: '0 12 * * 1-5'
-    - cron: '25 12 * * 1-5'
-    - cron: '45 12 * * 1-5'
+    # Long Watcher Task: Boot at 16:30 Taipei time (08:30 UTC), run until 21:30 Taipei time.
+    - cron: '30 8 * * 1-5'
 
 permissions:
   contents: write
@@ -23,7 +21,7 @@ concurrency:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 310
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -33,23 +31,50 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run validate
-      - name: Fetch and persist official TWSE and TPEx close checks
+      - name: Long Watcher - Taiwan official close validation (16:30 to 21:30 Taipei time)
+        shell: bash
         env:
           REQUESTED_DATE: ${{ inputs.date }}
+          TZ: Asia/Taipei
         run: |
-          for attempt in 1 2 3 4 5 6; do
-            git fetch origin main
-            git reset --hard origin/main
-            args=()
-            if [ -n "$REQUESTED_DATE" ]; then args+=("--date=$REQUESTED_DATE"); fi
-            npm run validate:tw-official-close -- "${args[@]}"
-            git add -- data/official-close/tw data/status/official-close/tw.json 2>/dev/null || true
-            if git diff --cached --quiet; then exit 0; fi
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git commit -m "verify: Taiwan official post-close prices"
-            if git push origin HEAD:main; then exit 0; fi
-            sleep "$((attempt * 3 + RANDOM % 4))"
+          set -uo pipefail
+
+          run_validate_and_commit() {
+            for attempt in 1 2 3 4 5 6; do
+              git fetch origin main || true
+              git reset --hard origin/main || true
+              args=()
+              if [ -n "${REQUESTED_DATE:-}" ]; then args+=("--date=$REQUESTED_DATE"); fi
+              npm run validate:tw-official-close -- "${args[@]}" || true
+              git add -- data/official-close/tw data/status/official-close/tw.json 2>/dev/null || true
+              if git diff --cached --quiet; then break; fi
+              git config user.name "github-actions[bot]"
+              git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+              git commit -m "verify: Taiwan official post-close prices" || true
+              if git push origin HEAD:main; then break; fi
+              sleep "$((attempt * 3))"
+            done
+          }
+
+          # Target slots inside the 16:30-21:30 window: 20:00, 20:25, 20:45 Taipei time
+          for slot_time in "20:00" "20:25" "20:45"; do
+            while true; do
+              current_time=$(TZ=Asia/Taipei date +%H:%M)
+              if [[ "$current_time" >= "$slot_time" ]]; then
+                break
+              fi
+              sleep 20
+            done
+            echo "Executing Taiwan official close validation slot at $slot_time Taipei time..."
+            run_validate_and_commit
           done
-          echo "Unable to persist Taiwan official close verification after bounded retries" >&2
-          exit 1
+
+          # Hold watcher active until 21:30 Taipei time (End time)
+          while true; do
+            current_time=$(TZ=Asia/Taipei date +%H:%M)
+            if [[ "$current_time" >= "21:30" ]]; then
+              break
+            fi
+            sleep 30
+          done
+          echo "Taiwan official close validation watcher completed at 21:30 Taipei time."
