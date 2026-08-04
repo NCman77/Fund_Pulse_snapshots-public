@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "1.0",
+  "generatedAt": "2026-08-04T04:30:03.512Z",
+  "market": "tw",
+  "sessionName": "s2",
+  "localDate": "2026-08-04",
+  "timezone": "Asia/Taipei",
+  "expectedSlots": [
+    "11:00",
+    "11:30",
+    "12:00",
+    "12:30"
+  ],
+  "skippedSlots": [],
+  "summary": {
+    "expectedSlotCount": 4,
+    "capturedSlotCount": 4,
+    "onTimeSlotCount": 4,
+    "lateSlotCount": 0,
+    "failedSlotCount": 0,
+    "complete": true,
+    "healthy": true
+  },
+  "slots": [
+    {
+      "slot": "11:00",
+      "scheduledAt": "2026-08-04T03:00:00.000Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 2,
+      "error": ""
+    },
+    {
+      "slot": "11:30",
+      "scheduledAt": "2026-08-04T03:30:00.000Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 4,
+      "error": ""
+    },
+    {
+      "slot": "12:00",
+      "scheduledAt": "2026-08-04T04:00:00.000Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 4,
+      "error": ""
+    },
+    {
+      "slot": "12:30",
+      "scheduledAt": "2026-08-04T04:30:00.000Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 4,
+      "error": ""
+    }
+  ],
+  "producer": {
+    "id": "s2",
+    "role": "primary"
+  }
+}
