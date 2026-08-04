@@ -155,7 +155,7 @@ jobs:
   uk_s1:
     uses: ./.github/workflows/run-market-session-watcher.yml
     if: ${{ (github.event_name == 'schedule' && github.event.schedule == '5 4 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'uk_s1')) }}
-    with: { market: uk, session_name: s1, slots: '08:05,08:35,09:05,09:35' }
+    with: { market: uk, session_name: s1, slots: '08:15,08:35,09:05,09:35' }
   uk_s2:
     uses: ./.github/workflows/run-market-session-watcher.yml
     if: ${{ (github.event_name == 'schedule' && github.event.schedule == '5 6 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'uk_s2')) }}
@@ -176,7 +176,7 @@ jobs:
   eu_s1:
     uses: ./.github/workflows/run-market-session-watcher.yml
     if: ${{ (github.event_name == 'schedule' && github.event.schedule == '1 5 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'eu_s1')) }}
-    with: { market: eu, session_name: s1, slots: '09:05,09:35,10:05,10:35' }
+    with: { market: eu, session_name: s1, slots: '09:15,09:35,10:05,10:35' }
   eu_s2:
     uses: ./.github/workflows/run-market-session-watcher.yml
     if: ${{ (github.event_name == 'schedule' && github.event.schedule == '3 7 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'eu_s2')) }}
