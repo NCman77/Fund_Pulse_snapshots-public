@@ -41,18 +41,28 @@ jobs:
 
           run_validate_and_commit() {
             for attempt in 1 2 3 4 5 6; do
-              git fetch origin main || true
+              if ! git fetch origin main; then
+                sleep "$((attempt * 2 + RANDOM % 3))"
+                continue
+              fi
               git reset --hard origin/main || true
               args=()
               if [ -n "${REQUESTED_DATE:-}" ]; then args+=("--date=$REQUESTED_DATE"); fi
               npm run validate:tw-official-close -- "${args[@]}" || true
               git add -- data/official-close/tw data/status/official-close/tw.json 2>/dev/null || true
-              if git diff --cached --quiet; then break; fi
+              if git diff --cached --quiet; then
+                echo "No official close changes to commit for attempt $attempt"
+                break
+              fi
               git config user.name "github-actions[bot]"
               git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-              git commit -m "verify: Taiwan official post-close prices" || true
-              if git push origin HEAD:main; then break; fi
-              sleep "$((attempt * 3))"
+              if git commit -m "verify: Taiwan official post-close prices"; then
+                if git push origin HEAD:main; then
+                  echo "Successfully pushed official Taiwan close prices"
+                  break
+                fi
+              fi
+              sleep "$((attempt * 3 + RANDOM % 4))"
             done
           }
 

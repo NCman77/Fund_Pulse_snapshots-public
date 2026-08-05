@@ -35,17 +35,26 @@ jobs:
           run_capture_and_commit() {
             for attempt in 1 2 3 4 5 6; do
               if ! git fetch origin main; then
-                sleep 5
+                sleep "$((attempt * 2 + RANDOM % 3))"
                 continue
               fi
-              git reset --hard origin/main
-              npm run capture:funds && npm run build:holding-coverage || true
-              git add -- data/funds/ data/status/fund-disclosure-health.json data/status/holding-mapping-health.json
-              if git diff --cached --quiet; then break; fi
-              git config user.name "github-actions[bot]"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-              git commit -m "capture: approved public fund disclosures" || true
-              if git push origin HEAD:main; then break; fi
-              sleep "$((attempt * 3))"
+              git reset --hard origin/main || true
+              npm run capture:funds || true
+              npm run build:holding-coverage || true
+              git add -- data/funds/ data/status/fund-disclosure-health.json data/status/holding-mapping-health.json 2>/dev/null || true
+              if git diff --cached --quiet; then
+                echo "No disclosure changes to commit for attempt $attempt"
+                break
+              fi
+              git config user.name "github-actions[bot]"
+              git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+              if git commit -m "capture: approved public fund disclosures"; then
+                if git push origin HEAD:main; then
+                  echo "Successfully pushed public fund disclosures"
+                  break
+                fi
+              fi
+              sleep "$((attempt * 3 + RANDOM % 4))"
             done
           }
 
