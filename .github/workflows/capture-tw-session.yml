@@ -10,7 +10,7 @@ on:
         type: string
   schedule:
     # Each runner starts at least four hours before its first owned slot.
-    - cron: '5 5 * * 1-5' # tw_s1: 09:05-10:30
+    - cron: '10 5 * * 1-5' # tw_s1: 09:10-10:30
       timezone: Asia/Taipei
     - cron: '59 6 * * 1-5' # tw_s2: 11:00-12:30
       timezone: Asia/Taipei
@@ -23,9 +23,9 @@ permissions:
 
 jobs:
   tw_s1:
-    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '5 5 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'tw_s1')) }}
+    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '10 5 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'tw_s1')) }}
     uses: ./.github/workflows/run-market-session-watcher.yml
-    with: { market: tw, session_name: s1, slots: '09:05,10:00,10:30' }
+    with: { market: tw, session_name: s1, slots: '09:10,10:00,10:30' }
   tw_s2:
     uses: ./.github/workflows/run-market-session-watcher.yml
     if: ${{ (github.event_name == 'schedule' && github.event.schedule == '59 6 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'tw_s2')) }}
