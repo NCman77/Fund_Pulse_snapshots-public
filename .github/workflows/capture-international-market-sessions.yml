@@ -83,7 +83,7 @@ jobs:
   jp_s1:
     if: ${{ (github.event_name == 'schedule' && github.event.schedule == '55 4 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'jp_s1')) }}
     uses: ./.github/workflows/run-market-session-watcher.yml
-    with: { market: jp, session_name: s1, slots: '09:05,09:35,10:05' }
+    with: { market: jp, session_name: s1, slots: '09:10,09:35,10:05' }
   jp_s2:
     uses: ./.github/workflows/run-market-session-watcher.yml
     if: ${{ (github.event_name == 'schedule' && github.event.schedule == '34 6 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'jp_s2')) }}
@@ -100,7 +100,7 @@ jobs:
   kr_s1:
     uses: ./.github/workflows/run-market-session-watcher.yml
     if: ${{ (github.event_name == 'schedule' && github.event.schedule == '54 4 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'kr_s1')) }}
-    with: { market: kr, session_name: s1, slots: '09:05,09:35,10:05' }
+    with: { market: kr, session_name: s1, slots: '09:10,09:35,10:05' }
   kr_s2:
     uses: ./.github/workflows/run-market-session-watcher.yml
     if: ${{ (github.event_name == 'schedule' && github.event.schedule == '33 6 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'kr_s2')) }}
@@ -155,7 +155,7 @@ jobs:
   uk_s1:
     uses: ./.github/workflows/run-market-session-watcher.yml
     if: ${{ (github.event_name == 'schedule' && github.event.schedule == '5 4 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'uk_s1')) }}
-    with: { market: uk, session_name: s1, slots: '08:15,08:35,09:05,09:35' }
+    with: { market: uk, session_name: s1, slots: '08:15,08:35,09:10,09:35' }
   uk_s2:
     uses: ./.github/workflows/run-market-session-watcher.yml
     if: ${{ (github.event_name == 'schedule' && github.event.schedule == '5 6 * * 1-5') || (github.event_name == 'workflow_dispatch' && (inputs.watch == 'all' || inputs.watch == 'uk_s2')) }}
