@@ -8,7 +8,7 @@ on:
         required: false
         type: string
   schedule:
-    # Long Watcher Task: Boot at 16:30 Taipei time (08:30 UTC), run until 21:30 Taipei time.
+    # Long Watcher Task: Boot at 16:30 Taipei time (08:30 UTC), run until 20:50 Taipei time.
     - cron: '30 8 * * 1-5'
 
 permissions:
@@ -21,7 +21,7 @@ concurrency:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 310
+    timeout-minutes: 360
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -31,7 +31,7 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run validate
-      - name: Long Watcher - Taiwan official close validation (16:30 to 21:30 Taipei time)
+      - name: Long Watcher - Taiwan official close validation (16:30 to 20:50 Taipei time)
         shell: bash
         env:
           REQUESTED_DATE: ${{ inputs.date }}
@@ -66,7 +66,7 @@ jobs:
             done
           }
 
-          # Target slots inside the 16:30-21:30 window: 20:00, 20:25, 20:45 Taipei time
+          # Target slots inside the 16:30-20:50 window: 20:00, 20:25, 20:45 Taipei time
           for slot_time in "20:00" "20:25" "20:45"; do
             while true; do
               current_time=$(TZ=Asia/Taipei date +%H:%M)
@@ -79,12 +79,13 @@ jobs:
             run_validate_and_commit
           done
 
-          # Hold watcher active until 21:30 Taipei time (End time)
+          # Hold watcher active until 20:50 Taipei time (End time)
           while true; do
             current_time=$(TZ=Asia/Taipei date +%H:%M)
-            if [[ "$current_time" >= "21:30" ]]; then
+            if [[ "$current_time" >= "20:50" ]]; then
               break
             fi
             sleep 30
           done
-          echo "Taiwan official close validation watcher completed at 21:30 Taipei time."
+          echo "Taiwan official close validation watcher completed at 20:50 Taipei time."
+
