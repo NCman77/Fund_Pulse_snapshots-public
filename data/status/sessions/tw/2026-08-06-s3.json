@@ -1,0 +1,81 @@
+{
+  "schemaVersion": "1.1",
+  "generatedAt": "2026-08-06T05:30:01.218Z",
+  "market": "tw",
+  "sessionName": "s3",
+  "localDate": "2026-08-06",
+  "timezone": "Asia/Taipei",
+  "expectedSlots": [
+    "13:00",
+    "13:25",
+    "13:30"
+  ],
+  "skippedSlots": [],
+  "summary": {
+    "expectedSlotCount": 3,
+    "capturedSlotCount": 3,
+    "onTimeSlotCount": 3,
+    "lateSlotCount": 0,
+    "failedSlotCount": 0,
+    "partialSlotCount": 0,
+    "complete": true,
+    "healthy": true
+  },
+  "slots": [
+    {
+      "slot": "13:00",
+      "scheduledAt": "2026-08-06T05:00:00.000Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 1,
+      "error": "",
+      "collection": {
+        "provider": "yahoo-finance",
+        "endpointType": "chart",
+        "expectedSymbolCount": 68,
+        "capturedSymbolCount": 68,
+        "failedSymbols": []
+      },
+      "diagnostics": []
+    },
+    {
+      "slot": "13:25",
+      "scheduledAt": "2026-08-06T05:25:00.000Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 1,
+      "error": "",
+      "collection": {
+        "provider": "yahoo-finance",
+        "endpointType": "chart",
+        "expectedSymbolCount": 68,
+        "capturedSymbolCount": 68,
+        "failedSymbols": []
+      },
+      "diagnostics": []
+    },
+    {
+      "slot": "13:30",
+      "scheduledAt": "2026-08-06T05:30:00.000Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 1,
+      "error": "",
+      "collection": {
+        "provider": "yahoo-finance",
+        "endpointType": "chart",
+        "expectedSymbolCount": 68,
+        "capturedSymbolCount": 68,
+        "failedSymbols": []
+      },
+      "diagnostics": []
+    }
+  ],
+  "producer": {
+    "id": "s3",
+    "role": "primary"
+  }
+}
