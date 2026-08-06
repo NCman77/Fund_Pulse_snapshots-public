@@ -1,0 +1,154 @@
+{
+  "schemaVersion": "1.1",
+  "generatedAt": "2026-08-06T08:35:00.363Z",
+  "market": "uk",
+  "sessionName": "s1",
+  "localDate": "2026-08-06",
+  "timezone": "Europe/London",
+  "expectedSlots": [
+    "08:15",
+    "08:35",
+    "09:10",
+    "09:35"
+  ],
+  "skippedSlots": [],
+  "summary": {
+    "expectedSlotCount": 4,
+    "capturedSlotCount": 4,
+    "onTimeSlotCount": 4,
+    "lateSlotCount": 0,
+    "failedSlotCount": 0,
+    "partialSlotCount": 0,
+    "complete": true,
+    "healthy": true
+  },
+  "slots": [
+    {
+      "slot": "08:15",
+      "scheduledAt": "2026-08-06T07:15:00.000Z",
+      "status": "captured",
+      "attempts": 2,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 18,
+      "error": "",
+      "collection": {
+        "provider": "yahoo-finance",
+        "endpointType": "chart",
+        "expectedSymbolCount": 8,
+        "capturedSymbolCount": 8,
+        "failedSymbols": []
+      },
+      "diagnostics": [
+        {
+          "provider": "yahoo-finance",
+          "endpointType": "chart",
+          "symbol": "^FTSE",
+          "attempt": 1,
+          "maxAttempts": 3,
+          "captureAttempt": 1,
+          "errorClass": "schema_error",
+          "httpStatus": 200,
+          "schemaStatus": "missing_timestamp",
+          "retryable": true,
+          "backoffMilliseconds": 798,
+          "finalAttempt": false,
+          "captureSlot": "08:15",
+          "workflowRunId": "31075498393",
+          "workflowRunAttempt": "1",
+          "producerId": "s1"
+        },
+        {
+          "provider": "yahoo-finance",
+          "endpointType": "chart",
+          "symbol": "^FTSE",
+          "attempt": 2,
+          "maxAttempts": 3,
+          "captureAttempt": 1,
+          "errorClass": "schema_error",
+          "httpStatus": 200,
+          "schemaStatus": "missing_timestamp",
+          "retryable": true,
+          "backoffMilliseconds": 1594,
+          "finalAttempt": false,
+          "captureSlot": "08:15",
+          "workflowRunId": "31075498393",
+          "workflowRunAttempt": "1",
+          "producerId": "s1"
+        },
+        {
+          "provider": "yahoo-finance",
+          "endpointType": "chart",
+          "symbol": "^FTSE",
+          "attempt": 3,
+          "maxAttempts": 3,
+          "captureAttempt": 1,
+          "errorClass": "schema_error",
+          "httpStatus": 200,
+          "schemaStatus": "missing_timestamp",
+          "retryable": true,
+          "backoffMilliseconds": 0,
+          "finalAttempt": true,
+          "captureSlot": "08:15",
+          "workflowRunId": "31075498393",
+          "workflowRunAttempt": "1",
+          "producerId": "s1"
+        }
+      ]
+    },
+    {
+      "slot": "08:35",
+      "scheduledAt": "2026-08-06T07:35:00.000Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 0,
+      "error": "",
+      "collection": {
+        "provider": "yahoo-finance",
+        "endpointType": "chart",
+        "expectedSymbolCount": 8,
+        "capturedSymbolCount": 8,
+        "failedSymbols": []
+      },
+      "diagnostics": []
+    },
+    {
+      "slot": "09:10",
+      "scheduledAt": "2026-08-06T08:10:00.000Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 0,
+      "error": "",
+      "collection": {
+        "provider": "yahoo-finance",
+        "endpointType": "chart",
+        "expectedSymbolCount": 8,
+        "capturedSymbolCount": 8,
+        "failedSymbols": []
+      },
+      "diagnostics": []
+    },
+    {
+      "slot": "09:35",
+      "scheduledAt": "2026-08-06T08:35:00.000Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 0,
+      "error": "",
+      "collection": {
+        "provider": "yahoo-finance",
+        "endpointType": "chart",
+        "expectedSymbolCount": 8,
+        "capturedSymbolCount": 8,
+        "failedSymbols": []
+      },
+      "diagnostics": []
+    }
+  ],
+  "producer": {
+    "id": "s1",
+    "role": "primary"
+  }
+}
