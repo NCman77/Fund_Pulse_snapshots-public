@@ -8,8 +8,8 @@ on:
         required: false
         type: string
   schedule:
-    # Long Watcher Task: Boot at 16:30 Taipei time (08:30 UTC), run until 20:50 Taipei time.
-    - cron: '30 8 * * 1-5'
+    # Long watcher: start before Taiwan closes and retry official sources after 13:30.
+    - cron: '20 5 * * 1-5'
 
 permissions:
   contents: write
@@ -21,7 +21,7 @@ concurrency:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 360
+    timeout-minutes: 300
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -31,13 +31,16 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run validate
-      - name: Long Watcher - Taiwan official close validation (16:30 to 20:50 Taipei time)
+      - name: Long Watcher - Taiwan official close validation (13:20 to 18:00 Taipei time)
         shell: bash
         env:
           REQUESTED_DATE: ${{ inputs.date }}
           TZ: Asia/Taipei
         run: |
           set -uo pipefail
+          validated_close=false
+          target_date="${REQUESTED_DATE:-$(TZ=Asia/Taipei date +%F)}"
+          target_path="data/official-close/tw/${target_date:0:4}/${target_date}.json"
 
           run_validate_and_commit() {
             for attempt in 1 2 3 4 5 6; do
@@ -48,26 +51,39 @@ jobs:
               git reset --hard origin/main || true
               args=()
               if [ -n "${REQUESTED_DATE:-}" ]; then args+=("--date=$REQUESTED_DATE"); fi
-              npm run validate:tw-official-close -- "${args[@]}" || true
+              if ! npm run validate:tw-official-close -- "${args[@]}"; then
+                echo "Official Taiwan close is not available on attempt $attempt; retrying." >&2
+                sleep "$((attempt * 3 + RANDOM % 4))"
+                continue
+              fi
+              if [ ! -f "$target_path" ]; then
+                echo "Official close validation did not produce $target_path." >&2
+                sleep "$((attempt * 3 + RANDOM % 4))"
+                continue
+              fi
               git add -- data/official-close/tw data/status/official-close/tw.json 2>/dev/null || true
               if git diff --cached --quiet; then
-                echo "No official close changes to commit for attempt $attempt"
-                break
+                echo "Official Taiwan close already verified for $target_date"
+                validated_close=true
+                return 0
               fi
               git config user.name "github-actions[bot]"
               git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
               if git commit -m "verify: Taiwan official post-close prices"; then
                 if git push origin HEAD:main; then
                   echo "Successfully pushed official Taiwan close prices"
-                  break
+                  validated_close=true
+                  return 0
                 fi
               fi
               sleep "$((attempt * 3 + RANDOM % 4))"
             done
+            return 1
           }
 
-          # Target slots inside the 16:30-20:50 window: 20:00, 20:25, 20:45 Taipei time
-          for slot_time in "20:00" "20:25" "20:45"; do
+          # These are verification retries only. The 13:30 market snapshot is
+          # captured by its separate long-running Taiwan session watcher.
+          for slot_time in "13:35" "13:50" "14:10" "14:30" "14:50" "15:10" "15:30" "15:50" "16:10" "16:30" "16:50" "17:10" "17:30" "17:50"; do
             while true; do
               current_time=$(TZ=Asia/Taipei date +%H:%M)
               if [[ "$current_time" > "$slot_time" || "$current_time" == "$slot_time" ]]; then
@@ -76,16 +92,28 @@ jobs:
               sleep 20
             done
             echo "Executing Taiwan official close validation slot at $slot_time Taipei time..."
-            run_validate_and_commit
+            if run_validate_and_commit; then
+              validated_close=true
+              break
+            fi
           done
 
-          # Hold watcher active until 20:50 Taipei time (End time)
+          if [ "$validated_close" = 'true' ]; then
+            echo "Taiwan official close validation completed without waiting for the watcher end."
+            exit 0
+          fi
+
+          # Hold watcher active until 18:00 Taipei time (End time)
           while true; do
             current_time=$(TZ=Asia/Taipei date +%H:%M)
-            if [[ "$current_time" > "20:50" || "$current_time" == "20:50" ]]; then
+            if [[ "$current_time" > "18:00" || "$current_time" == "18:00" ]]; then
               break
             fi
             sleep 30
           done
-          echo "Taiwan official close validation watcher completed at 20:50 Taipei time."
+          echo "Taiwan official close validation watcher completed at 18:00 Taipei time."
+          if [ "$validated_close" != 'true' ]; then
+            echo "No verified Taiwan official close archive was produced for $target_date." >&2
+            exit 1
+          fi
 

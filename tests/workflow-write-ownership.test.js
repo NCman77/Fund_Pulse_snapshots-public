@@ -97,3 +97,16 @@ test('every public main writer uses a six-attempt bounded push loop', async () =
     );
   });
 });
+
+test('Taiwan official-close watcher retries missing source data instead of silently succeeding', async () => {
+  const source = await workflow('validate-taiwan-official-close.yml');
+
+  assert.match(source, /cron: '20 5 \* \* 1-5'/);
+  assert.match(source, /13:35.*13:50.*14:10.*17:50/);
+  assert.match(source, /13:30 market snapshot is[\s\S]*?separate long-running Taiwan session watcher/);
+  assert.match(source, /if ! npm run validate:tw-official-close/);
+  assert.match(source, /Official Taiwan close is not available on attempt/);
+  assert.match(source, /if \[ ! -f "\$target_path" \]; then/);
+  assert.match(source, /No verified Taiwan official close archive was produced for \$target_date/);
+  assert.doesNotMatch(source, /validate:tw-official-close -- "\$\{args\[@\]\}" \|\| true/);
+});
