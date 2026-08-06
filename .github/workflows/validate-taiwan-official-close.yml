@@ -70,7 +70,7 @@ jobs:
           for slot_time in "20:00" "20:25" "20:45"; do
             while true; do
               current_time=$(TZ=Asia/Taipei date +%H:%M)
-              if [[ "$current_time" >= "$slot_time" ]]; then
+              if [[ "$current_time" > "$slot_time" || "$current_time" == "$slot_time" ]]; then
                 break
               fi
               sleep 20
@@ -82,7 +82,7 @@ jobs:
           # Hold watcher active until 20:50 Taipei time (End time)
           while true; do
             current_time=$(TZ=Asia/Taipei date +%H:%M)
-            if [[ "$current_time" >= "20:50" ]]; then
+            if [[ "$current_time" > "20:50" || "$current_time" == "20:50" ]]; then
               break
             fi
             sleep 30
