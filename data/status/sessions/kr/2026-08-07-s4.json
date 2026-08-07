@@ -1,0 +1,99 @@
+{
+  "schemaVersion": "1.1",
+  "generatedAt": "2026-08-07T06:30:00.521Z",
+  "market": "kr",
+  "sessionName": "s4",
+  "localDate": "2026-08-07",
+  "timezone": "Asia/Seoul",
+  "expectedSlots": [
+    "14:05",
+    "14:35",
+    "15:05",
+    "15:30"
+  ],
+  "skippedSlots": [],
+  "summary": {
+    "expectedSlotCount": 4,
+    "capturedSlotCount": 4,
+    "onTimeSlotCount": 4,
+    "lateSlotCount": 0,
+    "failedSlotCount": 0,
+    "partialSlotCount": 0,
+    "complete": true,
+    "healthy": true
+  },
+  "slots": [
+    {
+      "slot": "14:05",
+      "scheduledAt": "2026-08-07T05:05:00.000Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 1,
+      "error": "",
+      "collection": {
+        "provider": "yahoo-finance",
+        "endpointType": "chart",
+        "expectedSymbolCount": 11,
+        "capturedSymbolCount": 11,
+        "failedSymbols": []
+      },
+      "diagnostics": []
+    },
+    {
+      "slot": "14:35",
+      "scheduledAt": "2026-08-07T05:35:00.000Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 0,
+      "error": "",
+      "collection": {
+        "provider": "yahoo-finance",
+        "endpointType": "chart",
+        "expectedSymbolCount": 11,
+        "capturedSymbolCount": 11,
+        "failedSymbols": []
+      },
+      "diagnostics": []
+    },
+    {
+      "slot": "15:05",
+      "scheduledAt": "2026-08-07T06:05:00.000Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 1,
+      "error": "",
+      "collection": {
+        "provider": "yahoo-finance",
+        "endpointType": "chart",
+        "expectedSymbolCount": 11,
+        "capturedSymbolCount": 11,
+        "failedSymbols": []
+      },
+      "diagnostics": []
+    },
+    {
+      "slot": "15:30",
+      "scheduledAt": "2026-08-07T06:30:00.000Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 1,
+      "error": "",
+      "collection": {
+        "provider": "yahoo-finance",
+        "endpointType": "chart",
+        "expectedSymbolCount": 11,
+        "capturedSymbolCount": 11,
+        "failedSymbols": []
+      },
+      "diagnostics": []
+    }
+  ],
+  "producer": {
+    "id": "s4",
+    "role": "primary"
+  }
+}
