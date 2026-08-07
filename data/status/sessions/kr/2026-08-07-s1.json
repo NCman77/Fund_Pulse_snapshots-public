@@ -1,0 +1,126 @@
+{
+  "schemaVersion": "1.1",
+  "generatedAt": "2026-08-07T01:05:02.930Z",
+  "market": "kr",
+  "sessionName": "s1",
+  "localDate": "2026-08-07",
+  "timezone": "Asia/Seoul",
+  "expectedSlots": [
+    "09:10",
+    "09:35",
+    "10:05"
+  ],
+  "skippedSlots": [],
+  "summary": {
+    "expectedSlotCount": 3,
+    "capturedSlotCount": 1,
+    "onTimeSlotCount": 1,
+    "lateSlotCount": 0,
+    "failedSlotCount": 2,
+    "partialSlotCount": 1,
+    "complete": false,
+    "healthy": false
+  },
+  "slots": [
+    {
+      "slot": "09:10",
+      "scheduledAt": "2026-08-07T00:10:00.000Z",
+      "status": "missed",
+      "attempts": 0,
+      "timingStatus": "missed",
+      "captureDelaySeconds": 2361,
+      "error": "Watcher started 2361s after the approved 120s capture tolerance; no late replacement was written.",
+      "collection": null,
+      "diagnostics": []
+    },
+    {
+      "slot": "09:35",
+      "scheduledAt": "2026-08-07T00:35:00.000Z",
+      "status": "missed",
+      "attempts": 0,
+      "timingStatus": "missed",
+      "captureDelaySeconds": 861,
+      "error": "Watcher started 861s after the approved 120s capture tolerance; no late replacement was written.",
+      "collection": null,
+      "diagnostics": []
+    },
+    {
+      "slot": "10:05",
+      "scheduledAt": "2026-08-07T01:05:00.000Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 3,
+      "error": "",
+      "collection": {
+        "provider": "yahoo-finance",
+        "endpointType": "chart",
+        "expectedSymbolCount": 11,
+        "capturedSymbolCount": 10,
+        "failedSymbols": [
+          "CNY=X"
+        ]
+      },
+      "diagnostics": [
+        {
+          "provider": "yahoo-finance",
+          "endpointType": "chart",
+          "symbol": "CNY=X",
+          "attempt": 1,
+          "maxAttempts": 3,
+          "captureAttempt": 1,
+          "errorClass": "schema_error",
+          "httpStatus": 200,
+          "schemaStatus": "missing_timestamp",
+          "retryable": true,
+          "backoffMilliseconds": 874,
+          "finalAttempt": false,
+          "captureSlot": "10:05",
+          "workflowRunId": "31135949197",
+          "workflowRunAttempt": "1",
+          "producerId": "s1"
+        },
+        {
+          "provider": "yahoo-finance",
+          "endpointType": "chart",
+          "symbol": "CNY=X",
+          "attempt": 2,
+          "maxAttempts": 3,
+          "captureAttempt": 1,
+          "errorClass": "schema_error",
+          "httpStatus": 200,
+          "schemaStatus": "missing_timestamp",
+          "retryable": true,
+          "backoffMilliseconds": 1649,
+          "finalAttempt": false,
+          "captureSlot": "10:05",
+          "workflowRunId": "31135949197",
+          "workflowRunAttempt": "1",
+          "producerId": "s1"
+        },
+        {
+          "provider": "yahoo-finance",
+          "endpointType": "chart",
+          "symbol": "CNY=X",
+          "attempt": 3,
+          "maxAttempts": 3,
+          "captureAttempt": 1,
+          "errorClass": "schema_error",
+          "httpStatus": 200,
+          "schemaStatus": "missing_timestamp",
+          "retryable": true,
+          "backoffMilliseconds": 0,
+          "finalAttempt": true,
+          "captureSlot": "10:05",
+          "workflowRunId": "31135949197",
+          "workflowRunAttempt": "1",
+          "producerId": "s1"
+        }
+      ]
+    }
+  ],
+  "producer": {
+    "id": "s1",
+    "role": "primary"
+  }
+}
