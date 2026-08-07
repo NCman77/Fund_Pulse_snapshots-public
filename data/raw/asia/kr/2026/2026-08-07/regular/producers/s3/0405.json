@@ -1,0 +1,159 @@
+{
+  "schemaVersion": "1.2",
+  "market": "kr",
+  "region": "asia",
+  "capturedAt": "2026-08-07T04:05:00.765Z",
+  "session": "regular",
+  "source": "yahoo-finance-chart",
+  "isDelayed": true,
+  "quoteStatus": "current_market_date",
+  "scheduleRule": "session-watcher",
+  "scheduledAt": "2026-08-07T04:05:00.000Z",
+  "captureDelaySeconds": 1,
+  "timingStatus": "on_time",
+  "provider": {
+    "id": "yahoo-finance",
+    "endpointType": "chart"
+  },
+  "coverage": {
+    "provider": "yahoo-finance",
+    "endpointType": "chart",
+    "expectedSymbolCount": 11,
+    "capturedSymbolCount": 11,
+    "failedSymbols": [],
+    "complete": true
+  },
+  "quotes": [
+    {
+      "symbol": "^KS11",
+      "open": 6229.3701171875,
+      "high": 6229.3701171875,
+      "low": 6229.3701171875,
+      "close": 6229.3701171875,
+      "previousClose": 6296.38,
+      "quoteAt": "2026-08-07T03:44:50.000Z",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "102110.KS",
+      "open": 97760,
+      "high": 97760,
+      "low": 97760,
+      "close": 97760,
+      "previousClose": 99045,
+      "quoteAt": "2026-08-07T03:44:59.000Z",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "000660.KS",
+      "open": 1424000,
+      "high": 1424000,
+      "low": 1424000,
+      "close": 1424000,
+      "previousClose": 1495000,
+      "quoteAt": "2026-08-07T03:44:59.000Z",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "009150.KS",
+      "open": 1279000,
+      "high": 1280000,
+      "low": 1276000,
+      "close": 1279000,
+      "previousClose": 1229000,
+      "quoteAt": "2026-08-07T03:44:00.000Z",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "TWD=X",
+      "open": 32.20800018310547,
+      "high": 32.20800018310547,
+      "low": 32.20800018310547,
+      "close": 32.20800018310547,
+      "previousClose": 32.234,
+      "quoteAt": "2026-08-07T04:04:57.000Z",
+      "currency": "TWD"
+    },
+    {
+      "symbol": "JPY=X",
+      "open": 158.3820037841797,
+      "high": 158.41000366210938,
+      "low": 158.3800048828125,
+      "close": 158.4029998779297,
+      "previousClose": 158.449,
+      "quoteAt": "2026-08-07T04:04:00.000Z",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "KRW=X",
+      "open": 1418.739990234375,
+      "high": 1418.739990234375,
+      "low": 1418.739990234375,
+      "close": 1418.739990234375,
+      "previousClose": 1422.69,
+      "quoteAt": "2026-08-07T04:04:56.000Z",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "CNY=X",
+      "open": 6.746200084686279,
+      "high": 6.746200084686279,
+      "low": 6.746200084686279,
+      "close": 6.746200084686279,
+      "previousClose": 6.7431,
+      "quoteAt": "2026-08-07T04:04:49.000Z",
+      "currency": "CNY"
+    },
+    {
+      "symbol": "SGD=X",
+      "open": 1.2822999954223633,
+      "high": 1.2822999954223633,
+      "low": 1.2822999954223633,
+      "close": 1.2822999954223633,
+      "previousClose": 1.2831,
+      "quoteAt": "2026-08-07T04:04:59.000Z",
+      "currency": "SGD"
+    },
+    {
+      "symbol": "EURUSD=X",
+      "open": 1.1526048183441162,
+      "high": 1.1526048183441162,
+      "low": 1.1526048183441162,
+      "close": 1.1526048183441162,
+      "previousClose": 1.1525,
+      "quoteAt": "2026-08-07T04:04:56.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "GBPUSD=X",
+      "open": 1.3452612161636353,
+      "high": 1.3452612161636353,
+      "low": 1.3452612161636353,
+      "close": 1.3452612161636353,
+      "previousClose": 1.3447,
+      "quoteAt": "2026-08-07T04:04:56.000Z",
+      "currency": "USD"
+    }
+  ],
+  "producer": {
+    "id": "s3",
+    "role": "primary"
+  },
+  "quoteFreshness": {
+    "status": "rejected",
+    "complete": false,
+    "enforced": true,
+    "referenceAt": "2026-08-07T04:05:00.000Z",
+    "maxAgeSeconds": 300,
+    "oldestQuoteAgeSeconds": 1260,
+    "newestQuoteAgeSeconds": 1,
+    "unreliableQuoteAtSymbols": [],
+    "staleSymbols": [
+      "^KS11",
+      "102110.KS",
+      "000660.KS",
+      "009150.KS"
+    ],
+    "futureSymbols": []
+  }
+}
