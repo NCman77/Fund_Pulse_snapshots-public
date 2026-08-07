@@ -1,0 +1,159 @@
+{
+  "schemaVersion": "1.2",
+  "market": "cn",
+  "region": "asia",
+  "capturedAt": "2026-08-07T03:30:00.569Z",
+  "session": "regular",
+  "source": "yahoo-finance-chart",
+  "isDelayed": true,
+  "quoteStatus": "current_market_date",
+  "scheduleRule": "session-watcher",
+  "scheduledAt": "2026-08-07T03:30:00.000Z",
+  "captureDelaySeconds": 1,
+  "timingStatus": "on_time",
+  "provider": {
+    "id": "yahoo-finance",
+    "endpointType": "chart"
+  },
+  "coverage": {
+    "provider": "yahoo-finance",
+    "endpointType": "chart",
+    "expectedSymbolCount": 11,
+    "capturedSymbolCount": 11,
+    "failedSymbols": [],
+    "complete": true
+  },
+  "quotes": [
+    {
+      "symbol": "000001.SS",
+      "open": 3918.06640625,
+      "high": 3918.06640625,
+      "low": 3918.06640625,
+      "close": 3918.06640625,
+      "previousClose": 3878.43,
+      "quoteAt": "2026-08-07T03:14:55.000Z",
+      "currency": "CNY"
+    },
+    {
+      "symbol": "000300.SS",
+      "open": 4686.59619140625,
+      "high": 4686.59619140625,
+      "low": 4686.59619140625,
+      "close": 4686.59619140625,
+      "previousClose": 4651.3096,
+      "quoteAt": "2026-08-07T03:14:55.000Z",
+      "currency": "CNY"
+    },
+    {
+      "symbol": "300308.SZ",
+      "open": 975.6099853515625,
+      "high": 975.6099853515625,
+      "low": 975.6099853515625,
+      "close": 975.6099853515625,
+      "previousClose": 955,
+      "quoteAt": "2026-08-07T03:14:58.000Z",
+      "currency": "CNY"
+    },
+    {
+      "symbol": "300502.SZ",
+      "open": 436.0299987792969,
+      "high": 436.0299987792969,
+      "low": 436.0299987792969,
+      "close": 436.0299987792969,
+      "previousClose": 421.87,
+      "quoteAt": "2026-08-07T03:14:58.000Z",
+      "currency": "CNY"
+    },
+    {
+      "symbol": "TWD=X",
+      "open": 32.2140007019043,
+      "high": 32.2140007019043,
+      "low": 32.2140007019043,
+      "close": 32.2140007019043,
+      "previousClose": 32.234,
+      "quoteAt": "2026-08-07T03:29:57.000Z",
+      "currency": "TWD"
+    },
+    {
+      "symbol": "JPY=X",
+      "open": 158.3979949951172,
+      "high": 158.3979949951172,
+      "low": 158.3979949951172,
+      "close": 158.3979949951172,
+      "previousClose": 158.449,
+      "quoteAt": "2026-08-07T03:29:59.000Z",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "KRW=X",
+      "open": 1421.0699462890625,
+      "high": 1421.0699462890625,
+      "low": 1421.0699462890625,
+      "close": 1421.0699462890625,
+      "previousClose": 1422.69,
+      "quoteAt": "2026-08-07T03:29:51.000Z",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "CNY=X",
+      "open": 6.746500015258789,
+      "high": 6.746500015258789,
+      "low": 6.746500015258789,
+      "close": 6.746500015258789,
+      "previousClose": 6.7431,
+      "quoteAt": "2026-08-07T03:29:37.000Z",
+      "currency": "CNY"
+    },
+    {
+      "symbol": "SGD=X",
+      "open": 1.2825900316238403,
+      "high": 1.2825900316238403,
+      "low": 1.2825900316238403,
+      "close": 1.2825900316238403,
+      "previousClose": 1.2831,
+      "quoteAt": "2026-08-07T03:29:58.000Z",
+      "currency": "SGD"
+    },
+    {
+      "symbol": "EURUSD=X",
+      "open": 1.1524720191955566,
+      "high": 1.1524720191955566,
+      "low": 1.1524720191955566,
+      "close": 1.1524720191955566,
+      "previousClose": 1.1525,
+      "quoteAt": "2026-08-07T03:29:56.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "GBPUSD=X",
+      "open": 1.345152735710144,
+      "high": 1.345152735710144,
+      "low": 1.345152735710144,
+      "close": 1.345152735710144,
+      "previousClose": 1.3447,
+      "quoteAt": "2026-08-07T03:29:56.000Z",
+      "currency": "USD"
+    }
+  ],
+  "producer": {
+    "id": "s2",
+    "role": "primary"
+  },
+  "quoteFreshness": {
+    "status": "rejected",
+    "complete": false,
+    "enforced": true,
+    "referenceAt": "2026-08-07T03:30:00.000Z",
+    "maxAgeSeconds": 300,
+    "oldestQuoteAgeSeconds": 905,
+    "newestQuoteAgeSeconds": 1,
+    "unreliableQuoteAtSymbols": [],
+    "staleSymbols": [
+      "000001.SS",
+      "000300.SS",
+      "300308.SZ",
+      "300502.SZ"
+    ],
+    "futureSymbols": []
+  }
+}
