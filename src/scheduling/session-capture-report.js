@@ -45,6 +45,7 @@ function normalizeSlotResult(result = {}) {
     captureDelaySeconds: Number.isFinite(Number(result.captureDelaySeconds))
       ? Number(result.captureDelaySeconds)
       : null,
+    providerFailure: String(result.providerFailure || '').trim(),
     error: String(result.error || '').trim(),
     collection: normalizeCollection(result.collection),
     diagnostics: (Array.isArray(result.diagnostics) ? result.diagnostics : []).map(normalizeDiagnostic)
