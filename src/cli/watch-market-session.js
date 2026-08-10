@@ -15,6 +15,7 @@ const slots = slotsArgument ? slotsArgument.slice('--slots='.length) : process.e
 const maxLateSeconds = Number(process.env.SESSION_WATCH_MAX_LATE_SECONDS || 120);
 const maxCaptureAttempts = Math.max(1, Number(process.env.SESSION_SLOT_MAX_ATTEMPTS || 3));
 const retryDelayMilliseconds = Math.max(0, Number(process.env.SESSION_SLOT_RETRY_DELAY_SECONDS || 15) * 1_000);
+const batchSchemaRecoveryDelayMilliseconds = Math.max(retryDelayMilliseconds, Number(process.env.SESSION_BATCH_SCHEMA_RECOVERY_DELAY_SECONDS || 30) * 1_000);
 const sessionName = String(process.env.SESSION_NAME || 'default').trim() || 'default';
 const producerId = String(process.env.CAPTURE_PRODUCER_ID || `primary-${sessionName}`).trim();
 const producerRole = String(process.env.CAPTURE_PRODUCER_ROLE || 'primary').trim() === 'backup' ? 'backup' : 'primary';
@@ -34,6 +35,18 @@ function parseCaptureOutput(output) {
     }
   }
   return null;
+}
+
+function classifyProviderFailure(collection, diagnostics = []) {
+  const expected = Math.max(0, Number(collection?.requestedSymbolCount ?? collection?.expectedSymbolCount ?? 0));
+  const captured = Math.max(0, Number(collection?.capturedSymbolCount ?? 0));
+  const finalMissingTimestamp = diagnostics.filter((diagnostic) => diagnostic?.finalAttempt === true
+    && diagnostic?.errorClass === 'schema_error' && diagnostic?.schemaStatus === 'missing_timestamp').length;
+  if (expected > 0 && captured === 0 && finalMissingTimestamp >= Math.ceil(expected * 0.6)) {
+    return 'provider_batch_schema_failure';
+  }
+  if (expected > 0 && finalMissingTimestamp >= Math.ceil(expected * 0.25)) return 'provider_schema_degradation';
+  return '';
 }
 
 async function runCapture({ scheduledAt, slot }) {
@@ -113,6 +126,7 @@ async function captureSlotWithRetry({
       lastError = error;
       lastCollection = error.captureResult?.collection || lastCollection;
       diagnostics.push(...(error.captureResult?.diagnostics || []).map((diagnostic) => ({ ...diagnostic, captureAttempt: attempt })));
+      const providerFailure = classifyProviderFailure(lastCollection, diagnostics);
       console.error(JSON.stringify({
         market: marketId,
         status: 'slot-capture-failed',
@@ -121,8 +135,11 @@ async function captureSlotWithRetry({
         maxAttempts: approvedMaxAttempts,
         error: error.message
       }));
-      if (attempt < approvedMaxAttempts && approvedRetryDelayMs > 0) {
-        await sleepFn(approvedRetryDelayMs * attempt);
+      if (attempt < approvedMaxAttempts) {
+        const delay = providerFailure === 'provider_batch_schema_failure'
+          ? batchSchemaRecoveryDelayMilliseconds
+          : approvedRetryDelayMs * attempt;
+        if (delay > 0) await sleepFn(delay);
       }
     }
   }
@@ -133,7 +150,8 @@ async function captureSlotWithRetry({
     attempts: approvedMaxAttempts,
     error: lastError?.message || 'Capture failed without an error message',
     collection: lastCollection,
-    diagnostics
+    diagnostics,
+    providerFailure: classifyProviderFailure(lastCollection, diagnostics)
   };
 }
 
@@ -201,4 +219,4 @@ async function main() {
 const isDirectRun = process.argv[1] ? path.resolve(process.argv[1]) === __filename : false;
 if (isDirectRun) await main();
 
-export { captureSlotWithRetry, main, parseCaptureOutput };
+export { captureSlotWithRetry, classifyProviderFailure, main, parseCaptureOutput };
