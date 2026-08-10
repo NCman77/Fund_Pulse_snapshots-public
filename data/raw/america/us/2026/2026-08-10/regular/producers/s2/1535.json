@@ -1,0 +1,466 @@
+{
+  "schemaVersion": "1.2",
+  "market": "us",
+  "region": "america",
+  "capturedAt": "2026-08-10T15:35:01.095Z",
+  "session": "regular",
+  "source": "yahoo-finance-chart",
+  "isDelayed": true,
+  "quoteStatus": "current_market_date",
+  "scheduleRule": "session-watcher",
+  "scheduledAt": "2026-08-10T15:35:00.000Z",
+  "captureDelaySeconds": 1,
+  "timingStatus": "on_time",
+  "provider": {
+    "id": "yahoo-finance",
+    "endpointType": "chart"
+  },
+  "coverage": {
+    "provider": "yahoo-finance",
+    "endpointType": "chart",
+    "expectedSymbolCount": 42,
+    "capturedSymbolCount": 42,
+    "failedSymbols": [],
+    "complete": true
+  },
+  "quotes": [
+    {
+      "symbol": "^GSPC",
+      "open": 7757.2998046875,
+      "high": 7757.2998046875,
+      "low": 7757.2998046875,
+      "close": 7757.2998046875,
+      "previousClose": 7757.64,
+      "quoteAt": "2026-08-10T15:34:57.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "^DJI",
+      "open": 54024.26953125,
+      "high": 54024.26953125,
+      "low": 54024.26953125,
+      "close": 54024.26953125,
+      "previousClose": 54036.93,
+      "quoteAt": "2026-08-10T15:34:59.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "^IXIC",
+      "open": 26597.576171875,
+      "high": 26597.576171875,
+      "low": 26597.576171875,
+      "close": 26597.576171875,
+      "previousClose": 26690.615,
+      "quoteAt": "2026-08-10T15:34:58.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "ACWI",
+      "open": 161.2050018310547,
+      "high": 161.2050018310547,
+      "low": 161.2050018310547,
+      "close": 161.2050018310547,
+      "previousClose": 161.44,
+      "quoteAt": "2026-08-10T15:34:49.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "AMAT",
+      "open": 528.780029296875,
+      "high": 528.780029296875,
+      "low": 528.780029296875,
+      "close": 528.780029296875,
+      "previousClose": 539.14,
+      "quoteAt": "2026-08-10T15:34:59.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "AMD",
+      "open": 475.44000244140625,
+      "high": 475.44000244140625,
+      "low": 475.44000244140625,
+      "close": 475.44000244140625,
+      "previousClose": 483.36,
+      "quoteAt": "2026-08-10T15:34:55.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "ARM",
+      "open": 269.9700012207031,
+      "high": 269.9700012207031,
+      "low": 269.9700012207031,
+      "close": 269.9700012207031,
+      "previousClose": 282.57,
+      "quoteAt": "2026-08-10T15:34:56.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "SOXX",
+      "open": 534.5700073242188,
+      "high": 534.5700073242188,
+      "low": 534.5700073242188,
+      "close": 534.5700073242188,
+      "previousClose": 543.27,
+      "quoteAt": "2026-08-10T15:34:58.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "AVGO",
+      "open": 424.8500061035156,
+      "high": 424.8500061035156,
+      "low": 424.8500061035156,
+      "close": 424.8500061035156,
+      "previousClose": 427.76,
+      "quoteAt": "2026-08-10T15:34:59.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "BE",
+      "open": 214.52000427246094,
+      "high": 214.52000427246094,
+      "low": 214.52000427246094,
+      "close": 214.52000427246094,
+      "previousClose": 219.34,
+      "quoteAt": "2026-08-10T15:34:55.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "CIEN",
+      "open": 398.70001220703125,
+      "high": 398.70001220703125,
+      "low": 398.70001220703125,
+      "close": 398.70001220703125,
+      "previousClose": 412.39,
+      "quoteAt": "2026-08-10T15:34:50.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "COHR",
+      "open": 333.3949890136719,
+      "high": 333.3949890136719,
+      "low": 333.3949890136719,
+      "close": 333.3949890136719,
+      "previousClose": 379.13,
+      "quoteAt": "2026-08-10T15:34:59.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "EWY",
+      "open": 163.1699981689453,
+      "high": 163.19000244140625,
+      "low": 162.99000549316406,
+      "close": 163.03500366210938,
+      "previousClose": 166.09,
+      "quoteAt": "2026-08-10T15:34:00.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "GEV",
+      "open": 992.9550170898438,
+      "high": 992.9550170898438,
+      "low": 992.9550170898438,
+      "close": 992.9550170898438,
+      "previousClose": 990.32,
+      "quoteAt": "2026-08-10T15:34:51.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "GLW",
+      "open": 162.28500366210938,
+      "high": 162.28500366210938,
+      "low": 162.28500366210938,
+      "close": 162.28500366210938,
+      "previousClose": 165.68,
+      "quoteAt": "2026-08-10T15:34:55.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "GOOGL",
+      "open": 354.19500732421875,
+      "high": 354.19500732421875,
+      "low": 354.19500732421875,
+      "close": 354.19500732421875,
+      "previousClose": 354.3,
+      "quoteAt": "2026-08-10T15:34:59.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "IFNNY",
+      "open": 72.5199966430664,
+      "high": 72.5199966430664,
+      "low": 72.5199966430664,
+      "close": 72.5199966430664,
+      "previousClose": 72.07,
+      "quoteAt": "2026-08-10T15:12:30.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "LITE",
+      "open": 833,
+      "high": 833,
+      "low": 833,
+      "close": 833,
+      "previousClose": 890.17,
+      "quoteAt": "2026-08-10T15:34:58.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "LRCX",
+      "open": 306.6099853515625,
+      "high": 306.6099853515625,
+      "low": 306.6099853515625,
+      "close": 306.6099853515625,
+      "previousClose": 311.35,
+      "quoteAt": "2026-08-10T15:34:59.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "MRVL",
+      "open": 214.2949981689453,
+      "high": 214.2949981689453,
+      "low": 214.2949981689453,
+      "close": 214.2949981689453,
+      "previousClose": 218.72,
+      "quoteAt": "2026-08-10T15:34:59.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "MSFT",
+      "open": 509.3699035644531,
+      "high": 509.3699035644531,
+      "low": 509.3699035644531,
+      "close": 509.3699035644531,
+      "previousClose": 499.99,
+      "quoteAt": "2026-08-10T15:34:59.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "MU",
+      "open": 869.4600219726562,
+      "high": 869.4600219726562,
+      "low": 869.4600219726562,
+      "close": 869.4600219726562,
+      "previousClose": 877.57,
+      "quoteAt": "2026-08-10T15:34:59.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "MXL",
+      "open": 70.16999816894531,
+      "high": 70.16999816894531,
+      "low": 70.16999816894531,
+      "close": 70.16999816894531,
+      "previousClose": 74.98,
+      "quoteAt": "2026-08-10T15:34:51.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "NBIS",
+      "open": 187.7552947998047,
+      "high": 187.7552947998047,
+      "low": 187.7552947998047,
+      "close": 187.7552947998047,
+      "previousClose": 187.97,
+      "quoteAt": "2026-08-10T15:34:56.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "NVDA",
+      "open": 219.06500244140625,
+      "high": 219.06500244140625,
+      "low": 219.06500244140625,
+      "close": 219.06500244140625,
+      "previousClose": 223.96,
+      "quoteAt": "2026-08-10T15:34:59.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "SNDK",
+      "open": 1230.60498046875,
+      "high": 1230.60498046875,
+      "low": 1230.60498046875,
+      "close": 1230.60498046875,
+      "previousClose": 1212.21,
+      "quoteAt": "2026-08-10T15:34:57.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "STX",
+      "open": 810.60498046875,
+      "high": 810.60498046875,
+      "low": 810.60498046875,
+      "close": 810.60498046875,
+      "previousClose": 812.76,
+      "quoteAt": "2026-08-10T15:34:52.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "TER",
+      "open": 367.3500061035156,
+      "high": 367.3500061035156,
+      "low": 367.3500061035156,
+      "close": 367.3500061035156,
+      "previousClose": 379.31,
+      "quoteAt": "2026-08-10T15:34:57.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "TSEM",
+      "open": 261.6700134277344,
+      "high": 261.6700134277344,
+      "low": 260.768798828125,
+      "close": 260.768798828125,
+      "previousClose": 252.49,
+      "quoteAt": "2026-08-10T15:34:00.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "XLI",
+      "open": 185.2899932861328,
+      "high": 185.2899932861328,
+      "low": 185.2899932861328,
+      "close": 185.2899932861328,
+      "previousClose": 185.18,
+      "quoteAt": "2026-08-10T15:34:52.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "XLY",
+      "open": 119.56999969482422,
+      "high": 119.56999969482422,
+      "low": 119.56999969482422,
+      "close": 119.56999969482422,
+      "previousClose": 119.86,
+      "quoteAt": "2026-08-10T15:34:59.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "VECO",
+      "open": 50.25,
+      "high": 50.25,
+      "low": 50.25,
+      "close": 50.25,
+      "previousClose": 52.785,
+      "quoteAt": "2026-08-10T15:34:49.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "VRT",
+      "open": 271.79998779296875,
+      "high": 271.79998779296875,
+      "low": 271.79998779296875,
+      "close": 271.79998779296875,
+      "previousClose": 272.4,
+      "quoteAt": "2026-08-10T15:34:57.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "VSH",
+      "open": 33.689998626708984,
+      "high": 33.689998626708984,
+      "low": 33.689998626708984,
+      "close": 33.689998626708984,
+      "previousClose": 35.41,
+      "quoteAt": "2026-08-10T15:34:59.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "WDC",
+      "open": 442.5400085449219,
+      "high": 442.5400085449219,
+      "low": 442.5400085449219,
+      "close": 442.5400085449219,
+      "previousClose": 434.3,
+      "quoteAt": "2026-08-10T15:34:59.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "TWD=X",
+      "open": 32.231998443603516,
+      "high": 32.231998443603516,
+      "low": 32.231998443603516,
+      "close": 32.231998443603516,
+      "previousClose": 32.235,
+      "quoteAt": "2026-08-10T15:34:36.000Z",
+      "currency": "TWD"
+    },
+    {
+      "symbol": "JPY=X",
+      "open": 158.9499969482422,
+      "high": 158.9499969482422,
+      "low": 158.9499969482422,
+      "close": 158.9499969482422,
+      "previousClose": 157.745,
+      "quoteAt": "2026-08-10T15:34:59.000Z",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "KRW=X",
+      "open": 1417.6500244140625,
+      "high": 1417.6500244140625,
+      "low": 1417.6500244140625,
+      "close": 1417.6500244140625,
+      "previousClose": 1407.45,
+      "quoteAt": "2026-08-10T15:34:57.000Z",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "CNY=X",
+      "open": 6.73360013961792,
+      "high": 6.73360013961792,
+      "low": 6.73360013961792,
+      "close": 6.73360013961792,
+      "previousClose": 6.7372,
+      "quoteAt": "2026-08-10T15:32:54.000Z",
+      "currency": "CNY"
+    },
+    {
+      "symbol": "SGD=X",
+      "open": 1.2800300121307373,
+      "high": 1.2800999879837036,
+      "low": 1.2799999713897705,
+      "close": 1.2800400257110596,
+      "previousClose": 1.2779,
+      "quoteAt": "2026-08-10T15:34:00.000Z",
+      "currency": "SGD"
+    },
+    {
+      "symbol": "EURUSD=X",
+      "open": 1.155001163482666,
+      "high": 1.155001163482666,
+      "low": 1.155001163482666,
+      "close": 1.155001163482666,
+      "previousClose": 1.1562,
+      "quoteAt": "2026-08-10T15:34:23.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "GBPUSD=X",
+      "open": 1.3522651195526123,
+      "high": 1.3522651195526123,
+      "low": 1.3522651195526123,
+      "close": 1.3522651195526123,
+      "previousClose": 1.3493,
+      "quoteAt": "2026-08-10T15:34:23.000Z",
+      "currency": "USD"
+    }
+  ],
+  "producer": {
+    "id": "s2",
+    "role": "primary"
+  },
+  "quoteFreshness": {
+    "status": "rejected",
+    "complete": false,
+    "enforced": true,
+    "referenceAt": "2026-08-10T15:35:00.000Z",
+    "maxAgeSeconds": 300,
+    "oldestQuoteAgeSeconds": 1350,
+    "newestQuoteAgeSeconds": 1,
+    "unreliableQuoteAtSymbols": [],
+    "staleSymbols": [
+      "IFNNY"
+    ],
+    "futureSymbols": []
+  }
+}
