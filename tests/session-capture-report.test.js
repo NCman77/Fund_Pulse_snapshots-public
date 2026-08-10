@@ -62,7 +62,11 @@ test('persists sanitized quote coverage and collector diagnostics for each slot'
         provider: 'yahoo-finance', endpointType: 'chart', symbol: 'MISSING.T',
         attempt: 3, maxAttempts: 3, errorClass: 'schema_error', schemaStatus: 'missing_close',
         httpStatus: 200, retryable: true, backoffMilliseconds: 0,
-        captureSlot: '09:05', workflowRunId: '123', workflowRunAttempt: '1', producerId: 'primary-morning'
+        captureSlot: '09:05', workflowRunId: '123', workflowRunAttempt: '1', producerId: 'primary-morning',
+        responseDiagnostic: {
+          requestUrl: 'https://example.invalid/?token=must-not-persist', contentType: 'application/json',
+          responsePreview: 'must-not-persist', httpStatus: 200, resultType: 'array', timestampType: 'undefined'
+        }
       }]
     }]
   });
@@ -70,6 +74,12 @@ test('persists sanitized quote coverage and collector diagnostics for each slot'
   assert.equal(report.schemaVersion, '1.1');
   assert.deepEqual(report.slots[0].collection.failedSymbols, ['MISSING.T']);
   assert.equal(report.slots[0].diagnostics[0].schemaStatus, 'missing_close');
+  assert.equal(report.slots[0].collection.expectedSymbolCount, 2);
+  assert.equal(report.slots[0].collection.requestedSymbolCount, 2);
+  assert.equal('requestUrl' in report.slots[0].diagnostics[0].responseDiagnostic, false);
+  assert.equal('contentType' in report.slots[0].diagnostics[0].responseDiagnostic, false);
+  assert.equal('responsePreview' in report.slots[0].diagnostics[0].responseDiagnostic, false);
+  assert.doesNotMatch(JSON.stringify(report), /must-not-persist/);
   assert.equal(report.summary.partialSlotCount, 1);
   assert.equal(report.summary.complete, false);
   assert.equal(report.summary.healthy, false);

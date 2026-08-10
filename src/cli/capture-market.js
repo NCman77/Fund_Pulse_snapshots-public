@@ -1,11 +1,13 @@
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
-import { collectYahooCharts, describeYahooCollectorError } from '../collectors/yahoo-chart-collector.js';
+import { collectYahooChartCollection, describeYahooCollectorError } from '../collectors/yahoo-chart-collector.js';
 import { createQuoteProvider } from '../providers/quote-provider.js';
 import { resolveMarketSession } from '../scheduling/market-session-resolver.js';
 import { buildCaptureTiming } from '../scheduling/scheduled-capture-timing.js';
-import { writeSnapshot } from '../storage/snapshot-writer.js';
+import { writePartialCapture, writeSnapshot } from '../storage/snapshot-writer.js';
 import { assessSnapshotQuoteFreshness } from '../quality/quote-freshness.js';
+import { buildQuoteCollectionSummary } from '../quality/quote-collection-summary.js';
+import { buildMergedCaptureCoverage, loadPartialCaptureSeeds, mergeQuotesBySymbol } from '../quality/partial-capture-merge.js';
 
 const market = process.argv[2];
 if (!market || !/^[a-z]{2,8}$/.test(market)) {
@@ -36,19 +38,25 @@ function configuredNumber(environmentName, configuredValue) {
   return environmentValue === undefined ? configuredValue : Number(environmentValue);
 }
 
-function buildCollectionSummary() {
-  const captured = new Set(capturedSymbols);
-  const finalFailures = new Set(
-    diagnostics.filter((diagnostic) => diagnostic.finalAttempt).map((diagnostic) => diagnostic.symbol)
-  );
-  return {
+function buildCollectionSummary(collection = {}) {
+  return buildQuoteCollectionSummary(collection, {
     provider: selectedProvider.id,
     endpointType: selectedProvider.endpointType,
     expectedSymbolCount: expectedSymbols.length,
-    capturedSymbolCount: captured.size,
-    failedSymbols: expectedSymbols.filter((symbol) => finalFailures.has(symbol) || !captured.has(symbol)),
-    complete: expectedSymbols.length > 0 && expectedSymbols.every((symbol) => captured.has(symbol))
-  };
+    requestedSymbolCount: expectedSymbols.length,
+    attemptedSymbolCount: capturedSymbols.length,
+    capturedSymbolCount: capturedSymbols.length,
+    failedSymbolCount: 0,
+    notAttemptedSymbolCount: Math.max(0, expectedSymbols.length - capturedSymbols.length),
+    requestedSymbols: expectedSymbols,
+    capturedSymbols,
+    failedSymbols: [],
+    notAttemptedSymbols: expectedSymbols.filter((symbol) => !capturedSymbols.includes(symbol)),
+    collectionStatus: capturedSymbols.length === expectedSymbols.length ? 'complete' : 'partial',
+    validationStatus: capturedSymbols.length === expectedSymbols.length ? 'valid' : 'collection_interrupted',
+    publishable: capturedSymbols.length === expectedSymbols.length,
+    complete: capturedSymbols.length === expectedSymbols.length
+  });
 }
 
 try {
@@ -72,17 +80,43 @@ try {
   ];
   const uniqueSymbols = Array.from(new Map(symbols.map((item) => [item.symbol, item])).values());
   expectedSymbols = uniqueSymbols.map(({ symbol }) => symbol);
+  const requiredSymbols = Array.isArray(config.requiredSymbols) && config.requiredSymbols.length
+    ? config.requiredSymbols.map((symbol) => String(symbol || '').trim()).filter(Boolean)
+    : expectedSymbols;
+  const optionalSymbols = Array.isArray(config.optionalSymbols)
+    ? config.optionalSymbols.map((symbol) => String(symbol || '').trim()).filter(Boolean)
+    : expectedSymbols.filter((symbol) => !requiredSymbols.includes(symbol));
+  const declaredSymbols = [...requiredSymbols, ...optionalSymbols];
+  if (new Set(declaredSymbols).size !== declaredSymbols.length || declaredSymbols.length !== expectedSymbols.length
+    || declaredSymbols.some((symbol) => !expectedSymbols.includes(symbol))) {
+    throw new Error(`Market ${market} must classify every approved symbol exactly once as required or optional.`);
+  }
   const producerId = String(process.env.CAPTURE_PRODUCER_ID || '').trim();
   const scheduledAtMilliseconds = Date.parse(String(process.env.CAPTURE_SCHEDULED_AT || ''));
   const maximumCaptureDelaySeconds = Number(process.env.CAPTURE_MAX_DELAY_SECONDS || 120);
   const deadlineAt = Number.isFinite(scheduledAtMilliseconds)
     ? new Date(scheduledAtMilliseconds + (maximumCaptureDelaySeconds * 1_000)).toISOString()
     : undefined;
+  let configuredSeedPaths = [];
+  try {
+    configuredSeedPaths = JSON.parse(String(process.env.CAPTURE_SEED_PATHS || '[]'));
+  } catch {
+    throw new Error('CAPTURE_SEED_PATHS must be a JSON array.');
+  }
+  if (!Array.isArray(configuredSeedPaths)) throw new Error('CAPTURE_SEED_PATHS must be a JSON array.');
+  const scheduledAt = Number.isFinite(scheduledAtMilliseconds) ? new Date(scheduledAtMilliseconds).toISOString() : '';
+  const seedQuotes = await loadPartialCaptureSeeds({
+    root, seedPaths: configuredSeedPaths, market, scheduledAt, producerId, expectedSymbols
+  });
+  const seededSymbols = new Set(seedQuotes.map(({ symbol }) => symbol));
+  const missingSymbols = uniqueSymbols.filter(({ symbol }) => !seededSymbols.has(symbol));
   const primaryProvider = createQuoteProvider({
     id: 'yahoo-finance',
     endpointType: 'chart',
-    collect: (requestedSymbols, context) => collectYahooCharts(requestedSymbols, {
+    collect: (requestedSymbols, context) => collectYahooChartCollection(requestedSymbols, {
       timezone: config.timezone,
+      requiredSymbols,
+      optionalSymbols,
       maxAttempts: configuredNumber('YAHOO_CHART_MAX_ATTEMPTS', yahooPolicy.maxAttempts),
       retryDelayMilliseconds: configuredNumber('YAHOO_CHART_INITIAL_BACKOFF_MS', yahooPolicy.initialBackoffMilliseconds),
       maxRetryDelayMilliseconds: configuredNumber('YAHOO_CHART_MAX_BACKOFF_MS', yahooPolicy.maxBackoffMilliseconds),
@@ -100,9 +134,15 @@ try {
     })
   });
   selectedProvider = { id: primaryProvider.id, endpointType: primaryProvider.endpointType };
-  const collection = await primaryProvider.collect(uniqueSymbols, { deadlineAt });
-  const quotes = collection.quotes;
+  const collection = missingSymbols.length
+    ? await primaryProvider.collect(missingSymbols, { deadlineAt })
+    : { quotes: [], failedSymbols: [], notAttemptedSymbols: [] };
+  const quotes = mergeQuotesBySymbol(expectedSymbols, seedQuotes, collection.quotes);
   capturedSymbols = quotes.map(({ symbol }) => symbol);
+  const coverage = buildMergedCaptureCoverage({
+    expectedSymbols, capturedSymbols, requiredSymbols, optionalSymbols, collection,
+    provider: selectedProvider.id, endpointType: selectedProvider.endpointType
+  });
   const capturedAt = new Date();
   const producerRole = String(process.env.CAPTURE_PRODUCER_ROLE || 'primary').trim();
   const snapshot = {
@@ -116,19 +156,25 @@ try {
       process.env.CAPTURE_SCHEDULED_AT
     ),
     provider: selectedProvider,
-    coverage: buildCollectionSummary(),
+    coverage,
+    collectionStatus: coverage.collectionStatus,
+    validationStatus: coverage.validationStatus,
+    publishable: coverage.publishable,
     quotes,
     producer: producerId ? { id: producerId, role: producerRole === 'backup' ? 'backup' : 'primary' } : undefined
   };
   snapshot.quoteFreshness = assessSnapshotQuoteFreshness(snapshot, providerPolicy.quoteFreshness || {});
-  const rawPath = await writeSnapshot(root, snapshot);
+  const snapshotPath = coverage.publishable
+    ? await writeSnapshot(root, snapshot)
+    : await writePartialCapture(root, snapshot);
   console.log(JSON.stringify({
     market,
-    status: 'captured',
-    path: path.relative(root, rawPath),
-    collection: buildCollectionSummary(),
+    status: coverage.publishable ? 'captured' : 'partial',
+    path: path.relative(root, snapshotPath),
+    collection: coverage,
     diagnostics
   }));
+  if (!coverage.publishable) process.exitCode = 1;
 } catch (error) {
   console.log(JSON.stringify({
     market,
