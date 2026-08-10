@@ -7,6 +7,7 @@ import { buildCaptureTiming } from '../scheduling/scheduled-capture-timing.js';
 import { writePartialCapture, writeSnapshot } from '../storage/snapshot-writer.js';
 import { assessSnapshotQuoteFreshness } from '../quality/quote-freshness.js';
 import { buildQuoteCollectionSummary } from '../quality/quote-collection-summary.js';
+import { buildMergedCaptureCoverage, loadPartialCaptureSeeds, mergeQuotesBySymbol } from '../quality/partial-capture-merge.js';
 
 const market = process.argv[2];
 if (!market || !/^[a-z]{2,8}$/.test(market)) {
@@ -96,6 +97,19 @@ try {
   const deadlineAt = Number.isFinite(scheduledAtMilliseconds)
     ? new Date(scheduledAtMilliseconds + (maximumCaptureDelaySeconds * 1_000)).toISOString()
     : undefined;
+  let configuredSeedPaths = [];
+  try {
+    configuredSeedPaths = JSON.parse(String(process.env.CAPTURE_SEED_PATHS || '[]'));
+  } catch {
+    throw new Error('CAPTURE_SEED_PATHS must be a JSON array.');
+  }
+  if (!Array.isArray(configuredSeedPaths)) throw new Error('CAPTURE_SEED_PATHS must be a JSON array.');
+  const scheduledAt = Number.isFinite(scheduledAtMilliseconds) ? new Date(scheduledAtMilliseconds).toISOString() : '';
+  const seedQuotes = await loadPartialCaptureSeeds({
+    root, seedPaths: configuredSeedPaths, market, scheduledAt, producerId, expectedSymbols
+  });
+  const seededSymbols = new Set(seedQuotes.map(({ symbol }) => symbol));
+  const missingSymbols = uniqueSymbols.filter(({ symbol }) => !seededSymbols.has(symbol));
   const primaryProvider = createQuoteProvider({
     id: 'yahoo-finance',
     endpointType: 'chart',
@@ -120,10 +134,15 @@ try {
     })
   });
   selectedProvider = { id: primaryProvider.id, endpointType: primaryProvider.endpointType };
-  const collection = await primaryProvider.collect(uniqueSymbols, { deadlineAt });
-  const quotes = collection.quotes;
+  const collection = missingSymbols.length
+    ? await primaryProvider.collect(missingSymbols, { deadlineAt })
+    : { quotes: [], failedSymbols: [], notAttemptedSymbols: [] };
+  const quotes = mergeQuotesBySymbol(expectedSymbols, seedQuotes, collection.quotes);
   capturedSymbols = quotes.map(({ symbol }) => symbol);
-  const coverage = buildCollectionSummary(collection);
+  const coverage = buildMergedCaptureCoverage({
+    expectedSymbols, capturedSymbols, requiredSymbols, optionalSymbols, collection,
+    provider: selectedProvider.id, endpointType: selectedProvider.endpointType
+  });
   const capturedAt = new Date();
   const producerRole = String(process.env.CAPTURE_PRODUCER_ROLE || 'primary').trim();
   const snapshot = {

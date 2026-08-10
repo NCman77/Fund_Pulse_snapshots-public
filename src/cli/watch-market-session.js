@@ -49,7 +49,7 @@ function classifyProviderFailure(collection, diagnostics = []) {
   return '';
 }
 
-async function runCapture({ scheduledAt, slot }) {
+async function runCapture({ scheduledAt, slot, seedPaths = [] }) {
   return new Promise((resolve, reject) => {
     let output = '';
     let errorOutput = '';
@@ -61,7 +61,8 @@ async function runCapture({ scheduledAt, slot }) {
         CAPTURE_SCHEDULED_AT: scheduledAt.toISOString(),
         CAPTURE_SLOT: slot,
         CAPTURE_PRODUCER_ID: producerId,
-        CAPTURE_PRODUCER_ROLE: producerRole
+        CAPTURE_PRODUCER_ROLE: producerRole,
+        CAPTURE_SEED_PATHS: JSON.stringify(seedPaths)
       }
     });
     child.stdout.on('data', (chunk) => {
@@ -106,9 +107,10 @@ async function captureSlotWithRetry({
   let lastError = null;
   let lastCollection = null;
   const diagnostics = [];
+  const seedPaths = [];
   for (let attempt = 1; attempt <= approvedMaxAttempts; attempt += 1) {
     try {
-      const result = await runCaptureFn(target);
+      const result = await runCaptureFn({ ...target, seedPaths: [...seedPaths] });
       lastCollection = result.collection || null;
       diagnostics.push(...(result.diagnostics || []).map((diagnostic) => ({ ...diagnostic, captureAttempt: attempt })));
       const snapshot = JSON.parse(await readFile(path.join(root, result.path), 'utf8'));
@@ -125,6 +127,10 @@ async function captureSlotWithRetry({
     } catch (error) {
       lastError = error;
       lastCollection = error.captureResult?.collection || lastCollection;
+      const partialPath = String(error.captureResult?.path || '').trim();
+      if (error.captureResult?.status === 'partial' && partialPath && !seedPaths.includes(partialPath)) {
+        seedPaths.push(partialPath);
+      }
       diagnostics.push(...(error.captureResult?.diagnostics || []).map((diagnostic) => ({ ...diagnostic, captureAttempt: attempt })));
       const providerFailure = classifyProviderFailure(lastCollection, diagnostics);
       console.error(JSON.stringify({

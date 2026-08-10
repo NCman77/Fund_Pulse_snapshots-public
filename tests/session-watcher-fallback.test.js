@@ -106,3 +106,44 @@ test('promotes handoff raw after every primary capture attempt times out', async
   assert.equal(latest.verification.producer.id, 'uk-tail-handoff-backup');
   assert.equal(latest.verification.fallbackReason, 'primary_missing_or_unverified_for_slot');
 });
+
+test('passes partial capture paths into the next slot attempt', async (t) => {
+  const root = await mkdtemp(path.join(os.tmpdir(), 'session-partial-retry-'));
+  t.after(async () => rm(root, { recursive: true, force: true, maxRetries: 5, retryDelay: 50 }));
+  const target = { slot: '09:05', scheduledAt: new Date('2026-08-10T13:05:00.000Z') };
+  const receivedSeeds = [];
+  const finalPath = path.join(root, 'data', 'raw', 'north-america', 'us', '2026', '2026-08-10', 'regular', 'producers', 's1', '1305.json');
+  await mkdir(path.dirname(finalPath), { recursive: true });
+  await writeFile(finalPath, JSON.stringify({ timingStatus: 'on_time', captureDelaySeconds: 12 }));
+
+  const result = await captureSlotWithRetry({
+    root,
+    target,
+    marketId: 'us',
+    maxAttempts: 2,
+    retryDelayMs: 0,
+    runCaptureFn: async ({ seedPaths }) => {
+      receivedSeeds.push(seedPaths);
+      if (!seedPaths.length) {
+        const error = new Error('one symbol missing');
+        error.captureResult = {
+          status: 'partial',
+          path: 'data/partial/north-america/us/2026/2026-08-10/regular/producers/s1/seed.json',
+          collection: { expectedSymbolCount: 42, capturedSymbolCount: 41 },
+          diagnostics: []
+        };
+        throw error;
+      }
+      return {
+        status: 'captured',
+        path: path.relative(root, finalPath),
+        collection: { expectedSymbolCount: 42, capturedSymbolCount: 42 },
+        diagnostics: []
+      };
+    }
+  });
+
+  assert.deepEqual(receivedSeeds, [[], ['data/partial/north-america/us/2026/2026-08-10/regular/producers/s1/seed.json']]);
+  assert.equal(result.status, 'captured');
+  assert.equal(result.attempts, 2);
+});
