@@ -10,5 +10,9 @@
       "2026-12-24": [{ "open": "09:30", "close": "13:00" }]
     }
   },
-  "source": { "status": "approved", "name": "yahoo-finance-chart" }
+  "source": { "status": "approved", "name": "yahoo-finance-chart" },
+  "requiredSymbols": ["^GSPC", "^DJI", "^IXIC"],
+  "optionalSymbols": [
+    "ACWI", "AMAT", "AMD", "ARM", "SOXX", "AVGO", "BE", "CIEN", "COHR", "EWY", "GEV", "GLW", "GOOGL", "IFNNY", "LITE", "LRCX", "MRVL", "MSFT", "MU", "MXL", "NBIS", "NVDA", "SNDK", "STX", "TER", "TSEM", "XLI", "XLY", "VECO", "VRT", "VSH", "WDC", "TWD=X", "JPY=X", "KRW=X", "CNY=X", "SGD=X", "EURUSD=X", "GBPUSD=X"
+  ]
 }
