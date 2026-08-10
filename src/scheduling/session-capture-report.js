@@ -1,18 +1,13 @@
+import { buildQuoteCollectionSummary } from '../quality/quote-collection-summary.js';
+
 function normalizeCollection(collection) {
   if (!collection || typeof collection !== 'object') return null;
-  return {
-    provider: String(collection.provider || '').trim(),
-    endpointType: String(collection.endpointType || '').trim(),
-    expectedSymbolCount: Math.max(0, Number(collection.expectedSymbolCount || 0)),
-    capturedSymbolCount: Math.max(0, Number(collection.capturedSymbolCount || 0)),
-    failedSymbols: Array.isArray(collection.failedSymbols)
-      ? collection.failedSymbols.map((symbol) => String(symbol || '').trim()).filter(Boolean)
-      : []
-  };
+  return buildQuoteCollectionSummary(collection);
 }
 
 function normalizeDiagnostic(diagnostic = {}) {
-  return Object.fromEntries([
+  const response = diagnostic.responseDiagnostic;
+  const normalized = Object.fromEntries([
     ['provider', String(diagnostic.provider || '').trim()],
     ['endpointType', String(diagnostic.endpointType || '').trim()],
     ['symbol', String(diagnostic.symbol || '').trim()],
@@ -31,6 +26,18 @@ function normalizeDiagnostic(diagnostic = {}) {
     ['workflowRunAttempt', String(diagnostic.workflowRunAttempt || '').trim()],
     ['producerId', String(diagnostic.producerId || '').trim()]
   ].filter(([, value]) => value !== ''));
+  if (response && typeof response === 'object') {
+    normalized.responseDiagnostic = {
+      httpStatus: Number.isInteger(response.httpStatus) ? response.httpStatus : null,
+      chartError: response.chartError ?? null,
+      resultType: String(response.resultType || '').trim(),
+      resultKeys: Array.isArray(response.resultKeys) ? response.resultKeys.map((key) => String(key || '').trim()).filter(Boolean) : [],
+      timestampType: String(response.timestampType || '').trim(),
+      timestampLength: Number.isFinite(Number(response.timestampLength)) ? Number(response.timestampLength) : null,
+      indicatorsQuoteType: String(response.indicatorsQuoteType || '').trim()
+    };
+  }
+  return normalized;
 }
 
 function normalizeSlotResult(result = {}) {
@@ -54,8 +61,7 @@ function normalizeSlotResult(result = {}) {
 
 function isPartialSlot(result) {
   const collection = result.collection;
-  return result.status === 'captured' && Boolean(collection)
-    && (collection.failedSymbols.length > 0 || collection.capturedSymbolCount < collection.expectedSymbolCount);
+  return Boolean(collection) && (collection.collectionStatus === 'partial' || !collection.publishable);
 }
 
 function buildSessionCaptureReport({ market, sessionName, plan, results, generatedAt = new Date().toISOString() }) {
@@ -65,7 +71,7 @@ function buildSessionCaptureReport({ market, sessionName, plan, results, generat
   const onTimeSlots = successfulSlots.filter((result) => result.timingStatus === 'on_time');
   const lateSlots = successfulSlots.filter((result) => result.timingStatus && result.timingStatus !== 'on_time');
   const failedSlots = normalizedResults.filter((result) => result.status !== 'captured');
-  const partialSlots = successfulSlots.filter(isPartialSlot);
+  const partialSlots = normalizedResults.filter(isPartialSlot);
   const completeSlots = successfulSlots.filter((result) => !isPartialSlot(result));
 
   return {

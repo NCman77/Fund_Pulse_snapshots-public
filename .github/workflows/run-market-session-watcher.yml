@@ -51,6 +51,7 @@ jobs:
           set -uo pipefail
           market_region="$(node --input-type=module -e 'import { readFileSync } from "node:fs"; const config = JSON.parse(readFileSync(`config/markets/${process.env.MARKET}.json`, "utf8")); process.stdout.write(config.region);')"
           raw_path="data/raw/$market_region/$MARKET/"
+          partial_path="data/partial/$market_region/$MARKET/"
           session_status_path="data/status/sessions/$MARKET/"
           taiwan_close_handoff_path="data/handoffs/taiwan-close/"
           capture_commit_pending=0
@@ -72,6 +73,7 @@ jobs:
             }
 
             stage_if_present "$raw_path"
+            stage_if_present "$partial_path"
             stage_if_present "$session_status_path"
             if [ "$MARKET" = 'tw' ]; then stage_if_present "$taiwan_close_handoff_path"; fi
             if ! git diff --cached --quiet; then
@@ -133,11 +135,11 @@ jobs:
           done
           watcher_status=0
           wait "$watcher_pid" || watcher_status=$?
+          if [ "$MARKET" = 'tw' ] && [ "$SESSION_NAME" = 's3' ]; then
+            npm run build:tw-close-handoff || watcher_status=1
+          fi
           if ! commit_snapshots; then
             echo "final capture flush failed for $MARKET" >&2
             exit 1
-          fi
-          if [ "$MARKET" = 'tw' ] && [ "$SESSION_NAME" = 's3' ]; then
-            npm run build:tw-close-handoff || watcher_status=1
           fi
           exit "$watcher_status"
