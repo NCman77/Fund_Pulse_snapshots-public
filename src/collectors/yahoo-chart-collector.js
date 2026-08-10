@@ -1,4 +1,8 @@
-const ENDPOINT = 'https://query1.finance.yahoo.com/v8/finance/chart/';
+const REQUEST_VARIANTS = [
+  { endpoint: 'https://query1.finance.yahoo.com/v8/finance/chart/', range: '1d' },
+  { endpoint: 'https://query2.finance.yahoo.com/v8/finance/chart/', range: '5d' },
+  { endpoint: 'https://query1.finance.yahoo.com/v8/finance/chart/', range: '5d' }
+];
 const PROVIDER = 'yahoo-finance';
 const ENDPOINT_TYPE = 'chart';
 const DEFAULT_MAX_ATTEMPTS = 3;
@@ -146,10 +150,11 @@ async function readYahooPayload(response) {
   return { payload, responseDiagnostic: buildResponseDiagnostic({ response, payload }) };
 }
 
-async function requestYahooChart({ symbol, fetchImpl, timeoutMilliseconds, deadlineMilliseconds, currentTime, onRequestStart }) {
+async function requestYahooChart({ symbol, attempt, fetchImpl, timeoutMilliseconds, deadlineMilliseconds, currentTime, onRequestStart }) {
   const remainingMilliseconds = deadlineMilliseconds === null ? timeoutMilliseconds : deadlineMilliseconds - currentTime();
   if (remainingMilliseconds <= 0) throw new YahooCollectorError(`Capture timing budget was exhausted before requesting ${symbol}`, { errorClass: 'timing_budget_exhausted', retryable: false });
-  const requestUrl = `${ENDPOINT}${encodeURIComponent(symbol)}?range=1d&interval=1m`;
+  const variant = REQUEST_VARIANTS[(Math.max(1, attempt) - 1) % REQUEST_VARIANTS.length];
+  const requestUrl = `${variant.endpoint}${encodeURIComponent(symbol)}?range=${variant.range}&interval=1m`;
   if (typeof onRequestStart === 'function') onRequestStart();
   const response = await fetchImpl(requestUrl, {
     headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(Math.max(1, Math.min(timeoutMilliseconds, remainingMilliseconds)))
@@ -163,7 +168,7 @@ async function fetchYahooChart(options) {
   let lastError;
   for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
     try {
-      const { payload, responseDiagnostic } = await requestYahooChart({ symbol, fetchImpl, timeoutMilliseconds, deadlineMilliseconds, currentTime, onRequestStart });
+      const { payload, responseDiagnostic } = await requestYahooChart({ symbol, attempt, fetchImpl, timeoutMilliseconds, deadlineMilliseconds, currentTime, onRequestStart });
       return latestQuote(payload, symbol, currency, timezone, now, responseDiagnostic);
     } catch (error) {
       lastError = classifyRequestError(error, symbol);
