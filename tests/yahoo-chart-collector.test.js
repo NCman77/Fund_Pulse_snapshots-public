@@ -154,6 +154,23 @@ test('classifies retryable HTTP, timeout, non-JSON, and schema failures without 
   }
 });
 
+test('rotates Yahoo chart host and range when a retryable schema response recovers', async () => {
+  const urls = [];
+  const quotes = await collectYahooCharts([{ symbol: '^TEST', currency: 'USD' }], {
+    timezone: 'America/New_York', now: NOW, retryDelayMilliseconds: 0,
+    fetchImpl: async (url) => {
+      urls.push(url);
+      return urls.length === 1
+        ? jsonResponse({ chart: { result: [{ indicators: { quote: [{ close: [1] }] } }] } })
+        : jsonResponse(completePayload());
+    }
+  });
+
+  assert.equal(quotes.length, 1);
+  assert.match(urls[0], /^https:\/\/query1\.finance\.yahoo\.com\/.*[?]range=1d&interval=1m$/);
+  assert.match(urls[1], /^https:\/\/query2\.finance\.yahoo\.com\/.*[?]range=5d&interval=1m$/);
+});
+
 test('uses capped exponential backoff with jitter before retrying', async () => {
   const waits = [];
   let calls = 0;
