@@ -34,9 +34,20 @@ async function buildTaiwanCloseHandoff({
   }
   const raw = JSON.parse(rawText);
   const expectedSlot = `${date}T05:30:00.000Z`;
+  const expectedSymbolCount = Number(raw?.coverage?.requestedSymbolCount ?? raw?.coverage?.expectedSymbolCount ?? 0);
+  const capturedSymbolCount = Number(raw?.coverage?.capturedSymbolCount ?? 0);
+  const legacyCompleteCoverage = raw?.publishable === undefined
+    && raw?.coverage?.complete === true
+    && expectedSymbolCount > 0
+    && capturedSymbolCount === expectedSymbolCount
+    && Array.isArray(raw?.coverage?.failedSymbols)
+    && raw.coverage.failedSymbols.length === 0
+    && Array.isArray(raw?.quotes)
+    && raw.quotes.length === expectedSymbolCount;
+  const publishable = raw?.publishable === true || legacyCompleteCoverage;
   if (raw?.market !== 'tw' || raw?.region !== 'asia' || raw?.session !== 'regular'
     || raw?.scheduledAt !== expectedSlot || raw?.timingStatus !== 'on_time'
-    || raw?.publishable !== true || raw?.coverage?.complete !== true) {
+    || !publishable || raw?.coverage?.complete !== true) {
     throw new Error('Taiwan 13:30 raw snapshot did not satisfy the verified-close handoff requirements.');
   }
   const handoff = {
@@ -53,7 +64,8 @@ async function buildTaiwanCloseHandoff({
       scheduledAt: raw.scheduledAt,
       timingStatus: raw.timingStatus,
       captureDelaySeconds: raw.captureDelaySeconds,
-      coverage: raw.coverage
+      coverage: raw.coverage,
+      publicationEvidence: legacyCompleteCoverage ? 'legacy_complete_coverage' : 'explicit_publishable'
     }
   };
   const target = path.join(rootDir, 'data', 'handoffs', 'taiwan-close', date.slice(0, 4), `${date}.json`);

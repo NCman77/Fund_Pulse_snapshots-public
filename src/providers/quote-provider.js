@@ -19,6 +19,7 @@ function createQuoteProvider({ id, endpointType, collect }) {
       const quotes = Array.isArray(result) ? result : result?.quotes;
       if (!Array.isArray(quotes)) throw new Error(`Quote provider ${providerId} returned an invalid quote collection.`);
       return {
+        ...(result && !Array.isArray(result) ? result : {}),
         quotes,
         capturedAt: String(result?.capturedAt || new Date().toISOString()),
         diagnostics: Array.isArray(result?.diagnostics) ? result.diagnostics : []

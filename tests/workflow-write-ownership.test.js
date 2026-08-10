@@ -65,6 +65,8 @@ test('session watchers survive transient branch races and retry immutable pushes
   assert.match(watcher, /git fetch origin main[\s\S]*?git merge --no-edit origin\/main[\s\S]*?git push origin HEAD:main/);
   assert.match(watcher, /while kill -0 "\$watcher_pid"[\s\S]*?if ! commit_snapshots; then[\s\S]*?checkpoint persistence deferred/);
   assert.doesNotMatch(watcher, /while kill -0 "\$watcher_pid"[\s\S]*?commit_snapshots \|\| exit 1[\s\S]*?done/);
+  assert.match(watcher, /partial_path="data\/partial\/\$market_region\/\$MARKET\/"[\s\S]*?stage_if_present "\$partial_path"/);
+  assert.match(watcher, /npm run build:tw-close-handoff[\s\S]*?if ! commit_snapshots; then[\s\S]*?final capture flush failed/);
   assert.match(watcher, /if ! commit_snapshots; then[\s\S]*?final capture flush failed[\s\S]*?exit 1/);
 });
 
@@ -108,5 +110,8 @@ test('Taiwan official-close watcher retries missing source data instead of silen
   assert.match(source, /Official Taiwan close is not available on attempt/);
   assert.match(source, /if \[ ! -f "\$target_path" \]; then/);
   assert.match(source, /No verified Taiwan official close archive was produced for \$target_date/);
+  assert.match(source, /args=\("--date=\$target_date"\)/);
+  assert.match(source, /npm run build:tw-close-handoff/);
+  assert.match(source, /data\/handoffs\/taiwan-close/);
   assert.doesNotMatch(source, /validate:tw-official-close -- "\$\{args\[@\]\}" \|\| true/);
 });
