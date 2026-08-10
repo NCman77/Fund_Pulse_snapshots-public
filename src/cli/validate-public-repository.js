@@ -5,6 +5,7 @@ const root = process.cwd();
 const prohibitedNames = /(^|[\\/])(runtime|logs|credentials)([\\/]|$)|\.(pem|key|sqlite|sqlite3|db)$/i;
 const prohibitedContent = /(github_pat_|ghp_|xox[baprs]-|BEGIN (RSA |OPENSSH )?PRIVATE KEY|password\s*[:=]|api[_-]?key\s*[:=]|cookie\s*[:=])/i;
 const privateModelField = /(model|prediction|recommend|calibration|training|ensemble|confidence|private|feature|valuation)/i;
+const prohibitedPersistedDiagnosticField = /^(responsePreview|responseBody|requestUrl|contentType)$/i;
 
 async function walk(directory) {
   const entries = await readdir(directory, { withFileTypes: true });
@@ -27,7 +28,10 @@ function findPrivateModelFields(value, currentPath = '$') {
   return Object.entries(value).flatMap(([key, child]) => {
     const childPath = `${currentPath}.${key}`;
     const keyViolation = privateModelField.test(key) ? [`${childPath}: prohibited private-model field`] : [];
-    return [...keyViolation, ...findPrivateModelFields(child, childPath)];
+    const diagnosticViolation = prohibitedPersistedDiagnosticField.test(key)
+      ? [`${childPath}: prohibited raw-response diagnostic field`]
+      : [];
+    return [...keyViolation, ...diagnosticViolation, ...findPrivateModelFields(child, childPath)];
   });
 }
 

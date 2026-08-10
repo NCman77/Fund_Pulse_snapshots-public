@@ -41,6 +41,7 @@ jobs:
           validated_close=false
           target_date="${REQUESTED_DATE:-$(TZ=Asia/Taipei date +%F)}"
           target_path="data/official-close/tw/${target_date:0:4}/${target_date}.json"
+          handoff_path="data/handoffs/taiwan-close/${target_date:0:4}/${target_date}.json"
 
           run_validate_and_commit() {
             for attempt in 1 2 3 4 5 6; do
@@ -49,8 +50,7 @@ jobs:
                 continue
               fi
               git reset --hard origin/main || true
-              args=()
-              if [ -n "${REQUESTED_DATE:-}" ]; then args+=("--date=$REQUESTED_DATE"); fi
+              args=("--date=$target_date")
               if ! npm run validate:tw-official-close -- "${args[@]}"; then
                 echo "Official Taiwan close is not available on attempt $attempt; retrying." >&2
                 sleep "$((attempt * 3 + RANDOM % 4))"
@@ -61,19 +61,30 @@ jobs:
                 sleep "$((attempt * 3 + RANDOM % 4))"
                 continue
               fi
-              git add -- data/official-close/tw data/status/official-close/tw.json 2>/dev/null || true
+              handoff_ready=true
+              if ! TAIWAN_CLOSE_HANDOFF_DATE="$target_date" npm run build:tw-close-handoff || [ ! -f "$handoff_path" ]; then
+                echo "Verified Taiwan 13:30 close handoff is not available on attempt $attempt; retrying." >&2
+                handoff_ready=false
+              fi
+              git add -- data/official-close/tw data/status/official-close/tw.json data/handoffs/taiwan-close 2>/dev/null || true
               if git diff --cached --quiet; then
-                echo "Official Taiwan close already verified for $target_date"
-                validated_close=true
-                return 0
+                if [ "$handoff_ready" = 'true' ]; then
+                  echo "Official Taiwan close and verified 13:30 handoff already exist for $target_date"
+                  validated_close=true
+                  return 0
+                fi
+                sleep "$((attempt * 3 + RANDOM % 4))"
+                continue
               fi
               git config user.name "github-actions[bot]"
               git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
               if git commit -m "verify: Taiwan official post-close prices"; then
                 if git push origin HEAD:main; then
-                  echo "Successfully pushed official Taiwan close prices"
-                  validated_close=true
-                  return 0
+                  echo "Successfully pushed available Taiwan close artifacts"
+                  if [ "$handoff_ready" = 'true' ]; then
+                    validated_close=true
+                    return 0
+                  fi
                 fi
               fi
               sleep "$((attempt * 3 + RANDOM % 4))"

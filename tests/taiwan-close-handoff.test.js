@@ -26,3 +26,21 @@ test('publishes a hash-verified Taiwan 13:30 close handoff only for a complete o
   assert.equal(handoff.snapshot.path, 'data/raw/asia/tw/2026/2026-08-10/regular/producers/s3/0530.json');
   assert.match(handoff.snapshot.sha256, /^[a-f0-9]{64}$/);
 });
+
+test('derives publication eligibility for a complete legacy snapshot without the publishable field', async (t) => {
+  const root = await mkdtemp(path.join(os.tmpdir(), 'tw-close-handoff-legacy-'));
+  t.after(() => rm(root, { recursive: true, force: true }));
+  const rawPath = path.join(root, 'data', 'raw', 'asia', 'tw', '2026', '2026-08-10', 'regular', 'producers', 's3', '0530.json');
+  await mkdir(path.dirname(rawPath), { recursive: true });
+  await writeFile(rawPath, JSON.stringify({
+    schemaVersion: '1.2', market: 'tw', region: 'asia', session: 'regular',
+    scheduledAt: '2026-08-10T05:30:00.000Z', capturedAt: '2026-08-10T05:30:01.000Z',
+    timingStatus: 'on_time', captureDelaySeconds: 1,
+    coverage: { expectedSymbolCount: 2, capturedSymbolCount: 2, failedSymbols: [], complete: true },
+    quotes: [{ symbol: '2330.TW' }, { symbol: '3081.TWO' }]
+  }));
+
+  const result = await buildTaiwanCloseHandoff({ rootDir: root, date: '2026-08-10' });
+  assert.equal(result.status, 'published');
+  assert.equal(result.handoff.snapshot.publicationEvidence, 'legacy_complete_coverage');
+});
