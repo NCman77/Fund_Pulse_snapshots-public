@@ -38,6 +38,25 @@ export async function writeSnapshot(root, snapshot) {
   return target;
 }
 
+export async function writePartialCapture(root, snapshot) {
+  if (!snapshot.schemaVersion || !Array.isArray(snapshot.quotes)) {
+    throw new Error('Partial capture must declare a schema version and quotes array.');
+  }
+  const slotTimestamp = typeof snapshot.scheduledAt === 'string' && !Number.isNaN(new Date(snapshot.scheduledAt).getTime())
+    ? snapshot.scheduledAt
+    : snapshot.capturedAt;
+  const date = slotTimestamp.slice(0, 10);
+  const time = slotTimestamp.slice(11, 19).replace(/:/g, '');
+  if (!ISO_DATE.test(date) || !MARKET.test(snapshot.market) || !SESSION.test(snapshot.session)) {
+    throw new Error('Partial capture has an invalid market, session, or timestamp.');
+  }
+  const producerId = String(snapshot?.producer?.id || 'default').trim();
+  if (!PRODUCER.test(producerId)) throw new Error('Partial capture producer ID is invalid.');
+  const target = path.join(root, 'data', 'partial', snapshot.region, snapshot.market, date.slice(0, 4), date, snapshot.session, 'producers', producerId, `${time}-${randomUUID()}.json`);
+  await writeJsonAtomically(target, snapshot);
+  return target;
+}
+
 export async function writeJsonAtomically(target, value) {
   await mkdir(path.dirname(target), { recursive: true });
   // A target may be written by an operator-triggered replay while a scheduled
