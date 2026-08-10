@@ -3,7 +3,7 @@ import { mkdtemp, readFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
-import { writeSnapshot } from '../src/storage/snapshot-writer.js';
+import { writePartialCapture, writeSnapshot } from '../src/storage/snapshot-writer.js';
 
 test('writes an isolated market snapshot below the public data root', async () => {
   const root = await mkdtemp(path.join(os.tmpdir(), 'snapshots-'));
@@ -40,4 +40,19 @@ test('keeps backup raw output separate from the primary producer for the same sl
   assert.notEqual(primary, backup);
   assert.match(primary, /producers[\\/]full-day[\\/]0455\.json$/);
   assert.match(backup, /producers[\\/]preorder-backup[\\/]0455\.json$/);
+});
+
+test('stores partial attempts outside immutable raw paths and never collides retries', async () => {
+  const root = await mkdtemp(path.join(os.tmpdir(), 'snapshots-partial-'));
+  const snapshot = {
+    schemaVersion: '1.2', market: 'us', region: 'america', capturedAt: '2026-08-10T14:05:08.000Z',
+    scheduledAt: '2026-08-10T14:05:00.000Z', timingStatus: 'on_time', session: 'regular',
+    producer: { id: 's1', role: 'primary' }, publishable: false, quotes: [{ symbol: '^GSPC' }]
+  };
+
+  const first = await writePartialCapture(root, snapshot);
+  const second = await writePartialCapture(root, snapshot);
+  assert.notEqual(first, second);
+  assert.match(first, /data[\\/]partial[\\/]america[\\/]us[\\/]2026[\\/]2026-08-10[\\/]regular[\\/]producers[\\/]s1[\\/]140500-[a-f0-9-]+\.json$/);
+  assert.equal(JSON.parse(await readFile(first, 'utf8')).publishable, false);
 });

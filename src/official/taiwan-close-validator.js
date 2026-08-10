@@ -3,7 +3,19 @@ import path from 'node:path';
 import { writeJsonAtomically } from '../storage/snapshot-writer.js';
 
 const TWSE_URL = 'https://openapi.twse.com.tw/v1/exchangeReport/STOCK_DAY_ALL';
+const TWSE_DATED_URL = 'https://www.twse.com.tw/rwd/zh/afterTrading/MI_INDEX';
 const TPEX_URL = 'https://www.tpex.org.tw/openapi/v1/tpex_mainboard_daily_close_quotes';
+
+function taipeiDate(value = new Date()) {
+  const parts = Object.fromEntries(new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Asia/Taipei', year: 'numeric', month: '2-digit', day: '2-digit'
+  }).formatToParts(value).filter(({ type }) => type !== 'literal').map(({ type, value: part }) => [type, part]));
+  return `${parts.year}-${parts.month}-${parts.day}`;
+}
+
+function buildTwseDatedUrl(date) {
+  return `${TWSE_DATED_URL}?date=${encodeURIComponent(String(date).replace(/-/g, ''))}&type=ALLBUT0999&response=json`;
+}
 
 function officialDate(value) {
   const compact = String(value || '').replace(/\D/g, '');
@@ -52,6 +64,41 @@ async function fetchJson(url, fetchImpl, maxAttempts = 3) {
   return null;
 }
 
+async function fetchTwseDatedRows(date, fetchImpl, maxAttempts = 3) {
+  const url = buildTwseDatedUrl(date);
+  let lastError = null;
+  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+    try {
+      const response = await fetchImpl(url, {
+        headers: { Accept: 'application/json', 'User-Agent': 'Fund-Pulse-public-close-check/1.0' },
+        signal: AbortSignal.timeout(30_000)
+      });
+      if (!response.ok) throw new Error(`Official Taiwan dated close endpoint failed (${response.status}).`);
+      const payload = await response.json();
+      const compactDate = String(date).replace(/-/g, '');
+      const table = (payload?.tables || []).find(({ fields, data }) => Array.isArray(fields) && Array.isArray(data)
+        && fields.includes('證券代號') && fields.includes('收盤價'));
+      if (payload?.stat !== 'OK' || String(payload?.date || '') !== compactDate || !table) {
+        throw new Error('Official Taiwan dated close endpoint returned no matching daily table.');
+      }
+      const fieldIndex = new Map(table.fields.map((field, index) => [field, index]));
+      const rocDate = `${String(Number(compactDate.slice(0, 4)) - 1911).padStart(3, '0')}${compactDate.slice(4)}`;
+      return table.data.map((row) => ({
+        Date: rocDate,
+        Code: row[fieldIndex.get('證券代號')],
+        Name: row[fieldIndex.get('證券名稱')],
+        ClosingPrice: row[fieldIndex.get('收盤價')],
+        TradeVolume: row[fieldIndex.get('成交股數')]
+      }));
+    } catch (error) {
+      lastError = error;
+      if (attempt < maxAttempts) await sleep(attempt * 2_000);
+    }
+  }
+  console.warn(`[taiwan-close-validator] Endpoint ${url} unavailable after ${maxAttempts} attempts: ${lastError?.message}`);
+  return null;
+}
+
 async function walkJson(directory) {
   const entries = await readdir(directory, { withFileTypes: true }).catch((error) => error.code === 'ENOENT' ? [] : Promise.reject(error));
   return (await Promise.all(entries.map(async (entry) => {
@@ -88,21 +135,33 @@ function officialRowsBySymbol(twseRows = [], tpexRows = []) {
 }
 
 async function validateTaiwanOfficialClose({ root, date = '', fetchImpl = fetch, now = new Date() }) {
-  const [twseRows, tpexRows, approved, holdingMappings] = await Promise.all([
+  const requestedDate = date || taipeiDate(now);
+  const [latestTwseRows, tpexRows, approved, holdingMappings] = await Promise.all([
     fetchJson(TWSE_URL, fetchImpl),
     fetchJson(TPEX_URL, fetchImpl),
     readJson(path.join(root, 'config', 'public-symbols', 'approved-public-tickers.json')),
     readJson(path.join(root, 'config', 'public-holdings', 'approved-holding-symbols.json'), { mappings: [] })
   ]);
 
+  let twseRows = latestTwseRows;
+  let twseSourceUrl = TWSE_URL;
+  const latestTwseDates = Array.from(new Set((latestTwseRows || []).map((row) => officialDate(row.Date)).filter(Boolean)));
+  if (!latestTwseRows || latestTwseDates.length !== 1 || latestTwseDates[0] !== requestedDate) {
+    const datedRows = await fetchTwseDatedRows(requestedDate, fetchImpl);
+    if (datedRows) {
+      twseRows = datedRows;
+      twseSourceUrl = buildTwseDatedUrl(requestedDate);
+    }
+  }
+
   if (!twseRows || !tpexRows) {
-    return { status: 'not_available', requestedDate: date || null, officialDates: [] };
+    return { status: 'not_available', requestedDate, officialDates: [] };
   }
 
   const rows = officialRowsBySymbol(twseRows, tpexRows);
   const sourceDates = Array.from(new Set([...rows.values()].map((row) => row.date).filter(Boolean)));
-  if (sourceDates.length !== 1 || (date && sourceDates[0] !== date)) {
-    return { status: 'not_available', requestedDate: date || null, officialDates: sourceDates };
+  if (sourceDates.length !== 1 || sourceDates[0] !== requestedDate) {
+    return { status: 'not_available', requestedDate, officialDates: sourceDates };
   }
 
   const tradeDate = sourceDates[0];
@@ -148,7 +207,7 @@ async function validateTaiwanOfficialClose({ root, date = '', fetchImpl = fetch,
     checkedAt: now.toISOString(),
     source: {
       type: 'official_post_close',
-      twse: { name: 'Taiwan Stock Exchange OpenAPI', url: TWSE_URL },
+      twse: { name: 'Taiwan Stock Exchange OpenAPI', url: twseSourceUrl },
       tpex: { name: 'Taipei Exchange OpenAPI', url: TPEX_URL }
     },
     officialCoverage: {
@@ -179,4 +238,4 @@ async function validateTaiwanOfficialClose({ root, date = '', fetchImpl = fetch,
   return { status: 'verified', date: tradeDate, target, record };
 }
 
-export { TPEX_URL, TWSE_URL, officialDate, validateTaiwanOfficialClose };
+export { TPEX_URL, TWSE_URL, buildTwseDatedUrl, officialDate, validateTaiwanOfficialClose };
