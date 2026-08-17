@@ -1,0 +1,487 @@
+{
+  "schemaVersion": "1.1",
+  "generatedAt": "2026-08-17T02:05:00.391Z",
+  "market": "sg",
+  "sessionName": "s1",
+  "localDate": "2026-08-17",
+  "timezone": "Asia/Singapore",
+  "expectedSlots": [
+    "09:05",
+    "09:35",
+    "10:05"
+  ],
+  "skippedSlots": [],
+  "summary": {
+    "expectedSlotCount": 3,
+    "capturedSlotCount": 2,
+    "onTimeSlotCount": 2,
+    "lateSlotCount": 0,
+    "failedSlotCount": 1,
+    "partialSlotCount": 1,
+    "complete": false,
+    "healthy": false
+  },
+  "slots": [
+    {
+      "slot": "09:05",
+      "scheduledAt": "2026-08-17T01:05:00.000Z",
+      "status": "failed",
+      "attempts": 3,
+      "timingStatus": "",
+      "captureDelaySeconds": null,
+      "providerFailure": "",
+      "error": "Capture failed for sg at 2026-08-17T01:05:00.000Z: capture-process-failed",
+      "collection": {
+        "provider": "yahoo-finance",
+        "endpointType": "chart",
+        "expectedSymbolCount": 8,
+        "requestedSymbolCount": 8,
+        "attemptedSymbolCount": 8,
+        "capturedSymbolCount": 7,
+        "failedSymbolCount": 1,
+        "notAttemptedSymbolCount": 0,
+        "requestedSymbols": [
+          "^STI",
+          "TWD=X",
+          "JPY=X",
+          "KRW=X",
+          "CNY=X",
+          "SGD=X",
+          "EURUSD=X",
+          "GBPUSD=X"
+        ],
+        "capturedSymbols": [
+          "TWD=X",
+          "JPY=X",
+          "KRW=X",
+          "CNY=X",
+          "SGD=X",
+          "EURUSD=X",
+          "GBPUSD=X"
+        ],
+        "failedSymbols": [
+          "^STI"
+        ],
+        "notAttemptedSymbols": [],
+        "requiredSymbols": [
+          "^STI",
+          "TWD=X",
+          "JPY=X",
+          "KRW=X",
+          "CNY=X",
+          "SGD=X",
+          "EURUSD=X",
+          "GBPUSD=X"
+        ],
+        "optionalSymbols": [],
+        "missingRequiredSymbols": [
+          "^STI"
+        ],
+        "collectionStatus": "partial",
+        "validationStatus": "missing_required_symbols",
+        "publishable": false,
+        "complete": false
+      },
+      "diagnostics": [
+        {
+          "provider": "yahoo-finance",
+          "endpointType": "chart",
+          "symbol": "^STI",
+          "attempt": 1,
+          "maxAttempts": 3,
+          "captureAttempt": 1,
+          "errorClass": "schema_error",
+          "httpStatus": 200,
+          "schemaStatus": "missing_timestamp",
+          "retryable": true,
+          "backoffMilliseconds": 934,
+          "finalAttempt": false,
+          "captureSlot": "09:05",
+          "workflowRunId": "31972912373",
+          "workflowRunAttempt": "1",
+          "producerId": "s1",
+          "responseDiagnostic": {
+            "httpStatus": 200,
+            "chartError": null,
+            "resultType": "array",
+            "resultKeys": [
+              "meta",
+              "indicators"
+            ],
+            "timestampType": "undefined",
+            "timestampLength": 0,
+            "indicatorsQuoteType": "array"
+          }
+        },
+        {
+          "provider": "yahoo-finance",
+          "endpointType": "chart",
+          "symbol": "^STI",
+          "attempt": 2,
+          "maxAttempts": 3,
+          "captureAttempt": 1,
+          "errorClass": "data_delay",
+          "httpStatus": 200,
+          "schemaStatus": "stale_market_date",
+          "retryable": true,
+          "backoffMilliseconds": 1583,
+          "finalAttempt": false,
+          "captureSlot": "09:05",
+          "workflowRunId": "31972912373",
+          "workflowRunAttempt": "1",
+          "producerId": "s1",
+          "responseDiagnostic": {
+            "httpStatus": 200,
+            "chartError": null,
+            "resultType": "array",
+            "resultKeys": [
+              "meta",
+              "timestamp",
+              "indicators"
+            ],
+            "timestampType": "array",
+            "timestampLength": 1921,
+            "indicatorsQuoteType": "array"
+          }
+        },
+        {
+          "provider": "yahoo-finance",
+          "endpointType": "chart",
+          "symbol": "^STI",
+          "attempt": 3,
+          "maxAttempts": 3,
+          "captureAttempt": 1,
+          "errorClass": "data_delay",
+          "httpStatus": 200,
+          "schemaStatus": "stale_market_date",
+          "retryable": true,
+          "backoffMilliseconds": 0,
+          "finalAttempt": true,
+          "captureSlot": "09:05",
+          "workflowRunId": "31972912373",
+          "workflowRunAttempt": "1",
+          "producerId": "s1",
+          "responseDiagnostic": {
+            "httpStatus": 200,
+            "chartError": null,
+            "resultType": "array",
+            "resultKeys": [
+              "meta",
+              "timestamp",
+              "indicators"
+            ],
+            "timestampType": "array",
+            "timestampLength": 1921,
+            "indicatorsQuoteType": "array"
+          }
+        },
+        {
+          "provider": "yahoo-finance",
+          "endpointType": "chart",
+          "symbol": "^STI",
+          "attempt": 1,
+          "maxAttempts": 3,
+          "captureAttempt": 2,
+          "errorClass": "schema_error",
+          "httpStatus": 200,
+          "schemaStatus": "missing_timestamp",
+          "retryable": true,
+          "backoffMilliseconds": 914,
+          "finalAttempt": false,
+          "captureSlot": "09:05",
+          "workflowRunId": "31972912373",
+          "workflowRunAttempt": "1",
+          "producerId": "s1",
+          "responseDiagnostic": {
+            "httpStatus": 200,
+            "chartError": null,
+            "resultType": "array",
+            "resultKeys": [
+              "meta",
+              "indicators"
+            ],
+            "timestampType": "undefined",
+            "timestampLength": 0,
+            "indicatorsQuoteType": "array"
+          }
+        },
+        {
+          "provider": "yahoo-finance",
+          "endpointType": "chart",
+          "symbol": "^STI",
+          "attempt": 2,
+          "maxAttempts": 3,
+          "captureAttempt": 2,
+          "errorClass": "data_delay",
+          "httpStatus": 200,
+          "schemaStatus": "stale_market_date",
+          "retryable": true,
+          "backoffMilliseconds": 1652,
+          "finalAttempt": false,
+          "captureSlot": "09:05",
+          "workflowRunId": "31972912373",
+          "workflowRunAttempt": "1",
+          "producerId": "s1",
+          "responseDiagnostic": {
+            "httpStatus": 200,
+            "chartError": null,
+            "resultType": "array",
+            "resultKeys": [
+              "meta",
+              "timestamp",
+              "indicators"
+            ],
+            "timestampType": "array",
+            "timestampLength": 1921,
+            "indicatorsQuoteType": "array"
+          }
+        },
+        {
+          "provider": "yahoo-finance",
+          "endpointType": "chart",
+          "symbol": "^STI",
+          "attempt": 3,
+          "maxAttempts": 3,
+          "captureAttempt": 2,
+          "errorClass": "data_delay",
+          "httpStatus": 200,
+          "schemaStatus": "stale_market_date",
+          "retryable": true,
+          "backoffMilliseconds": 0,
+          "finalAttempt": true,
+          "captureSlot": "09:05",
+          "workflowRunId": "31972912373",
+          "workflowRunAttempt": "1",
+          "producerId": "s1",
+          "responseDiagnostic": {
+            "httpStatus": 200,
+            "chartError": null,
+            "resultType": "array",
+            "resultKeys": [
+              "meta",
+              "timestamp",
+              "indicators"
+            ],
+            "timestampType": "array",
+            "timestampLength": 1921,
+            "indicatorsQuoteType": "array"
+          }
+        },
+        {
+          "provider": "yahoo-finance",
+          "endpointType": "chart",
+          "symbol": "^STI",
+          "attempt": 1,
+          "maxAttempts": 3,
+          "captureAttempt": 3,
+          "errorClass": "schema_error",
+          "httpStatus": 200,
+          "schemaStatus": "missing_timestamp",
+          "retryable": true,
+          "backoffMilliseconds": 937,
+          "finalAttempt": false,
+          "captureSlot": "09:05",
+          "workflowRunId": "31972912373",
+          "workflowRunAttempt": "1",
+          "producerId": "s1",
+          "responseDiagnostic": {
+            "httpStatus": 200,
+            "chartError": null,
+            "resultType": "array",
+            "resultKeys": [
+              "meta",
+              "indicators"
+            ],
+            "timestampType": "undefined",
+            "timestampLength": 0,
+            "indicatorsQuoteType": "array"
+          }
+        },
+        {
+          "provider": "yahoo-finance",
+          "endpointType": "chart",
+          "symbol": "^STI",
+          "attempt": 2,
+          "maxAttempts": 3,
+          "captureAttempt": 3,
+          "errorClass": "data_delay",
+          "httpStatus": 200,
+          "schemaStatus": "stale_market_date",
+          "retryable": true,
+          "backoffMilliseconds": 1535,
+          "finalAttempt": false,
+          "captureSlot": "09:05",
+          "workflowRunId": "31972912373",
+          "workflowRunAttempt": "1",
+          "producerId": "s1",
+          "responseDiagnostic": {
+            "httpStatus": 200,
+            "chartError": null,
+            "resultType": "array",
+            "resultKeys": [
+              "meta",
+              "timestamp",
+              "indicators"
+            ],
+            "timestampType": "array",
+            "timestampLength": 1921,
+            "indicatorsQuoteType": "array"
+          }
+        },
+        {
+          "provider": "yahoo-finance",
+          "endpointType": "chart",
+          "symbol": "^STI",
+          "attempt": 3,
+          "maxAttempts": 3,
+          "captureAttempt": 3,
+          "errorClass": "data_delay",
+          "httpStatus": 200,
+          "schemaStatus": "stale_market_date",
+          "retryable": true,
+          "backoffMilliseconds": 0,
+          "finalAttempt": true,
+          "captureSlot": "09:05",
+          "workflowRunId": "31972912373",
+          "workflowRunAttempt": "1",
+          "producerId": "s1",
+          "responseDiagnostic": {
+            "httpStatus": 200,
+            "chartError": null,
+            "resultType": "array",
+            "resultKeys": [
+              "meta",
+              "timestamp",
+              "indicators"
+            ],
+            "timestampType": "array",
+            "timestampLength": 1921,
+            "indicatorsQuoteType": "array"
+          }
+        }
+      ]
+    },
+    {
+      "slot": "09:35",
+      "scheduledAt": "2026-08-17T01:35:00.000Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 0,
+      "providerFailure": "",
+      "error": "",
+      "collection": {
+        "provider": "yahoo-finance",
+        "endpointType": "chart",
+        "expectedSymbolCount": 8,
+        "requestedSymbolCount": 8,
+        "attemptedSymbolCount": 8,
+        "capturedSymbolCount": 8,
+        "failedSymbolCount": 0,
+        "notAttemptedSymbolCount": 0,
+        "requestedSymbols": [
+          "^STI",
+          "TWD=X",
+          "JPY=X",
+          "KRW=X",
+          "CNY=X",
+          "SGD=X",
+          "EURUSD=X",
+          "GBPUSD=X"
+        ],
+        "capturedSymbols": [
+          "^STI",
+          "TWD=X",
+          "JPY=X",
+          "KRW=X",
+          "CNY=X",
+          "SGD=X",
+          "EURUSD=X",
+          "GBPUSD=X"
+        ],
+        "failedSymbols": [],
+        "notAttemptedSymbols": [],
+        "requiredSymbols": [
+          "^STI",
+          "TWD=X",
+          "JPY=X",
+          "KRW=X",
+          "CNY=X",
+          "SGD=X",
+          "EURUSD=X",
+          "GBPUSD=X"
+        ],
+        "optionalSymbols": [],
+        "missingRequiredSymbols": [],
+        "collectionStatus": "complete",
+        "validationStatus": "valid",
+        "publishable": true,
+        "complete": true
+      },
+      "diagnostics": []
+    },
+    {
+      "slot": "10:05",
+      "scheduledAt": "2026-08-17T02:05:00.000Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 0,
+      "providerFailure": "",
+      "error": "",
+      "collection": {
+        "provider": "yahoo-finance",
+        "endpointType": "chart",
+        "expectedSymbolCount": 8,
+        "requestedSymbolCount": 8,
+        "attemptedSymbolCount": 8,
+        "capturedSymbolCount": 8,
+        "failedSymbolCount": 0,
+        "notAttemptedSymbolCount": 0,
+        "requestedSymbols": [
+          "^STI",
+          "TWD=X",
+          "JPY=X",
+          "KRW=X",
+          "CNY=X",
+          "SGD=X",
+          "EURUSD=X",
+          "GBPUSD=X"
+        ],
+        "capturedSymbols": [
+          "^STI",
+          "TWD=X",
+          "JPY=X",
+          "KRW=X",
+          "CNY=X",
+          "SGD=X",
+          "EURUSD=X",
+          "GBPUSD=X"
+        ],
+        "failedSymbols": [],
+        "notAttemptedSymbols": [],
+        "requiredSymbols": [
+          "^STI",
+          "TWD=X",
+          "JPY=X",
+          "KRW=X",
+          "CNY=X",
+          "SGD=X",
+          "EURUSD=X",
+          "GBPUSD=X"
+        ],
+        "optionalSymbols": [],
+        "missingRequiredSymbols": [],
+        "collectionStatus": "complete",
+        "validationStatus": "valid",
+        "publishable": true,
+        "complete": true
+      },
+      "diagnostics": []
+    }
+  ],
+  "producer": {
+    "id": "s1",
+    "role": "primary"
+  }
+}
