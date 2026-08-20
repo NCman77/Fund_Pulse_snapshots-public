@@ -1,0 +1,169 @@
+{
+  "schemaVersion": "1.2",
+  "market": "uk",
+  "region": "europe",
+  "capturedAt": "2026-08-20T10:05:00.365Z",
+  "session": "regular",
+  "source": "yahoo-finance-chart",
+  "isDelayed": true,
+  "quoteStatus": "current_market_date",
+  "scheduleRule": "session-watcher",
+  "scheduledAt": "2026-08-20T10:05:00.000Z",
+  "captureDelaySeconds": 0,
+  "timingStatus": "on_time",
+  "provider": {
+    "id": "yahoo-finance",
+    "endpointType": "chart"
+  },
+  "coverage": {
+    "provider": "yahoo-finance",
+    "endpointType": "chart",
+    "expectedSymbolCount": 8,
+    "requestedSymbolCount": 8,
+    "attemptedSymbolCount": 8,
+    "capturedSymbolCount": 8,
+    "failedSymbolCount": 0,
+    "notAttemptedSymbolCount": 0,
+    "requestedSymbols": [
+      "^FTSE",
+      "TWD=X",
+      "JPY=X",
+      "KRW=X",
+      "CNY=X",
+      "SGD=X",
+      "EURUSD=X",
+      "GBPUSD=X"
+    ],
+    "capturedSymbols": [
+      "^FTSE",
+      "TWD=X",
+      "JPY=X",
+      "KRW=X",
+      "CNY=X",
+      "SGD=X",
+      "EURUSD=X",
+      "GBPUSD=X"
+    ],
+    "failedSymbols": [],
+    "notAttemptedSymbols": [],
+    "requiredSymbols": [
+      "^FTSE",
+      "TWD=X",
+      "JPY=X",
+      "KRW=X",
+      "CNY=X",
+      "SGD=X",
+      "EURUSD=X",
+      "GBPUSD=X"
+    ],
+    "optionalSymbols": [],
+    "missingRequiredSymbols": [],
+    "collectionStatus": "complete",
+    "validationStatus": "valid",
+    "publishable": true,
+    "complete": true
+  },
+  "collectionStatus": "complete",
+  "validationStatus": "valid",
+  "publishable": true,
+  "quotes": [
+    {
+      "symbol": "^FTSE",
+      "open": 10723.650390625,
+      "high": 10723.650390625,
+      "low": 10723.650390625,
+      "close": 10723.650390625,
+      "previousClose": 10743.35,
+      "quoteAt": "2026-08-20T09:49:57.000Z",
+      "currency": "GBP"
+    },
+    {
+      "symbol": "TWD=X",
+      "open": 31.884000778198242,
+      "high": 31.884000778198242,
+      "low": 31.884000778198242,
+      "close": 31.884000778198242,
+      "previousClose": 31.847,
+      "quoteAt": "2026-08-20T10:04:48.000Z",
+      "currency": "TWD"
+    },
+    {
+      "symbol": "JPY=X",
+      "open": 158.33399963378906,
+      "high": 158.33399963378906,
+      "low": 158.33399963378906,
+      "close": 158.33399963378906,
+      "previousClose": 158.098,
+      "quoteAt": "2026-08-20T10:04:59.000Z",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "KRW=X",
+      "open": 1393.3499755859375,
+      "high": 1393.3499755859375,
+      "low": 1393.3499755859375,
+      "close": 1393.3499755859375,
+      "previousClose": 1387.14,
+      "quoteAt": "2026-08-20T10:04:57.000Z",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "CNY=X",
+      "open": 6.7108001708984375,
+      "high": 6.7108001708984375,
+      "low": 6.7108001708984375,
+      "close": 6.7108001708984375,
+      "previousClose": 6.72,
+      "quoteAt": "2026-08-20T10:04:16.000Z",
+      "currency": "CNY"
+    },
+    {
+      "symbol": "SGD=X",
+      "open": 1.2704299688339233,
+      "high": 1.2704299688339233,
+      "low": 1.2704299688339233,
+      "close": 1.2704299688339233,
+      "previousClose": 1.2708,
+      "quoteAt": "2026-08-20T10:04:59.000Z",
+      "currency": "SGD"
+    },
+    {
+      "symbol": "EURUSD=X",
+      "open": 1.1709601879119873,
+      "high": 1.1709601879119873,
+      "low": 1.1709601879119873,
+      "close": 1.1709601879119873,
+      "previousClose": 1.1682,
+      "quoteAt": "2026-08-20T10:04:56.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "GBPUSD=X",
+      "open": 1.3647218942642212,
+      "high": 1.3647218942642212,
+      "low": 1.3647218942642212,
+      "close": 1.3647218942642212,
+      "previousClose": 1.3606,
+      "quoteAt": "2026-08-20T10:04:56.000Z",
+      "currency": "USD"
+    }
+  ],
+  "producer": {
+    "id": "s2",
+    "role": "primary"
+  },
+  "quoteFreshness": {
+    "status": "rejected",
+    "complete": false,
+    "enforced": true,
+    "referenceAt": "2026-08-20T10:05:00.000Z",
+    "maxAgeSeconds": 300,
+    "oldestQuoteAgeSeconds": 903,
+    "newestQuoteAgeSeconds": 1,
+    "unreliableQuoteAtSymbols": [],
+    "staleSymbols": [
+      "^FTSE"
+    ],
+    "futureSymbols": []
+  }
+}
