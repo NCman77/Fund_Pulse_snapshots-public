@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "1.1",
+  "generatedAt": "2026-08-28T06:26:24.397Z",
+  "market": "tw",
+  "sessionName": "s2",
+  "localDate": "2026-08-28",
+  "timezone": "Asia/Taipei",
+  "expectedSlots": [
+    "11:00",
+    "11:30",
+    "12:00",
+    "12:30"
+  ],
+  "skippedSlots": [],
+  "summary": {
+    "expectedSlotCount": 4,
+    "capturedSlotCount": 0,
+    "onTimeSlotCount": 0,
+    "lateSlotCount": 0,
+    "failedSlotCount": 4,
+    "partialSlotCount": 0,
+    "complete": false,
+    "healthy": false
+  },
+  "slots": [
+    {
+      "slot": "11:00",
+      "scheduledAt": "2026-08-28T03:00:00.000Z",
+      "status": "missed",
+      "attempts": 0,
+      "timingStatus": "missed",
+      "captureDelaySeconds": 12384,
+      "providerFailure": "",
+      "error": "Watcher started 12384s after the approved 120s capture tolerance; no late replacement was written.",
+      "collection": null,
+      "diagnostics": []
+    },
+    {
+      "slot": "11:30",
+      "scheduledAt": "2026-08-28T03:30:00.000Z",
+      "status": "missed",
+      "attempts": 0,
+      "timingStatus": "missed",
+      "captureDelaySeconds": 10584,
+      "providerFailure": "",
+      "error": "Watcher started 10584s after the approved 120s capture tolerance; no late replacement was written.",
+      "collection": null,
+      "diagnostics": []
+    },
+    {
+      "slot": "12:00",
+      "scheduledAt": "2026-08-28T04:00:00.000Z",
+      "status": "missed",
+      "attempts": 0,
+      "timingStatus": "missed",
+      "captureDelaySeconds": 8784,
+      "providerFailure": "",
+      "error": "Watcher started 8784s after the approved 120s capture tolerance; no late replacement was written.",
+      "collection": null,
+      "diagnostics": []
+    },
+    {
+      "slot": "12:30",
+      "scheduledAt": "2026-08-28T04:30:00.000Z",
+      "status": "missed",
+      "attempts": 0,
+      "timingStatus": "missed",
+      "captureDelaySeconds": 6984,
+      "providerFailure": "",
+      "error": "Watcher started 6984s after the approved 120s capture tolerance; no late replacement was written.",
+      "collection": null,
+      "diagnostics": []
+    }
+  ],
+  "producer": {
+    "id": "s2",
+    "role": "primary"
+  }
+}
