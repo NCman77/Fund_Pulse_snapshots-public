@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "1.1",
+  "generatedAt": "2026-08-31T17:57:30.235Z",
+  "market": "eu",
+  "sessionName": "s5",
+  "localDate": "2026-08-31",
+  "timezone": "Europe/Paris",
+  "expectedSlots": [
+    "17:05",
+    "17:30"
+  ],
+  "skippedSlots": [],
+  "summary": {
+    "expectedSlotCount": 2,
+    "capturedSlotCount": 0,
+    "onTimeSlotCount": 0,
+    "lateSlotCount": 0,
+    "failedSlotCount": 2,
+    "partialSlotCount": 0,
+    "complete": false,
+    "healthy": false
+  },
+  "slots": [
+    {
+      "slot": "17:05",
+      "scheduledAt": "2026-08-31T15:05:00.000Z",
+      "status": "missed",
+      "attempts": 0,
+      "timingStatus": "missed",
+      "captureDelaySeconds": 10350,
+      "providerFailure": "",
+      "error": "Watcher started 10350s after the approved 120s capture tolerance; no late replacement was written.",
+      "collection": null,
+      "diagnostics": []
+    },
+    {
+      "slot": "17:30",
+      "scheduledAt": "2026-08-31T15:30:00.000Z",
+      "status": "missed",
+      "attempts": 0,
+      "timingStatus": "missed",
+      "captureDelaySeconds": 8850,
+      "providerFailure": "",
+      "error": "Watcher started 8850s after the approved 120s capture tolerance; no late replacement was written.",
+      "collection": null,
+      "diagnostics": []
+    }
+  ],
+  "producer": {
+    "id": "s5",
+    "role": "primary"
+  }
+}
