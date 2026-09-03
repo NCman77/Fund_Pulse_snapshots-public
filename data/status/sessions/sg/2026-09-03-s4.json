@@ -1,0 +1,113 @@
+{
+  "schemaVersion": "1.1",
+  "generatedAt": "2026-09-03T08:05:00.396Z",
+  "market": "sg",
+  "sessionName": "s4",
+  "localDate": "2026-09-03",
+  "timezone": "Asia/Singapore",
+  "expectedSlots": [
+    "15:05",
+    "15:35",
+    "16:05"
+  ],
+  "skippedSlots": [],
+  "summary": {
+    "expectedSlotCount": 3,
+    "capturedSlotCount": 1,
+    "onTimeSlotCount": 1,
+    "lateSlotCount": 0,
+    "failedSlotCount": 2,
+    "partialSlotCount": 0,
+    "complete": false,
+    "healthy": false
+  },
+  "slots": [
+    {
+      "slot": "15:05",
+      "scheduledAt": "2026-09-03T07:05:00.000Z",
+      "status": "missed",
+      "attempts": 0,
+      "timingStatus": "missed",
+      "captureDelaySeconds": 3201,
+      "providerFailure": "",
+      "error": "Watcher started 3201s after the approved 120s capture tolerance; no late replacement was written.",
+      "collection": null,
+      "diagnostics": []
+    },
+    {
+      "slot": "15:35",
+      "scheduledAt": "2026-09-03T07:35:00.000Z",
+      "status": "missed",
+      "attempts": 0,
+      "timingStatus": "missed",
+      "captureDelaySeconds": 1401,
+      "providerFailure": "",
+      "error": "Watcher started 1401s after the approved 120s capture tolerance; no late replacement was written.",
+      "collection": null,
+      "diagnostics": []
+    },
+    {
+      "slot": "16:05",
+      "scheduledAt": "2026-09-03T08:05:00.000Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 0,
+      "providerFailure": "",
+      "error": "",
+      "collection": {
+        "provider": "yahoo-finance",
+        "endpointType": "chart",
+        "expectedSymbolCount": 8,
+        "requestedSymbolCount": 8,
+        "attemptedSymbolCount": 8,
+        "capturedSymbolCount": 8,
+        "failedSymbolCount": 0,
+        "notAttemptedSymbolCount": 0,
+        "requestedSymbols": [
+          "^STI",
+          "TWD=X",
+          "JPY=X",
+          "KRW=X",
+          "CNY=X",
+          "SGD=X",
+          "EURUSD=X",
+          "GBPUSD=X"
+        ],
+        "capturedSymbols": [
+          "^STI",
+          "TWD=X",
+          "JPY=X",
+          "KRW=X",
+          "CNY=X",
+          "SGD=X",
+          "EURUSD=X",
+          "GBPUSD=X"
+        ],
+        "failedSymbols": [],
+        "notAttemptedSymbols": [],
+        "requiredSymbols": [
+          "^STI",
+          "TWD=X",
+          "JPY=X",
+          "KRW=X",
+          "CNY=X",
+          "SGD=X",
+          "EURUSD=X",
+          "GBPUSD=X"
+        ],
+        "optionalSymbols": [],
+        "missingRequiredSymbols": [],
+        "collectionStatus": "complete",
+        "validationStatus": "valid",
+        "publishable": true,
+        "complete": true
+      },
+      "diagnostics": []
+    }
+  ],
+  "producer": {
+    "id": "s4",
+    "role": "primary"
+  }
+}
