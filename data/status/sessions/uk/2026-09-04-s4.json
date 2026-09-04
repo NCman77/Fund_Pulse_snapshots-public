@@ -1,0 +1,220 @@
+{
+  "schemaVersion": "1.1",
+  "generatedAt": "2026-09-04T14:35:00.337Z",
+  "market": "uk",
+  "sessionName": "s4",
+  "localDate": "2026-09-04",
+  "timezone": "Europe/London",
+  "expectedSlots": [
+    "14:05",
+    "14:35",
+    "15:05",
+    "15:35"
+  ],
+  "skippedSlots": [],
+  "summary": {
+    "expectedSlotCount": 4,
+    "capturedSlotCount": 3,
+    "onTimeSlotCount": 3,
+    "lateSlotCount": 0,
+    "failedSlotCount": 1,
+    "partialSlotCount": 0,
+    "complete": false,
+    "healthy": false
+  },
+  "slots": [
+    {
+      "slot": "14:05",
+      "scheduledAt": "2026-09-04T13:05:00.000Z",
+      "status": "missed",
+      "attempts": 0,
+      "timingStatus": "missed",
+      "captureDelaySeconds": 1233,
+      "providerFailure": "",
+      "error": "Watcher started 1233s after the approved 120s capture tolerance; no late replacement was written.",
+      "collection": null,
+      "diagnostics": []
+    },
+    {
+      "slot": "14:35",
+      "scheduledAt": "2026-09-04T13:35:00.000Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 0,
+      "providerFailure": "",
+      "error": "",
+      "collection": {
+        "provider": "yahoo-finance",
+        "endpointType": "chart",
+        "expectedSymbolCount": 8,
+        "requestedSymbolCount": 8,
+        "attemptedSymbolCount": 8,
+        "capturedSymbolCount": 8,
+        "failedSymbolCount": 0,
+        "notAttemptedSymbolCount": 0,
+        "requestedSymbols": [
+          "^FTSE",
+          "TWD=X",
+          "JPY=X",
+          "KRW=X",
+          "CNY=X",
+          "SGD=X",
+          "EURUSD=X",
+          "GBPUSD=X"
+        ],
+        "capturedSymbols": [
+          "^FTSE",
+          "TWD=X",
+          "JPY=X",
+          "KRW=X",
+          "CNY=X",
+          "SGD=X",
+          "EURUSD=X",
+          "GBPUSD=X"
+        ],
+        "failedSymbols": [],
+        "notAttemptedSymbols": [],
+        "requiredSymbols": [
+          "^FTSE",
+          "TWD=X",
+          "JPY=X",
+          "KRW=X",
+          "CNY=X",
+          "SGD=X",
+          "EURUSD=X",
+          "GBPUSD=X"
+        ],
+        "optionalSymbols": [],
+        "missingRequiredSymbols": [],
+        "collectionStatus": "complete",
+        "validationStatus": "valid",
+        "publishable": true,
+        "complete": true
+      },
+      "diagnostics": []
+    },
+    {
+      "slot": "15:05",
+      "scheduledAt": "2026-09-04T14:05:00.000Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 0,
+      "providerFailure": "",
+      "error": "",
+      "collection": {
+        "provider": "yahoo-finance",
+        "endpointType": "chart",
+        "expectedSymbolCount": 8,
+        "requestedSymbolCount": 8,
+        "attemptedSymbolCount": 8,
+        "capturedSymbolCount": 8,
+        "failedSymbolCount": 0,
+        "notAttemptedSymbolCount": 0,
+        "requestedSymbols": [
+          "^FTSE",
+          "TWD=X",
+          "JPY=X",
+          "KRW=X",
+          "CNY=X",
+          "SGD=X",
+          "EURUSD=X",
+          "GBPUSD=X"
+        ],
+        "capturedSymbols": [
+          "^FTSE",
+          "TWD=X",
+          "JPY=X",
+          "KRW=X",
+          "CNY=X",
+          "SGD=X",
+          "EURUSD=X",
+          "GBPUSD=X"
+        ],
+        "failedSymbols": [],
+        "notAttemptedSymbols": [],
+        "requiredSymbols": [
+          "^FTSE",
+          "TWD=X",
+          "JPY=X",
+          "KRW=X",
+          "CNY=X",
+          "SGD=X",
+          "EURUSD=X",
+          "GBPUSD=X"
+        ],
+        "optionalSymbols": [],
+        "missingRequiredSymbols": [],
+        "collectionStatus": "complete",
+        "validationStatus": "valid",
+        "publishable": true,
+        "complete": true
+      },
+      "diagnostics": []
+    },
+    {
+      "slot": "15:35",
+      "scheduledAt": "2026-09-04T14:35:00.000Z",
+      "status": "captured",
+      "attempts": 1,
+      "timingStatus": "on_time",
+      "captureDelaySeconds": 0,
+      "providerFailure": "",
+      "error": "",
+      "collection": {
+        "provider": "yahoo-finance",
+        "endpointType": "chart",
+        "expectedSymbolCount": 8,
+        "requestedSymbolCount": 8,
+        "attemptedSymbolCount": 8,
+        "capturedSymbolCount": 8,
+        "failedSymbolCount": 0,
+        "notAttemptedSymbolCount": 0,
+        "requestedSymbols": [
+          "^FTSE",
+          "TWD=X",
+          "JPY=X",
+          "KRW=X",
+          "CNY=X",
+          "SGD=X",
+          "EURUSD=X",
+          "GBPUSD=X"
+        ],
+        "capturedSymbols": [
+          "^FTSE",
+          "TWD=X",
+          "JPY=X",
+          "KRW=X",
+          "CNY=X",
+          "SGD=X",
+          "EURUSD=X",
+          "GBPUSD=X"
+        ],
+        "failedSymbols": [],
+        "notAttemptedSymbols": [],
+        "requiredSymbols": [
+          "^FTSE",
+          "TWD=X",
+          "JPY=X",
+          "KRW=X",
+          "CNY=X",
+          "SGD=X",
+          "EURUSD=X",
+          "GBPUSD=X"
+        ],
+        "optionalSymbols": [],
+        "missingRequiredSymbols": [],
+        "collectionStatus": "complete",
+        "validationStatus": "valid",
+        "publishable": true,
+        "complete": true
+      },
+      "diagnostics": []
+    }
+  ],
+  "producer": {
+    "id": "s4",
+    "role": "primary"
+  }
+}
