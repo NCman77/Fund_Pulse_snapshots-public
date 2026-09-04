@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "1.1",
+  "generatedAt": "2026-09-04T05:11:23.906Z",
+  "market": "jp",
+  "sessionName": "decision-owner",
+  "localDate": "2026-09-04",
+  "timezone": "Asia/Tokyo",
+  "expectedSlots": [
+    "13:55"
+  ],
+  "skippedSlots": [],
+  "summary": {
+    "expectedSlotCount": 1,
+    "capturedSlotCount": 0,
+    "onTimeSlotCount": 0,
+    "lateSlotCount": 0,
+    "failedSlotCount": 1,
+    "partialSlotCount": 0,
+    "complete": false,
+    "healthy": false
+  },
+  "slots": [
+    {
+      "slot": "13:55",
+      "scheduledAt": "2026-09-04T04:55:00.000Z",
+      "status": "missed",
+      "attempts": 0,
+      "timingStatus": "missed",
+      "captureDelaySeconds": 984,
+      "providerFailure": "",
+      "error": "Watcher started 984s after the approved 120s capture tolerance; no late replacement was written.",
+      "collection": null,
+      "diagnostics": []
+    }
+  ],
+  "producer": {
+    "id": "decision-owner",
+    "role": "primary"
+  }
+}
