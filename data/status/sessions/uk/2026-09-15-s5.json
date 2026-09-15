@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "1.1",
+  "generatedAt": "2026-09-15T15:31:59.200Z",
+  "market": "uk",
+  "sessionName": "s5",
+  "localDate": "2026-09-15",
+  "timezone": "Europe/London",
+  "expectedSlots": [
+    "16:05",
+    "16:30"
+  ],
+  "skippedSlots": [],
+  "summary": {
+    "expectedSlotCount": 2,
+    "capturedSlotCount": 0,
+    "onTimeSlotCount": 0,
+    "lateSlotCount": 0,
+    "failedSlotCount": 2,
+    "partialSlotCount": 0,
+    "complete": false,
+    "healthy": false
+  },
+  "slots": [
+    {
+      "slot": "16:05",
+      "scheduledAt": "2026-09-15T15:05:00.000Z",
+      "status": "missed",
+      "attempts": 0,
+      "timingStatus": "missed",
+      "captureDelaySeconds": 1574,
+      "providerFailure": "",
+      "error": "Watcher started 1574s after the approved 120s capture tolerance; no late replacement was written.",
+      "collection": null,
+      "diagnostics": []
+    },
+    {
+      "slot": "16:30",
+      "scheduledAt": "2026-09-15T15:30:00.000Z",
+      "status": "failed",
+      "attempts": 3,
+      "timingStatus": "",
+      "captureDelaySeconds": null,
+      "providerFailure": "",
+      "error": "Capture did not persist uk at 2026-09-15T15:30:00.000Z: market-closed",
+      "collection": null,
+      "diagnostics": []
+    }
+  ],
+  "producer": {
+    "id": "s5",
+    "role": "primary"
+  }
+}
