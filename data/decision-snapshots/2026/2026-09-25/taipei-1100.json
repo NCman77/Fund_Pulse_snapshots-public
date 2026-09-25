@@ -1,11 +1,11 @@
 {
   "schemaVersion": "1.0",
-  "basis": "taipei_1255_pre_order",
+  "basis": "taipei_slot_training",
   "date": "2026-09-25",
-  "decisionSlot": "12:55",
-  "decisionAt": "2026-09-25T04:55:00.000Z",
-  "decisionWindowEndsAt": "2026-09-25T04:57:00.000Z",
-  "generatedAt": "2026-09-25T10:32:52.495Z",
+  "decisionSlot": "11:00",
+  "decisionAt": "2026-09-25T03:00:00.000Z",
+  "decisionWindowEndsAt": "2026-09-25T03:02:00.000Z",
+  "generatedAt": "2026-09-25T10:32:49.699Z",
   "maxOpenMarketDelaySeconds": 120,
   "timingWithinTolerance": false,
   "dataQualityWithinTolerance": false,
@@ -1381,8 +1381,7 @@
         "eligible": false,
         "scope": "disclosed_holdings_only",
         "statusReasons": [
-          "unmapped_disclosed_holdings",
-          "missing_qualified_dependencies"
+          "unmapped_disclosed_holdings"
         ],
         "holdingsDisclosureDate": "2026-08-31",
         "disclosureCapturedAt": "2026-09-24T12:35:29.961Z",
@@ -1391,7 +1390,7 @@
         "mappedHoldingCount": 8,
         "unmappedHoldingCount": 2,
         "mappedHoldingWeightPercent": 29,
-        "availableHoldingWeightPercent": 26.04,
+        "availableHoldingWeightPercent": 29,
         "unmappedHoldingNames": [
           "MICROSOFT CORP-USA",
           "SERVICENOW INC-USA"
@@ -1462,16 +1461,7 @@
             "symbol": "TWD=X"
           }
         ],
-        "missingDependencies": [
-          {
-            "type": "holding",
-            "symbol": "285A.T",
-            "market": "jp",
-            "currency": "JPY",
-            "weightPercent": 2.96,
-            "reason": "qualified_quote_missing"
-          }
-        ]
+        "missingDependencies": []
       },
       {
         "fundId": "ACTT209",
@@ -1480,8 +1470,7 @@
         "eligible": false,
         "scope": "disclosed_holdings_only",
         "statusReasons": [
-          "unmapped_disclosed_holdings",
-          "missing_qualified_dependencies"
+          "unmapped_disclosed_holdings"
         ],
         "holdingsDisclosureDate": "2026-08-31",
         "disclosureCapturedAt": "2026-09-24T12:35:30.266Z",
@@ -1490,7 +1479,7 @@
         "mappedHoldingCount": 8,
         "unmappedHoldingCount": 2,
         "mappedHoldingWeightPercent": 26.22,
-        "availableHoldingWeightPercent": 23.57,
+        "availableHoldingWeightPercent": 26.22,
         "unmappedHoldingNames": [
           "晟碟公司（德拉瓦州）",
           "魯門特姆控股公司"
@@ -1561,16 +1550,7 @@
             "symbol": "TWD=X"
           }
         ],
-        "missingDependencies": [
-          {
-            "type": "holding",
-            "symbol": "6857.T",
-            "market": "jp",
-            "currency": "JPY",
-            "weightPercent": 2.65,
-            "reason": "qualified_quote_missing"
-          }
-        ]
+        "missingDependencies": []
       },
       {
         "fundId": "ACPS26",
@@ -1579,8 +1559,7 @@
         "eligible": false,
         "scope": "disclosed_holdings_only",
         "statusReasons": [
-          "unmapped_disclosed_holdings",
-          "missing_qualified_dependencies"
+          "unmapped_disclosed_holdings"
         ],
         "holdingsDisclosureDate": "2026-08-31",
         "disclosureCapturedAt": "2026-09-24T12:35:30.582Z",
@@ -1589,7 +1568,7 @@
         "mappedHoldingCount": 6,
         "unmappedHoldingCount": 4,
         "mappedHoldingWeightPercent": 30.95,
-        "availableHoldingWeightPercent": 27.08,
+        "availableHoldingWeightPercent": 30.95,
         "unmappedHoldingNames": [
           "CROWDSTRIKE HOLDINGS INC - A",
           "KEYENCE CORP",
@@ -1648,16 +1627,7 @@
             "symbol": "TWD=X"
           }
         ],
-        "missingDependencies": [
-          {
-            "type": "holding",
-            "symbol": "285A.T",
-            "market": "jp",
-            "currency": "JPY",
-            "weightPercent": 3.87,
-            "reason": "qualified_quote_missing"
-          }
-        ]
+        "missingDependencies": []
       }
     ]
   },
@@ -1677,10 +1647,10 @@
         "status": "not_enforced",
         "complete": true,
         "enforced": false,
-        "referenceAt": "2026-09-25T04:55:00.000Z",
+        "referenceAt": "2026-09-25T03:00:00.000Z",
         "maxAgeSeconds": null,
-        "oldestQuoteAgeSeconds": 89266,
-        "newestQuoteAgeSeconds": 87901,
+        "oldestQuoteAgeSeconds": 82366,
+        "newestQuoteAgeSeconds": 81001,
         "unreliableQuoteAtSymbols": [],
         "staleSymbols": [],
         "futureSymbols": []
@@ -1690,48 +1660,29 @@
     },
     {
       "market": "jp",
-      "marketStateAtDecision": "regular",
+      "marketStateAtDecision": "closed",
       "status": "latest_available_before_decision",
-      "path": "data/raw/asia/jp/2026/2026-09-25/regular/producers/s3/0435.json",
-      "sha256": "a6362c9eeaf16a66e4861fa799f451087b20095f448a9e880ef6c329ab5bda87",
-      "capturedAt": "2026-09-25T04:35:00.488Z",
-      "scheduledAt": "2026-09-25T04:35:00.000Z",
+      "path": "data/raw/asia/jp/2026/2026-09-25/regular/producers/s2/0230.json",
+      "sha256": "c1283989d3dcf52f8d49b3ea8fe5854c1700e41546965a9f3b925841757b626d",
+      "capturedAt": "2026-09-25T02:30:00.416Z",
+      "scheduledAt": "2026-09-25T02:30:00.000Z",
       "captureDelaySeconds": 0,
       "timingStatus": "on_time",
       "quoteCount": 18,
       "quoteFreshness": {
-        "status": "rejected",
-        "complete": false,
-        "enforced": true,
-        "referenceAt": "2026-09-25T04:55:00.000Z",
-        "maxAgeSeconds": 300,
-        "oldestQuoteAgeSeconds": 2163,
-        "newestQuoteAgeSeconds": 1201,
+        "status": "not_enforced",
+        "complete": true,
+        "enforced": false,
+        "referenceAt": "2026-09-25T03:00:00.000Z",
+        "maxAgeSeconds": null,
+        "oldestQuoteAgeSeconds": 2719,
+        "newestQuoteAgeSeconds": 1801,
         "unreliableQuoteAtSymbols": [],
-        "staleSymbols": [
-          "^N225",
-          "1321.T",
-          "285A.T",
-          "4062.T",
-          "5706.T",
-          "6227.T",
-          "6723.T",
-          "6857.T",
-          "6976.T",
-          "6981.T",
-          "8035.T",
-          "TWD=X",
-          "JPY=X",
-          "KRW=X",
-          "CNY=X",
-          "SGD=X",
-          "EURUSD=X",
-          "GBPUSD=X"
-        ],
+        "staleSymbols": [],
         "futureSymbols": []
       },
-      "earliestQuoteAt": "2026-09-25T04:18:57.000Z",
-      "latestQuoteAt": "2026-09-25T04:34:59.000Z"
+      "earliestQuoteAt": "2026-09-25T02:14:41.000Z",
+      "latestQuoteAt": "2026-09-25T02:29:59.000Z"
     },
     {
       "market": "kr",
@@ -1748,10 +1699,10 @@
         "status": "not_enforced",
         "complete": true,
         "enforced": false,
-        "referenceAt": "2026-09-25T04:55:00.000Z",
+        "referenceAt": "2026-09-25T03:00:00.000Z",
         "maxAgeSeconds": null,
-        "oldestQuoteAgeSeconds": 168900,
-        "newestQuoteAgeSeconds": 167101,
+        "oldestQuoteAgeSeconds": 162000,
+        "newestQuoteAgeSeconds": 160201,
         "unreliableQuoteAtSymbols": [],
         "staleSymbols": [],
         "futureSymbols": []
@@ -1774,10 +1725,10 @@
         "status": "not_enforced",
         "complete": true,
         "enforced": false,
-        "referenceAt": "2026-09-25T04:55:00.000Z",
+        "referenceAt": "2026-09-25T03:00:00.000Z",
         "maxAgeSeconds": null,
-        "oldestQuoteAgeSeconds": 83105,
-        "newestQuoteAgeSeconds": 82202,
+        "oldestQuoteAgeSeconds": 76205,
+        "newestQuoteAgeSeconds": 75302,
         "unreliableQuoteAtSymbols": [],
         "staleSymbols": [],
         "futureSymbols": []
@@ -1787,29 +1738,38 @@
     },
     {
       "market": "sg",
-      "marketStateAtDecision": "closed",
+      "marketStateAtDecision": "regular",
       "status": "latest_available_before_decision",
-      "path": "data/raw/asia/sg/2026/2026-09-25/regular/producers/s2/0400.json",
-      "sha256": "ed8e392b4bb506c4ed0804ea07b7bb7687a69650c9c9febebdb69ad71edc42a6",
-      "capturedAt": "2026-09-25T04:00:00.304Z",
-      "scheduledAt": "2026-09-25T04:00:00.000Z",
+      "path": "data/raw/asia/sg/2026/2026-09-25/regular/producers/s2/0235.json",
+      "sha256": "f3dc7e769d1f841c10531a22a3ac5fdda5655667d0ac4ed97ff4d71ce699a6b5",
+      "capturedAt": "2026-09-25T02:35:00.338Z",
+      "scheduledAt": "2026-09-25T02:35:00.000Z",
       "captureDelaySeconds": 0,
       "timingStatus": "on_time",
       "quoteCount": 8,
       "quoteFreshness": {
-        "status": "not_enforced",
-        "complete": true,
-        "enforced": false,
-        "referenceAt": "2026-09-25T04:55:00.000Z",
-        "maxAgeSeconds": null,
-        "oldestQuoteAgeSeconds": 4202,
-        "newestQuoteAgeSeconds": 3301,
+        "status": "rejected",
+        "complete": false,
+        "enforced": true,
+        "referenceAt": "2026-09-25T03:00:00.000Z",
+        "maxAgeSeconds": 300,
+        "oldestQuoteAgeSeconds": 2402,
+        "newestQuoteAgeSeconds": 1501,
         "unreliableQuoteAtSymbols": [],
-        "staleSymbols": [],
+        "staleSymbols": [
+          "^STI",
+          "TWD=X",
+          "JPY=X",
+          "KRW=X",
+          "CNY=X",
+          "SGD=X",
+          "EURUSD=X",
+          "GBPUSD=X"
+        ],
         "futureSymbols": []
       },
-      "earliestQuoteAt": "2026-09-25T03:44:58.000Z",
-      "latestQuoteAt": "2026-09-25T03:59:59.000Z"
+      "earliestQuoteAt": "2026-09-25T02:19:58.000Z",
+      "latestQuoteAt": "2026-09-25T02:34:59.000Z"
     },
     {
       "market": "uk",
@@ -1826,10 +1786,10 @@
         "status": "not_enforced",
         "complete": true,
         "enforced": false,
-        "referenceAt": "2026-09-25T04:55:00.000Z",
+        "referenceAt": "2026-09-25T03:00:00.000Z",
         "maxAgeSeconds": null,
-        "oldestQuoteAgeSeconds": 49320,
-        "newestQuoteAgeSeconds": 48301,
+        "oldestQuoteAgeSeconds": 42420,
+        "newestQuoteAgeSeconds": 41401,
         "unreliableQuoteAtSymbols": [],
         "staleSymbols": [],
         "futureSymbols": []
@@ -1852,10 +1812,10 @@
         "status": "not_enforced",
         "complete": true,
         "enforced": false,
-        "referenceAt": "2026-09-25T04:55:00.000Z",
+        "referenceAt": "2026-09-25T03:00:00.000Z",
         "maxAgeSeconds": null,
-        "oldestQuoteAgeSeconds": 49260,
-        "newestQuoteAgeSeconds": 48301,
+        "oldestQuoteAgeSeconds": 42360,
+        "newestQuoteAgeSeconds": 41401,
         "unreliableQuoteAtSymbols": [],
         "staleSymbols": [],
         "futureSymbols": []
@@ -1878,10 +1838,10 @@
         "status": "not_enforced",
         "complete": true,
         "enforced": false,
-        "referenceAt": "2026-09-25T04:55:00.000Z",
+        "referenceAt": "2026-09-25T03:00:00.000Z",
         "maxAgeSeconds": null,
-        "oldestQuoteAgeSeconds": 33660,
-        "newestQuoteAgeSeconds": 32101,
+        "oldestQuoteAgeSeconds": 26760,
+        "newestQuoteAgeSeconds": 25201,
         "unreliableQuoteAtSymbols": [],
         "staleSymbols": [],
         "futureSymbols": []
