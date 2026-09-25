@@ -1,0 +1,1902 @@
+{
+  "schemaVersion": "1.0",
+  "basis": "taipei_slot_training",
+  "date": "2026-09-25",
+  "decisionSlot": "13:25",
+  "decisionAt": "2026-09-25T05:25:00.000Z",
+  "decisionWindowEndsAt": "2026-09-25T05:27:00.000Z",
+  "generatedAt": "2026-09-25T10:32:53.892Z",
+  "maxOpenMarketDelaySeconds": 120,
+  "timingWithinTolerance": false,
+  "dataQualityWithinTolerance": false,
+  "fundCoverage": {
+    "schemaVersion": "1.0",
+    "mode": "formal_gate",
+    "scope": "disclosed_holdings_only",
+    "policyVersion": 2,
+    "maxRegularQuoteAgeSeconds": 300,
+    "mappingVersion": 1,
+    "sourceCoverageGeneratedAt": "2026-09-24T12:35:30.744Z",
+    "coverageAsOfDecision": true,
+    "fundCount": 19,
+    "eligibleFundCount": 3,
+    "funds": [
+      {
+        "fundId": "ACDD04",
+        "fundName": "安聯台灣科技基金",
+        "status": "complete",
+        "eligible": true,
+        "scope": "disclosed_holdings_only",
+        "statusReasons": [],
+        "holdingsDisclosureDate": "2026-08-31",
+        "disclosureCapturedAt": "2026-09-24T12:35:20.624Z",
+        "dependencyFingerprint": "a462df5234704077335718a4a9d21ac3fb5eb9413bf14c1c6d7039646e60bea9",
+        "dependencyCount": 10,
+        "mappedHoldingCount": 10,
+        "unmappedHoldingCount": 0,
+        "mappedHoldingWeightPercent": 50.34,
+        "availableHoldingWeightPercent": 50.34,
+        "unmappedHoldingNames": [],
+        "dependencies": [
+          {
+            "type": "holding",
+            "symbol": "2303.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 3.97
+          },
+          {
+            "type": "holding",
+            "symbol": "2330.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 5.63
+          },
+          {
+            "type": "holding",
+            "symbol": "2368.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 4.93
+          },
+          {
+            "type": "holding",
+            "symbol": "2383.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 5.32
+          },
+          {
+            "type": "holding",
+            "symbol": "3017.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 4.99
+          },
+          {
+            "type": "holding",
+            "symbol": "3037.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 5.16
+          },
+          {
+            "type": "holding",
+            "symbol": "3443.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 5.52
+          },
+          {
+            "type": "holding",
+            "symbol": "6223.TWO",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 6.04
+          },
+          {
+            "type": "holding",
+            "symbol": "6274.TWO",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 4.5
+          },
+          {
+            "type": "holding",
+            "symbol": "8046.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 4.28
+          }
+        ],
+        "missingDependencies": []
+      },
+      {
+        "fundId": "ACDD01",
+        "fundName": "安聯台灣大壩基金-A累積型",
+        "status": "complete",
+        "eligible": true,
+        "scope": "disclosed_holdings_only",
+        "statusReasons": [],
+        "holdingsDisclosureDate": "2026-08-31",
+        "disclosureCapturedAt": "2026-09-24T12:35:21.095Z",
+        "dependencyFingerprint": "2f3cf8974343feb42057688ad69a16363f4fa208cb7581ae67d9b8447abe710d",
+        "dependencyCount": 10,
+        "mappedHoldingCount": 10,
+        "unmappedHoldingCount": 0,
+        "mappedHoldingWeightPercent": 47.8,
+        "availableHoldingWeightPercent": 47.8,
+        "unmappedHoldingNames": [],
+        "dependencies": [
+          {
+            "type": "holding",
+            "symbol": "2330.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 4.87
+          },
+          {
+            "type": "holding",
+            "symbol": "3017.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 6.44
+          },
+          {
+            "type": "holding",
+            "symbol": "3037.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 4.62
+          },
+          {
+            "type": "holding",
+            "symbol": "3189.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 3.52
+          },
+          {
+            "type": "holding",
+            "symbol": "3443.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 3.56
+          },
+          {
+            "type": "holding",
+            "symbol": "5274.TWO",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 4.77
+          },
+          {
+            "type": "holding",
+            "symbol": "6223.TWO",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 8.65
+          },
+          {
+            "type": "holding",
+            "symbol": "6274.TWO",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 3.55
+          },
+          {
+            "type": "holding",
+            "symbol": "6669.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 3.71
+          },
+          {
+            "type": "holding",
+            "symbol": "8046.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 4.11
+          }
+        ],
+        "missingDependencies": []
+      },
+      {
+        "fundId": "ACFH03",
+        "fundName": "復華高成長基金",
+        "status": "incomplete",
+        "eligible": false,
+        "scope": "disclosed_holdings_only",
+        "statusReasons": [
+          "unmapped_disclosed_holdings"
+        ],
+        "holdingsDisclosureDate": "2026-08-31",
+        "disclosureCapturedAt": "2026-09-24T12:35:21.388Z",
+        "dependencyFingerprint": "df0b1ffad200444500c212c2f5d8d7dd83abe403d8f70b6eef33c34ca89f4deb",
+        "dependencyCount": 9,
+        "mappedHoldingCount": 9,
+        "unmappedHoldingCount": 1,
+        "mappedHoldingWeightPercent": 65.35,
+        "availableHoldingWeightPercent": 65.35,
+        "unmappedHoldingNames": [
+          "聯亞"
+        ],
+        "dependencies": [
+          {
+            "type": "holding",
+            "symbol": "2059.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 8.58
+          },
+          {
+            "type": "holding",
+            "symbol": "2327.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 5.22
+          },
+          {
+            "type": "holding",
+            "symbol": "2383.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 11.75
+          },
+          {
+            "type": "holding",
+            "symbol": "2408.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 9.85
+          },
+          {
+            "type": "holding",
+            "symbol": "3017.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 4.66
+          },
+          {
+            "type": "holding",
+            "symbol": "3026.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 4.3
+          },
+          {
+            "type": "holding",
+            "symbol": "3037.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 9.57
+          },
+          {
+            "type": "holding",
+            "symbol": "6669.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 4.29
+          },
+          {
+            "type": "holding",
+            "symbol": "8046.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 7.13
+          }
+        ],
+        "missingDependencies": []
+      },
+      {
+        "fundId": "ACFH15",
+        "fundName": "復華全方位基金A類型",
+        "status": "incomplete",
+        "eligible": false,
+        "scope": "disclosed_holdings_only",
+        "statusReasons": [
+          "unmapped_disclosed_holdings"
+        ],
+        "holdingsDisclosureDate": "2026-08-31",
+        "disclosureCapturedAt": "2026-09-24T12:35:21.828Z",
+        "dependencyFingerprint": "d2878b9ba88e1ac38f0c96dcb5cc5d6e666fc5f57db4662ab1583c2ea73fb512",
+        "dependencyCount": 9,
+        "mappedHoldingCount": 9,
+        "unmappedHoldingCount": 1,
+        "mappedHoldingWeightPercent": 48.04,
+        "availableHoldingWeightPercent": 48.04,
+        "unmappedHoldingNames": [
+          "富世達"
+        ],
+        "dependencies": [
+          {
+            "type": "holding",
+            "symbol": "2059.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 4.65
+          },
+          {
+            "type": "holding",
+            "symbol": "2308.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 5.63
+          },
+          {
+            "type": "holding",
+            "symbol": "2330.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 4.29
+          },
+          {
+            "type": "holding",
+            "symbol": "2383.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 6.74
+          },
+          {
+            "type": "holding",
+            "symbol": "2408.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 3.73
+          },
+          {
+            "type": "holding",
+            "symbol": "3017.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 5.33
+          },
+          {
+            "type": "holding",
+            "symbol": "3037.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 6.14
+          },
+          {
+            "type": "holding",
+            "symbol": "3653.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 5.64
+          },
+          {
+            "type": "holding",
+            "symbol": "8046.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 5.89
+          }
+        ],
+        "missingDependencies": []
+      },
+      {
+        "fundId": "ACKH03",
+        "fundName": "野村台灣運籌基金",
+        "status": "incomplete",
+        "eligible": false,
+        "scope": "disclosed_holdings_only",
+        "statusReasons": [
+          "unmapped_disclosed_holdings"
+        ],
+        "holdingsDisclosureDate": "2026-08-31",
+        "disclosureCapturedAt": "2026-09-24T12:35:22.492Z",
+        "dependencyFingerprint": "844b15fb38efd6aad82851f403a9b7f63686b1674d34190e825e19c805d0abbc",
+        "dependencyCount": 9,
+        "mappedHoldingCount": 9,
+        "unmappedHoldingCount": 1,
+        "mappedHoldingWeightPercent": 53.3,
+        "availableHoldingWeightPercent": 53.3,
+        "unmappedHoldingNames": [
+          "聯亞"
+        ],
+        "dependencies": [
+          {
+            "type": "holding",
+            "symbol": "2059.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 9.61
+          },
+          {
+            "type": "holding",
+            "symbol": "2308.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 4.18
+          },
+          {
+            "type": "holding",
+            "symbol": "2330.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 5.75
+          },
+          {
+            "type": "holding",
+            "symbol": "2383.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 7.49
+          },
+          {
+            "type": "holding",
+            "symbol": "2454.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 5
+          },
+          {
+            "type": "holding",
+            "symbol": "3037.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 5.76
+          },
+          {
+            "type": "holding",
+            "symbol": "3653.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 7.32
+          },
+          {
+            "type": "holding",
+            "symbol": "6223.TWO",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 4.04
+          },
+          {
+            "type": "holding",
+            "symbol": "8046.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 4.15
+          }
+        ],
+        "missingDependencies": []
+      },
+      {
+        "fundId": "ACIC01",
+        "fundName": "野村優質基金-累積型",
+        "status": "incomplete",
+        "eligible": false,
+        "scope": "disclosed_holdings_only",
+        "statusReasons": [
+          "unmapped_disclosed_holdings"
+        ],
+        "holdingsDisclosureDate": "2026-08-31",
+        "disclosureCapturedAt": "2026-09-24T12:35:22.660Z",
+        "dependencyFingerprint": "0223cfbeed28d36f77e0d46f50de1f9b4b66716cb25849271d51b6d7f911f06e",
+        "dependencyCount": 9,
+        "mappedHoldingCount": 9,
+        "unmappedHoldingCount": 1,
+        "mappedHoldingWeightPercent": 69.82,
+        "availableHoldingWeightPercent": 69.82,
+        "unmappedHoldingNames": [
+          "聯亞"
+        ],
+        "dependencies": [
+          {
+            "type": "holding",
+            "symbol": "2059.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 15.19
+          },
+          {
+            "type": "holding",
+            "symbol": "2308.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 5.36
+          },
+          {
+            "type": "holding",
+            "symbol": "2330.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 7.63
+          },
+          {
+            "type": "holding",
+            "symbol": "2368.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 3.95
+          },
+          {
+            "type": "holding",
+            "symbol": "2383.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 8.3
+          },
+          {
+            "type": "holding",
+            "symbol": "2454.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 5.47
+          },
+          {
+            "type": "holding",
+            "symbol": "3037.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 7.48
+          },
+          {
+            "type": "holding",
+            "symbol": "3653.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 10.61
+          },
+          {
+            "type": "holding",
+            "symbol": "7769.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 5.83
+          }
+        ],
+        "missingDependencies": []
+      },
+      {
+        "fundId": "ACPS10",
+        "fundName": "統一奔騰基金",
+        "status": "complete",
+        "eligible": true,
+        "scope": "disclosed_holdings_only",
+        "statusReasons": [],
+        "holdingsDisclosureDate": "2026-08-31",
+        "disclosureCapturedAt": "2026-09-24T12:35:22.823Z",
+        "dependencyFingerprint": "b3f2143ce9e98f72a6cfbcb7ed1ab6a8aa36451e57c9bbab752e97b9feec939c",
+        "dependencyCount": 10,
+        "mappedHoldingCount": 10,
+        "unmappedHoldingCount": 0,
+        "mappedHoldingWeightPercent": 66.55,
+        "availableHoldingWeightPercent": 66.55,
+        "unmappedHoldingNames": [],
+        "dependencies": [
+          {
+            "type": "holding",
+            "symbol": "2308.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 4.79
+          },
+          {
+            "type": "holding",
+            "symbol": "2330.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 7.97
+          },
+          {
+            "type": "holding",
+            "symbol": "2345.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 4.86
+          },
+          {
+            "type": "holding",
+            "symbol": "2383.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 9.07
+          },
+          {
+            "type": "holding",
+            "symbol": "2454.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 5.87
+          },
+          {
+            "type": "holding",
+            "symbol": "3017.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 7.67
+          },
+          {
+            "type": "holding",
+            "symbol": "3037.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 7.59
+          },
+          {
+            "type": "holding",
+            "symbol": "3653.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 8.08
+          },
+          {
+            "type": "holding",
+            "symbol": "6223.TWO",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 5.7
+          },
+          {
+            "type": "holding",
+            "symbol": "6669.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 4.95
+          }
+        ],
+        "missingDependencies": []
+      },
+      {
+        "fundId": "ACPS02",
+        "fundName": "統一黑馬基金",
+        "status": "incomplete",
+        "eligible": false,
+        "scope": "disclosed_holdings_only",
+        "statusReasons": [
+          "unmapped_disclosed_holdings"
+        ],
+        "holdingsDisclosureDate": "2026-08-31",
+        "disclosureCapturedAt": "2026-09-24T12:35:25.985Z",
+        "dependencyFingerprint": "c42466052e894aa61ecfea62c319cb21859450506d75c740769c101f504e658e",
+        "dependencyCount": 8,
+        "mappedHoldingCount": 8,
+        "unmappedHoldingCount": 2,
+        "mappedHoldingWeightPercent": 40.91,
+        "availableHoldingWeightPercent": 40.91,
+        "unmappedHoldingNames": [
+          "富世達",
+          "聯亞"
+        ],
+        "dependencies": [
+          {
+            "type": "holding",
+            "symbol": "2308.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 3.43
+          },
+          {
+            "type": "holding",
+            "symbol": "2330.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 5.93
+          },
+          {
+            "type": "holding",
+            "symbol": "2383.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 6.04
+          },
+          {
+            "type": "holding",
+            "symbol": "2408.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 3.51
+          },
+          {
+            "type": "holding",
+            "symbol": "3017.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 4.84
+          },
+          {
+            "type": "holding",
+            "symbol": "3037.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 5.02
+          },
+          {
+            "type": "holding",
+            "symbol": "3443.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 5
+          },
+          {
+            "type": "holding",
+            "symbol": "6669.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 7.14
+          }
+        ],
+        "missingDependencies": []
+      },
+      {
+        "fundId": "ACPS06",
+        "fundName": "統一中小基金",
+        "status": "incomplete",
+        "eligible": false,
+        "scope": "disclosed_holdings_only",
+        "statusReasons": [
+          "unmapped_disclosed_holdings"
+        ],
+        "holdingsDisclosureDate": "2026-08-31",
+        "disclosureCapturedAt": "2026-09-24T12:35:26.413Z",
+        "dependencyFingerprint": "f3fb5fa1c6e1429923be40f09143c176013e72a78151745d4d5af1f0f8b5b209",
+        "dependencyCount": 8,
+        "mappedHoldingCount": 8,
+        "unmappedHoldingCount": 2,
+        "mappedHoldingWeightPercent": 55.07,
+        "availableHoldingWeightPercent": 55.07,
+        "unmappedHoldingNames": [
+          "大立光",
+          "富世達"
+        ],
+        "dependencies": [
+          {
+            "type": "holding",
+            "symbol": "2383.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 7.2
+          },
+          {
+            "type": "holding",
+            "symbol": "2408.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 6.19
+          },
+          {
+            "type": "holding",
+            "symbol": "3017.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 9.28
+          },
+          {
+            "type": "holding",
+            "symbol": "3037.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 6.97
+          },
+          {
+            "type": "holding",
+            "symbol": "3443.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 8.81
+          },
+          {
+            "type": "holding",
+            "symbol": "3653.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 6.86
+          },
+          {
+            "type": "holding",
+            "symbol": "6669.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 5.08
+          },
+          {
+            "type": "holding",
+            "symbol": "8046.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 4.68
+          }
+        ],
+        "missingDependencies": []
+      },
+      {
+        "fundId": "ACPS03",
+        "fundName": "統一龍馬基金",
+        "status": "incomplete",
+        "eligible": false,
+        "scope": "disclosed_holdings_only",
+        "statusReasons": [
+          "unmapped_disclosed_holdings"
+        ],
+        "holdingsDisclosureDate": "2026-08-31",
+        "disclosureCapturedAt": "2026-09-24T12:35:26.575Z",
+        "dependencyFingerprint": "4108d5dbbca59f2fec48d6094cb193dd7dfb51be4d58b5461b5afd37f76d91f5",
+        "dependencyCount": 8,
+        "mappedHoldingCount": 8,
+        "unmappedHoldingCount": 2,
+        "mappedHoldingWeightPercent": 56.01,
+        "availableHoldingWeightPercent": 56.01,
+        "unmappedHoldingNames": [
+          "大立光",
+          "富世達"
+        ],
+        "dependencies": [
+          {
+            "type": "holding",
+            "symbol": "2383.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 7.31
+          },
+          {
+            "type": "holding",
+            "symbol": "2408.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 6.22
+          },
+          {
+            "type": "holding",
+            "symbol": "3017.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 9.43
+          },
+          {
+            "type": "holding",
+            "symbol": "3037.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 7.06
+          },
+          {
+            "type": "holding",
+            "symbol": "3443.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 9.24
+          },
+          {
+            "type": "holding",
+            "symbol": "3653.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 6.78
+          },
+          {
+            "type": "holding",
+            "symbol": "6669.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 5.13
+          },
+          {
+            "type": "holding",
+            "symbol": "8046.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 4.84
+          }
+        ],
+        "missingDependencies": []
+      },
+      {
+        "fundId": "ACYT11",
+        "fundName": "元大新主流",
+        "status": "incomplete",
+        "eligible": false,
+        "scope": "disclosed_holdings_only",
+        "statusReasons": [
+          "unmapped_disclosed_holdings"
+        ],
+        "holdingsDisclosureDate": "2026-08-31",
+        "disclosureCapturedAt": "2026-09-24T12:35:26.853Z",
+        "dependencyFingerprint": "8824e7c93fbb8f5345f49909a725612c14ba666a808883794c852ac7502d5721",
+        "dependencyCount": 8,
+        "mappedHoldingCount": 8,
+        "unmappedHoldingCount": 2,
+        "mappedHoldingWeightPercent": 54.92,
+        "availableHoldingWeightPercent": 54.92,
+        "unmappedHoldingNames": [
+          "聯亞",
+          "聯鈞"
+        ],
+        "dependencies": [
+          {
+            "type": "holding",
+            "symbol": "2059.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 8.18
+          },
+          {
+            "type": "holding",
+            "symbol": "2330.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 6.76
+          },
+          {
+            "type": "holding",
+            "symbol": "2383.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 6.92
+          },
+          {
+            "type": "holding",
+            "symbol": "3017.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 7.62
+          },
+          {
+            "type": "holding",
+            "symbol": "3037.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 7.68
+          },
+          {
+            "type": "holding",
+            "symbol": "3653.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 7.41
+          },
+          {
+            "type": "holding",
+            "symbol": "5274.TWO",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 5.31
+          },
+          {
+            "type": "holding",
+            "symbol": "6274.TWO",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 5.04
+          }
+        ],
+        "missingDependencies": []
+      },
+      {
+        "fundId": "ACTT06",
+        "fundName": "台新主流基金",
+        "status": "incomplete",
+        "eligible": false,
+        "scope": "disclosed_holdings_only",
+        "statusReasons": [
+          "unmapped_disclosed_holdings"
+        ],
+        "holdingsDisclosureDate": "2026-08-31",
+        "disclosureCapturedAt": "2026-09-24T12:35:28.961Z",
+        "dependencyFingerprint": "636eef4dd25844b7a919afe064d9de6451b401dccc38b433d5f719c822840324",
+        "dependencyCount": 9,
+        "mappedHoldingCount": 9,
+        "unmappedHoldingCount": 1,
+        "mappedHoldingWeightPercent": 56.63,
+        "availableHoldingWeightPercent": 56.63,
+        "unmappedHoldingNames": [
+          "上詮"
+        ],
+        "dependencies": [
+          {
+            "type": "holding",
+            "symbol": "2330.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 6.17
+          },
+          {
+            "type": "holding",
+            "symbol": "2383.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 7.76
+          },
+          {
+            "type": "holding",
+            "symbol": "2408.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 4.32
+          },
+          {
+            "type": "holding",
+            "symbol": "2454.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 4.97
+          },
+          {
+            "type": "holding",
+            "symbol": "3017.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 5.55
+          },
+          {
+            "type": "holding",
+            "symbol": "3037.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 7.71
+          },
+          {
+            "type": "holding",
+            "symbol": "3443.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 7.91
+          },
+          {
+            "type": "holding",
+            "symbol": "3653.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 5.3
+          },
+          {
+            "type": "holding",
+            "symbol": "6274.TWO",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 6.94
+          }
+        ],
+        "missingDependencies": []
+      },
+      {
+        "fundId": "ACES10",
+        "fundName": "施羅德台灣樂活中小基金-A",
+        "status": "incomplete",
+        "eligible": false,
+        "scope": "disclosed_holdings_only",
+        "statusReasons": [
+          "unmapped_disclosed_holdings"
+        ],
+        "holdingsDisclosureDate": "2026-08-31",
+        "disclosureCapturedAt": "2026-09-24T12:35:29.133Z",
+        "dependencyFingerprint": "b07426f9998a1f68566679e8bb8092290d33d461d7c813505d697b3d5085a82b",
+        "dependencyCount": 8,
+        "mappedHoldingCount": 8,
+        "unmappedHoldingCount": 2,
+        "mappedHoldingWeightPercent": 53.82,
+        "availableHoldingWeightPercent": 53.82,
+        "unmappedHoldingNames": [
+          "光寶科",
+          "藥華藥"
+        ],
+        "dependencies": [
+          {
+            "type": "holding",
+            "symbol": "2368.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 6.35
+          },
+          {
+            "type": "holding",
+            "symbol": "2383.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 7.61
+          },
+          {
+            "type": "holding",
+            "symbol": "3017.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 6.35
+          },
+          {
+            "type": "holding",
+            "symbol": "3443.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 8.68
+          },
+          {
+            "type": "holding",
+            "symbol": "3653.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 5.72
+          },
+          {
+            "type": "holding",
+            "symbol": "6274.TWO",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 6.43
+          },
+          {
+            "type": "holding",
+            "symbol": "6515.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 5.77
+          },
+          {
+            "type": "holding",
+            "symbol": "8046.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 6.91
+          }
+        ],
+        "missingDependencies": []
+      },
+      {
+        "fundId": "ACNB01",
+        "fundName": "路博邁台灣5G股票基金T累積型",
+        "status": "incomplete",
+        "eligible": false,
+        "scope": "disclosed_holdings_only",
+        "statusReasons": [
+          "unmapped_disclosed_holdings"
+        ],
+        "holdingsDisclosureDate": "2026-08-31",
+        "disclosureCapturedAt": "2026-09-24T12:35:29.383Z",
+        "dependencyFingerprint": "4aac7d80c09e7e68927f49beb9b9620eab60f3192794f9b1b08711edb0d5face",
+        "dependencyCount": 7,
+        "mappedHoldingCount": 7,
+        "unmappedHoldingCount": 3,
+        "mappedHoldingWeightPercent": 35.97,
+        "availableHoldingWeightPercent": 35.97,
+        "unmappedHoldingNames": [
+          "力旺",
+          "大立光",
+          "富喬"
+        ],
+        "dependencies": [
+          {
+            "type": "holding",
+            "symbol": "2059.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 4.51
+          },
+          {
+            "type": "holding",
+            "symbol": "2308.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 3.54
+          },
+          {
+            "type": "holding",
+            "symbol": "2330.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 7.78
+          },
+          {
+            "type": "holding",
+            "symbol": "2360.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 3.8
+          },
+          {
+            "type": "holding",
+            "symbol": "3443.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 6.08
+          },
+          {
+            "type": "holding",
+            "symbol": "3653.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 6.47
+          },
+          {
+            "type": "holding",
+            "symbol": "8046.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 3.79
+          }
+        ],
+        "missingDependencies": []
+      },
+      {
+        "fundId": "ACCY149",
+        "fundName": "國泰台灣高股息基金-A不配息",
+        "status": "incomplete",
+        "eligible": false,
+        "scope": "disclosed_holdings_only",
+        "statusReasons": [
+          "unmapped_disclosed_holdings"
+        ],
+        "holdingsDisclosureDate": "2026-08-31",
+        "disclosureCapturedAt": "2026-09-24T12:35:29.539Z",
+        "dependencyFingerprint": "7d0ffba8365a20fcb3a0ee7ed71479e132b4400cbc5133df3940d70e1e58924e",
+        "dependencyCount": 9,
+        "mappedHoldingCount": 9,
+        "unmappedHoldingCount": 1,
+        "mappedHoldingWeightPercent": 44.6,
+        "availableHoldingWeightPercent": 44.6,
+        "unmappedHoldingNames": [
+          "大立光"
+        ],
+        "dependencies": [
+          {
+            "type": "holding",
+            "symbol": "2059.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 5.61
+          },
+          {
+            "type": "holding",
+            "symbol": "2330.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 7.96
+          },
+          {
+            "type": "holding",
+            "symbol": "2383.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 4.05
+          },
+          {
+            "type": "holding",
+            "symbol": "2454.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 5.45
+          },
+          {
+            "type": "holding",
+            "symbol": "3017.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 3.61
+          },
+          {
+            "type": "holding",
+            "symbol": "3037.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 4.57
+          },
+          {
+            "type": "holding",
+            "symbol": "3653.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 4.35
+          },
+          {
+            "type": "holding",
+            "symbol": "6223.TWO",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 4.13
+          },
+          {
+            "type": "holding",
+            "symbol": "6669.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 4.87
+          }
+        ],
+        "missingDependencies": []
+      },
+      {
+        "fundId": "ACFT01",
+        "fundName": "富蘭克林華美第一富基金-A累積型",
+        "status": "incomplete",
+        "eligible": false,
+        "scope": "disclosed_holdings_only",
+        "statusReasons": [
+          "unmapped_disclosed_holdings"
+        ],
+        "holdingsDisclosureDate": "2026-08-31",
+        "disclosureCapturedAt": "2026-09-24T12:35:29.812Z",
+        "dependencyFingerprint": "a11a26ec2a1c0014a463ed913d67618be3ad0b8c38a6c10905524c44d786693d",
+        "dependencyCount": 8,
+        "mappedHoldingCount": 8,
+        "unmappedHoldingCount": 2,
+        "mappedHoldingWeightPercent": 46.01,
+        "availableHoldingWeightPercent": 46.01,
+        "unmappedHoldingNames": [
+          "大立光",
+          "聯亞"
+        ],
+        "dependencies": [
+          {
+            "type": "holding",
+            "symbol": "1303.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 6.03
+          },
+          {
+            "type": "holding",
+            "symbol": "2330.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 5.65
+          },
+          {
+            "type": "holding",
+            "symbol": "2383.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 8.33
+          },
+          {
+            "type": "holding",
+            "symbol": "3037.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 6.07
+          },
+          {
+            "type": "holding",
+            "symbol": "5274.TWO",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 5.1
+          },
+          {
+            "type": "holding",
+            "symbol": "6223.TWO",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 4.96
+          },
+          {
+            "type": "holding",
+            "symbol": "6515.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 4.77
+          },
+          {
+            "type": "holding",
+            "symbol": "8046.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 5.1
+          }
+        ],
+        "missingDependencies": []
+      },
+      {
+        "fundId": "ACFH67",
+        "fundName": "復華全球物聯網科技基金(台幣)",
+        "status": "incomplete",
+        "eligible": false,
+        "scope": "disclosed_holdings_only",
+        "statusReasons": [
+          "unmapped_disclosed_holdings",
+          "missing_qualified_dependencies"
+        ],
+        "holdingsDisclosureDate": "2026-08-31",
+        "disclosureCapturedAt": "2026-09-24T12:35:29.961Z",
+        "dependencyFingerprint": "9ae6a4d969aeb391f2cc8ad91bc7887cc4158578365bba2cdce755aa08e033bd",
+        "dependencyCount": 10,
+        "mappedHoldingCount": 8,
+        "unmappedHoldingCount": 2,
+        "mappedHoldingWeightPercent": 29,
+        "availableHoldingWeightPercent": 26.04,
+        "unmappedHoldingNames": [
+          "MICROSOFT CORP-USA",
+          "SERVICENOW INC-USA"
+        ],
+        "dependencies": [
+          {
+            "type": "holding",
+            "symbol": "285A.T",
+            "market": "jp",
+            "currency": "JPY",
+            "weightPercent": 2.96
+          },
+          {
+            "type": "holding",
+            "symbol": "2059.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 3.25
+          },
+          {
+            "type": "holding",
+            "symbol": "2383.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 3.25
+          },
+          {
+            "type": "holding",
+            "symbol": "3026.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 3.45
+          },
+          {
+            "type": "holding",
+            "symbol": "3037.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 4.09
+          },
+          {
+            "type": "holding",
+            "symbol": "3189.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 3.71
+          },
+          {
+            "type": "holding",
+            "symbol": "MU",
+            "market": "us",
+            "currency": "USD",
+            "weightPercent": 3.56
+          },
+          {
+            "type": "holding",
+            "symbol": "SNDK",
+            "market": "us",
+            "currency": "USD",
+            "weightPercent": 4.73
+          },
+          {
+            "type": "fx",
+            "symbol": "JPY=X"
+          },
+          {
+            "type": "fx",
+            "symbol": "TWD=X"
+          }
+        ],
+        "missingDependencies": [
+          {
+            "type": "holding",
+            "symbol": "285A.T",
+            "market": "jp",
+            "currency": "JPY",
+            "weightPercent": 2.96,
+            "reason": "qualified_quote_missing"
+          }
+        ]
+      },
+      {
+        "fundId": "ACTT209",
+        "fundName": "台新美日台半導體基金",
+        "status": "incomplete",
+        "eligible": false,
+        "scope": "disclosed_holdings_only",
+        "statusReasons": [
+          "unmapped_disclosed_holdings",
+          "missing_qualified_dependencies"
+        ],
+        "holdingsDisclosureDate": "2026-08-31",
+        "disclosureCapturedAt": "2026-09-24T12:35:30.266Z",
+        "dependencyFingerprint": "e86dcab345d7e0d7bf1c0a51ebd9a3cac22d38f80c8b97d843289e7bf03aac5b",
+        "dependencyCount": 10,
+        "mappedHoldingCount": 8,
+        "unmappedHoldingCount": 2,
+        "mappedHoldingWeightPercent": 26.22,
+        "availableHoldingWeightPercent": 23.57,
+        "unmappedHoldingNames": [
+          "晟碟公司（德拉瓦州）",
+          "魯門特姆控股公司"
+        ],
+        "dependencies": [
+          {
+            "type": "holding",
+            "symbol": "6857.T",
+            "market": "jp",
+            "currency": "JPY",
+            "weightPercent": 2.65
+          },
+          {
+            "type": "holding",
+            "symbol": "2330.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 4.3
+          },
+          {
+            "type": "holding",
+            "symbol": "2383.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 3.05
+          },
+          {
+            "type": "holding",
+            "symbol": "2454.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 2.5
+          },
+          {
+            "type": "holding",
+            "symbol": "AMAT",
+            "market": "us",
+            "currency": "USD",
+            "weightPercent": 2.6
+          },
+          {
+            "type": "holding",
+            "symbol": "AMD",
+            "market": "us",
+            "currency": "USD",
+            "weightPercent": 4
+          },
+          {
+            "type": "holding",
+            "symbol": "MU",
+            "market": "us",
+            "currency": "USD",
+            "weightPercent": 4.34
+          },
+          {
+            "type": "holding",
+            "symbol": "NVDA",
+            "market": "us",
+            "currency": "USD",
+            "weightPercent": 2.78
+          },
+          {
+            "type": "fx",
+            "symbol": "JPY=X"
+          },
+          {
+            "type": "fx",
+            "symbol": "TWD=X"
+          }
+        ],
+        "missingDependencies": [
+          {
+            "type": "holding",
+            "symbol": "6857.T",
+            "market": "jp",
+            "currency": "JPY",
+            "weightPercent": 2.65,
+            "reason": "qualified_quote_missing"
+          }
+        ]
+      },
+      {
+        "fundId": "ACPS26",
+        "fundName": "統一新亞洲科技能源基金",
+        "status": "incomplete",
+        "eligible": false,
+        "scope": "disclosed_holdings_only",
+        "statusReasons": [
+          "unmapped_disclosed_holdings",
+          "missing_qualified_dependencies"
+        ],
+        "holdingsDisclosureDate": "2026-08-31",
+        "disclosureCapturedAt": "2026-09-24T12:35:30.582Z",
+        "dependencyFingerprint": "57d4b8e347ac1c0628d5e8ff63b35766fd492c38c6cbc56eeaf1509d45470f3e",
+        "dependencyCount": 8,
+        "mappedHoldingCount": 6,
+        "unmappedHoldingCount": 4,
+        "mappedHoldingWeightPercent": 30.95,
+        "availableHoldingWeightPercent": 27.08,
+        "unmappedHoldingNames": [
+          "CROWDSTRIKE HOLDINGS INC - A",
+          "KEYENCE CORP",
+          "聯亞",
+          "華星光"
+        ],
+        "dependencies": [
+          {
+            "type": "holding",
+            "symbol": "285A.T",
+            "market": "jp",
+            "currency": "JPY",
+            "weightPercent": 3.87
+          },
+          {
+            "type": "holding",
+            "symbol": "2330.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 6.34
+          },
+          {
+            "type": "holding",
+            "symbol": "2383.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 7.13
+          },
+          {
+            "type": "holding",
+            "symbol": "2454.TW",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 4.29
+          },
+          {
+            "type": "holding",
+            "symbol": "6274.TWO",
+            "market": "tw",
+            "currency": "TWD",
+            "weightPercent": 4.8
+          },
+          {
+            "type": "holding",
+            "symbol": "AMD",
+            "market": "us",
+            "currency": "USD",
+            "weightPercent": 4.52
+          },
+          {
+            "type": "fx",
+            "symbol": "JPY=X"
+          },
+          {
+            "type": "fx",
+            "symbol": "TWD=X"
+          }
+        ],
+        "missingDependencies": [
+          {
+            "type": "holding",
+            "symbol": "285A.T",
+            "market": "jp",
+            "currency": "JPY",
+            "weightPercent": 3.87,
+            "reason": "qualified_quote_missing"
+          }
+        ]
+      }
+    ]
+  },
+  "markets": [
+    {
+      "market": "tw",
+      "marketStateAtDecision": "closed",
+      "status": "latest_available_before_decision",
+      "path": "data/raw/asia/tw/2026/2026-09-24/regular/producers/s2/0430.json",
+      "sha256": "73f0fc1304dcfddae423e311db0425f72bdb862511d4aa9a700c6d849968795f",
+      "capturedAt": "2026-09-24T04:30:01.019Z",
+      "scheduledAt": "2026-09-24T04:30:00.000Z",
+      "captureDelaySeconds": 1,
+      "timingStatus": "on_time",
+      "quoteCount": 68,
+      "quoteFreshness": {
+        "status": "not_enforced",
+        "complete": true,
+        "enforced": false,
+        "referenceAt": "2026-09-25T05:25:00.000Z",
+        "maxAgeSeconds": null,
+        "oldestQuoteAgeSeconds": 91066,
+        "newestQuoteAgeSeconds": 89701,
+        "unreliableQuoteAtSymbols": [],
+        "staleSymbols": [],
+        "futureSymbols": []
+      },
+      "earliestQuoteAt": "2026-09-24T04:07:14.000Z",
+      "latestQuoteAt": "2026-09-24T04:29:59.000Z"
+    },
+    {
+      "market": "jp",
+      "marketStateAtDecision": "regular",
+      "status": "latest_available_before_decision",
+      "path": "data/raw/asia/jp/2026/2026-09-25/regular/producers/s3/0435.json",
+      "sha256": "a6362c9eeaf16a66e4861fa799f451087b20095f448a9e880ef6c329ab5bda87",
+      "capturedAt": "2026-09-25T04:35:00.488Z",
+      "scheduledAt": "2026-09-25T04:35:00.000Z",
+      "captureDelaySeconds": 0,
+      "timingStatus": "on_time",
+      "quoteCount": 18,
+      "quoteFreshness": {
+        "status": "rejected",
+        "complete": false,
+        "enforced": true,
+        "referenceAt": "2026-09-25T05:25:00.000Z",
+        "maxAgeSeconds": 300,
+        "oldestQuoteAgeSeconds": 3963,
+        "newestQuoteAgeSeconds": 3001,
+        "unreliableQuoteAtSymbols": [],
+        "staleSymbols": [
+          "^N225",
+          "1321.T",
+          "285A.T",
+          "4062.T",
+          "5706.T",
+          "6227.T",
+          "6723.T",
+          "6857.T",
+          "6976.T",
+          "6981.T",
+          "8035.T",
+          "TWD=X",
+          "JPY=X",
+          "KRW=X",
+          "CNY=X",
+          "SGD=X",
+          "EURUSD=X",
+          "GBPUSD=X"
+        ],
+        "futureSymbols": []
+      },
+      "earliestQuoteAt": "2026-09-25T04:18:57.000Z",
+      "latestQuoteAt": "2026-09-25T04:34:59.000Z"
+    },
+    {
+      "market": "kr",
+      "marketStateAtDecision": "closed",
+      "status": "latest_available_before_decision",
+      "path": "data/raw/asia/kr/2026/2026-09-23/regular/producers/s4/0630.json",
+      "sha256": "d07ef2fbe74b58123a7694ee33e5d9d37d846c214816f7fd2aa8f12f55a4ee4a",
+      "capturedAt": "2026-09-23T06:30:00.432Z",
+      "scheduledAt": "2026-09-23T06:30:00.000Z",
+      "captureDelaySeconds": 0,
+      "timingStatus": "on_time",
+      "quoteCount": 11,
+      "quoteFreshness": {
+        "status": "not_enforced",
+        "complete": true,
+        "enforced": false,
+        "referenceAt": "2026-09-25T05:25:00.000Z",
+        "maxAgeSeconds": null,
+        "oldestQuoteAgeSeconds": 170700,
+        "newestQuoteAgeSeconds": 168901,
+        "unreliableQuoteAtSymbols": [],
+        "staleSymbols": [],
+        "futureSymbols": []
+      },
+      "earliestQuoteAt": "2026-09-23T06:00:00.000Z",
+      "latestQuoteAt": "2026-09-23T06:29:59.000Z"
+    },
+    {
+      "market": "cn",
+      "marketStateAtDecision": "closed",
+      "status": "latest_available_before_decision",
+      "path": "data/raw/asia/cn/2026/2026-09-24/regular/producers/s3/0605.json",
+      "sha256": "c75e9607c0c49163af33be5c424b25bfe40c85371cb7cb43178b8b7b7ffaa6d5",
+      "capturedAt": "2026-09-24T06:05:00.440Z",
+      "scheduledAt": "2026-09-24T06:05:00.000Z",
+      "captureDelaySeconds": 0,
+      "timingStatus": "on_time",
+      "quoteCount": 11,
+      "quoteFreshness": {
+        "status": "not_enforced",
+        "complete": true,
+        "enforced": false,
+        "referenceAt": "2026-09-25T05:25:00.000Z",
+        "maxAgeSeconds": null,
+        "oldestQuoteAgeSeconds": 84905,
+        "newestQuoteAgeSeconds": 84002,
+        "unreliableQuoteAtSymbols": [],
+        "staleSymbols": [],
+        "futureSymbols": []
+      },
+      "earliestQuoteAt": "2026-09-24T05:49:55.000Z",
+      "latestQuoteAt": "2026-09-24T06:04:58.000Z"
+    },
+    {
+      "market": "sg",
+      "marketStateAtDecision": "regular",
+      "status": "latest_available_before_decision",
+      "path": "data/raw/asia/sg/2026/2026-09-25/regular/producers/s2/0400.json",
+      "sha256": "ed8e392b4bb506c4ed0804ea07b7bb7687a69650c9c9febebdb69ad71edc42a6",
+      "capturedAt": "2026-09-25T04:00:00.304Z",
+      "scheduledAt": "2026-09-25T04:00:00.000Z",
+      "captureDelaySeconds": 0,
+      "timingStatus": "on_time",
+      "quoteCount": 8,
+      "quoteFreshness": {
+        "status": "rejected",
+        "complete": false,
+        "enforced": true,
+        "referenceAt": "2026-09-25T05:25:00.000Z",
+        "maxAgeSeconds": 300,
+        "oldestQuoteAgeSeconds": 6002,
+        "newestQuoteAgeSeconds": 5101,
+        "unreliableQuoteAtSymbols": [],
+        "staleSymbols": [
+          "^STI",
+          "TWD=X",
+          "JPY=X",
+          "KRW=X",
+          "CNY=X",
+          "SGD=X",
+          "EURUSD=X",
+          "GBPUSD=X"
+        ],
+        "futureSymbols": []
+      },
+      "earliestQuoteAt": "2026-09-25T03:44:58.000Z",
+      "latestQuoteAt": "2026-09-25T03:59:59.000Z"
+    },
+    {
+      "market": "uk",
+      "marketStateAtDecision": "closed",
+      "status": "latest_available_before_decision",
+      "path": "data/raw/europe/uk/2026/2026-09-24/regular/producers/uk-tail-handoff-backup/1530.json",
+      "sha256": "72dd56c141829797e91f3b1771268318ad42d168293e8fef89c53c6982d865e4",
+      "capturedAt": "2026-09-24T15:30:00.517Z",
+      "scheduledAt": "2026-09-24T15:30:00.000Z",
+      "captureDelaySeconds": 1,
+      "timingStatus": "on_time",
+      "quoteCount": 8,
+      "quoteFreshness": {
+        "status": "not_enforced",
+        "complete": true,
+        "enforced": false,
+        "referenceAt": "2026-09-25T05:25:00.000Z",
+        "maxAgeSeconds": null,
+        "oldestQuoteAgeSeconds": 51120,
+        "newestQuoteAgeSeconds": 50101,
+        "unreliableQuoteAtSymbols": [],
+        "staleSymbols": [],
+        "futureSymbols": []
+      },
+      "earliestQuoteAt": "2026-09-24T15:13:00.000Z",
+      "latestQuoteAt": "2026-09-24T15:29:59.000Z"
+    },
+    {
+      "market": "eu",
+      "marketStateAtDecision": "closed",
+      "status": "latest_available_before_decision",
+      "path": "data/raw/europe/eu/2026/2026-09-24/regular/producers/eu-tail-handoff-backup/1530.json",
+      "sha256": "847baef2bcbd795d6ae7f3b394bb64ef42acefe4f5c4393d1ffd34683cd45c41",
+      "capturedAt": "2026-09-24T15:30:00.527Z",
+      "scheduledAt": "2026-09-24T15:30:00.000Z",
+      "captureDelaySeconds": 1,
+      "timingStatus": "on_time",
+      "quoteCount": 8,
+      "quoteFreshness": {
+        "status": "not_enforced",
+        "complete": true,
+        "enforced": false,
+        "referenceAt": "2026-09-25T05:25:00.000Z",
+        "maxAgeSeconds": null,
+        "oldestQuoteAgeSeconds": 51060,
+        "newestQuoteAgeSeconds": 50101,
+        "unreliableQuoteAtSymbols": [],
+        "staleSymbols": [],
+        "futureSymbols": []
+      },
+      "earliestQuoteAt": "2026-09-24T15:14:00.000Z",
+      "latestQuoteAt": "2026-09-24T15:29:59.000Z"
+    },
+    {
+      "market": "us",
+      "marketStateAtDecision": "closed",
+      "status": "latest_available_before_decision",
+      "path": "data/raw/america/us/2026/2026-09-24/regular/producers/s4/2000.json",
+      "sha256": "94465cacf0d046f5307b3ecef4c79343007e031cfb135d974d30e65b76ea8e70",
+      "capturedAt": "2026-09-24T20:00:01.368Z",
+      "scheduledAt": "2026-09-24T20:00:00.000Z",
+      "captureDelaySeconds": 1,
+      "timingStatus": "on_time",
+      "quoteCount": 42,
+      "quoteFreshness": {
+        "status": "not_enforced",
+        "complete": true,
+        "enforced": false,
+        "referenceAt": "2026-09-25T05:25:00.000Z",
+        "maxAgeSeconds": null,
+        "oldestQuoteAgeSeconds": 35460,
+        "newestQuoteAgeSeconds": 33901,
+        "unreliableQuoteAtSymbols": [],
+        "staleSymbols": [],
+        "futureSymbols": []
+      },
+      "earliestQuoteAt": "2026-09-24T19:34:00.000Z",
+      "latestQuoteAt": "2026-09-24T19:59:59.000Z"
+    }
+  ]
+}
