@@ -1,0 +1,105 @@
+{
+  "schemaVersion": "1.1",
+  "generatedAt": "2026-09-28T17:59:40.938Z",
+  "market": "uk",
+  "sessionName": "uk-tail-handoff-backup",
+  "localDate": "2026-09-28",
+  "timezone": "Europe/London",
+  "expectedSlots": [
+    "14:05",
+    "14:35",
+    "15:05",
+    "15:35",
+    "16:05",
+    "16:30"
+  ],
+  "skippedSlots": [],
+  "summary": {
+    "expectedSlotCount": 6,
+    "capturedSlotCount": 0,
+    "onTimeSlotCount": 0,
+    "lateSlotCount": 0,
+    "failedSlotCount": 6,
+    "partialSlotCount": 0,
+    "complete": false,
+    "healthy": false
+  },
+  "slots": [
+    {
+      "slot": "14:05",
+      "scheduledAt": "2026-09-28T13:05:00.000Z",
+      "status": "missed",
+      "attempts": 0,
+      "timingStatus": "missed",
+      "captureDelaySeconds": 17681,
+      "providerFailure": "",
+      "error": "Watcher started 17681s after the approved 120s capture tolerance; no late replacement was written.",
+      "collection": null,
+      "diagnostics": []
+    },
+    {
+      "slot": "14:35",
+      "scheduledAt": "2026-09-28T13:35:00.000Z",
+      "status": "missed",
+      "attempts": 0,
+      "timingStatus": "missed",
+      "captureDelaySeconds": 15881,
+      "providerFailure": "",
+      "error": "Watcher started 15881s after the approved 120s capture tolerance; no late replacement was written.",
+      "collection": null,
+      "diagnostics": []
+    },
+    {
+      "slot": "15:05",
+      "scheduledAt": "2026-09-28T14:05:00.000Z",
+      "status": "missed",
+      "attempts": 0,
+      "timingStatus": "missed",
+      "captureDelaySeconds": 14081,
+      "providerFailure": "",
+      "error": "Watcher started 14081s after the approved 120s capture tolerance; no late replacement was written.",
+      "collection": null,
+      "diagnostics": []
+    },
+    {
+      "slot": "15:35",
+      "scheduledAt": "2026-09-28T14:35:00.000Z",
+      "status": "missed",
+      "attempts": 0,
+      "timingStatus": "missed",
+      "captureDelaySeconds": 12281,
+      "providerFailure": "",
+      "error": "Watcher started 12281s after the approved 120s capture tolerance; no late replacement was written.",
+      "collection": null,
+      "diagnostics": []
+    },
+    {
+      "slot": "16:05",
+      "scheduledAt": "2026-09-28T15:05:00.000Z",
+      "status": "missed",
+      "attempts": 0,
+      "timingStatus": "missed",
+      "captureDelaySeconds": 10481,
+      "providerFailure": "",
+      "error": "Watcher started 10481s after the approved 120s capture tolerance; no late replacement was written.",
+      "collection": null,
+      "diagnostics": []
+    },
+    {
+      "slot": "16:30",
+      "scheduledAt": "2026-09-28T15:30:00.000Z",
+      "status": "missed",
+      "attempts": 0,
+      "timingStatus": "missed",
+      "captureDelaySeconds": 8981,
+      "providerFailure": "",
+      "error": "Watcher started 8981s after the approved 120s capture tolerance; no late replacement was written.",
+      "collection": null,
+      "diagnostics": []
+    }
+  ],
+  "producer": {
+    "id": "uk-tail-handoff-backup",
+    "role": "backup"
+  }
+}
