@@ -1,0 +1,607 @@
+{
+  "schemaVersion": "1.0",
+  "market": "tw",
+  "date": "2026-10-14",
+  "checkedAt": "2026-10-14T10:17:25.041Z",
+  "source": {
+    "type": "official_post_close",
+    "twse": {
+      "name": "Taiwan Stock Exchange OpenAPI",
+      "url": "https://www.twse.com.tw/rwd/zh/afterTrading/MI_INDEX?date=20261014&type=ALLBUT0999&response=json"
+    },
+    "tpex": {
+      "name": "Taipei Exchange OpenAPI",
+      "url": "https://www.tpex.org.tw/openapi/v1/tpex_mainboard_daily_close_quotes"
+    }
+  },
+  "officialCoverage": {
+    "complete": true,
+    "expectedSymbolCount": 52,
+    "availableSymbolCount": 52
+  },
+  "publicReference": {
+    "path": "data/raw/asia/tw/2026/2026-10-14/regular/producers/s2/0430.json",
+    "capturedAt": "2026-10-14T04:30:01.561Z",
+    "scheduledAt": "2026-10-14T04:30:00.000Z"
+  },
+  "comparison": {
+    "status": "different",
+    "comparableCount": 52,
+    "matchedCount": 4,
+    "differentCount": 48
+  },
+  "symbols": [
+    {
+      "symbol": "0050.TW",
+      "venue": "TWSE",
+      "name": "元大台灣50",
+      "officialClose": 113,
+      "officialTradeVolume": 64109641,
+      "publicReferenceClose": 113.5,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:58.000Z",
+      "difference": 0.5,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "1303.TW",
+      "venue": "TWSE",
+      "name": "南亞",
+      "officialClose": 349,
+      "officialTradeVolume": 175417461,
+      "publicReferenceClose": 348.5,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:56.000Z",
+      "difference": -0.5,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "2059.TW",
+      "venue": "TWSE",
+      "name": "川湖",
+      "officialClose": 10005,
+      "officialTradeVolume": 680599,
+      "publicReferenceClose": 10000,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:01.000Z",
+      "difference": -5,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "2303.TW",
+      "venue": "TWSE",
+      "name": "聯電",
+      "officialClose": 142,
+      "officialTradeVolume": 110676913,
+      "publicReferenceClose": 142.5,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:58.000Z",
+      "difference": 0.5,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "2308.TW",
+      "venue": "TWSE",
+      "name": "台達電",
+      "officialClose": 1785,
+      "officialTradeVolume": 9705664,
+      "publicReferenceClose": 1795,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:58.000Z",
+      "difference": 10,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "2327.TW",
+      "venue": "TWSE",
+      "name": "國巨*",
+      "officialClose": 627,
+      "officialTradeVolume": 47647273,
+      "publicReferenceClose": 626,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:55.000Z",
+      "difference": -1,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "2330.TW",
+      "venue": "TWSE",
+      "name": "台積電",
+      "officialClose": 2490,
+      "officialTradeVolume": 28111940,
+      "publicReferenceClose": 2525,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:49.000Z",
+      "difference": 35,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "2344.TW",
+      "venue": "TWSE",
+      "name": "華邦電",
+      "officialClose": 165,
+      "officialTradeVolume": 56696285,
+      "publicReferenceClose": 166.5,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:59.000Z",
+      "difference": 1.5,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "2345.TW",
+      "venue": "TWSE",
+      "name": "智邦",
+      "officialClose": 2050,
+      "officialTradeVolume": 4565228,
+      "publicReferenceClose": 2075,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:58.000Z",
+      "difference": 25,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "2357.TW",
+      "venue": "TWSE",
+      "name": "華碩",
+      "officialClose": 990,
+      "officialTradeVolume": 3144844,
+      "publicReferenceClose": 995,
+      "publicReferenceQuoteAt": "2026-10-14T04:08:32.000Z",
+      "difference": 5,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "2360.TW",
+      "venue": "TWSE",
+      "name": "致茂",
+      "officialClose": 2250,
+      "officialTradeVolume": 2625700,
+      "publicReferenceClose": 2265,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:45.000Z",
+      "difference": 15,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "2368.TW",
+      "venue": "TWSE",
+      "name": "金像電",
+      "officialClose": 1260,
+      "officialTradeVolume": 16417946,
+      "publicReferenceClose": 1255,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:29.000Z",
+      "difference": -5,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "2376.TW",
+      "venue": "TWSE",
+      "name": "技嘉",
+      "officialClose": 356,
+      "officialTradeVolume": 3040934,
+      "publicReferenceClose": 357.5,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:00.000Z",
+      "difference": 1.5,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "2383.TW",
+      "venue": "TWSE",
+      "name": "台光電",
+      "officialClose": 5520,
+      "officialTradeVolume": 2325865,
+      "publicReferenceClose": 5560,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:46.000Z",
+      "difference": 40,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "2404.TW",
+      "venue": "TWSE",
+      "name": "漢唐",
+      "officialClose": 1155,
+      "officialTradeVolume": 1082962,
+      "publicReferenceClose": 1145,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:43.000Z",
+      "difference": -10,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "2408.TW",
+      "venue": "TWSE",
+      "name": "南亞科",
+      "officialClose": 480.5,
+      "officialTradeVolume": 54728887,
+      "publicReferenceClose": 486,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:57.000Z",
+      "difference": 5.5,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "2454.TW",
+      "venue": "TWSE",
+      "name": "聯發科",
+      "officialClose": 4475,
+      "officialTradeVolume": 7854685,
+      "publicReferenceClose": 4535,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:43.000Z",
+      "difference": 60,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "2492.TW",
+      "venue": "TWSE",
+      "name": "華新科",
+      "officialClose": 426,
+      "officialTradeVolume": 11053930,
+      "publicReferenceClose": 424.5,
+      "publicReferenceQuoteAt": "2026-10-14T04:08:24.000Z",
+      "difference": -1.5,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "3017.TW",
+      "venue": "TWSE",
+      "name": "奇鋐",
+      "officialClose": 3315,
+      "officialTradeVolume": 2311534,
+      "publicReferenceClose": 3340,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:25.000Z",
+      "difference": 25,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "3026.TW",
+      "venue": "TWSE",
+      "name": "禾伸堂",
+      "officialClose": 854,
+      "officialTradeVolume": 13073132,
+      "publicReferenceClose": 843,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:45.000Z",
+      "difference": -11,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "3036.TW",
+      "venue": "TWSE",
+      "name": "文曄",
+      "officialClose": 216,
+      "officialTradeVolume": 6073201,
+      "publicReferenceClose": 215.5,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:27.000Z",
+      "difference": -0.5,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "3037.TW",
+      "venue": "TWSE",
+      "name": "欣興",
+      "officialClose": 1185,
+      "officialTradeVolume": 17281287,
+      "publicReferenceClose": 1180,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:58.000Z",
+      "difference": -5,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "3044.TW",
+      "venue": "TWSE",
+      "name": "健鼎",
+      "officialClose": 603,
+      "officialTradeVolume": 5012794,
+      "publicReferenceClose": 600,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:52.000Z",
+      "difference": -3,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "3081.TWO",
+      "venue": "TPEx",
+      "name": "聯亞",
+      "officialClose": 2880,
+      "officialTradeVolume": 3434134,
+      "publicReferenceClose": 2880,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:54.000Z",
+      "difference": 0,
+      "matchStatus": "matched"
+    },
+    {
+      "symbol": "3090.TW",
+      "venue": "TWSE",
+      "name": "日電貿",
+      "officialClose": 183.5,
+      "officialTradeVolume": 19108270,
+      "publicReferenceClose": 183.5,
+      "publicReferenceQuoteAt": "2026-10-14T04:08:32.000Z",
+      "difference": 0,
+      "matchStatus": "matched"
+    },
+    {
+      "symbol": "3167.TW",
+      "venue": "TWSE",
+      "name": "大量",
+      "officialClose": 960,
+      "officialTradeVolume": 4659858,
+      "publicReferenceClose": 962,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:01.000Z",
+      "difference": 2,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "3189.TW",
+      "venue": "TWSE",
+      "name": "景碩",
+      "officialClose": 1050,
+      "officialTradeVolume": 15445689,
+      "publicReferenceClose": 1045,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:59.000Z",
+      "difference": -5,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "3264.TWO",
+      "venue": "TPEx",
+      "name": "欣銓",
+      "officialClose": 278,
+      "officialTradeVolume": 32959026,
+      "publicReferenceClose": 278,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:59.000Z",
+      "difference": 0,
+      "matchStatus": "matched"
+    },
+    {
+      "symbol": "3443.TW",
+      "venue": "TWSE",
+      "name": "創意",
+      "officialClose": 8245,
+      "officialTradeVolume": 1135538,
+      "publicReferenceClose": 8225,
+      "publicReferenceQuoteAt": "2026-10-14T04:08:21.000Z",
+      "difference": -20,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "3481.TW",
+      "venue": "TWSE",
+      "name": "群創",
+      "officialClose": 50.9,
+      "officialTradeVolume": 89848751,
+      "publicReferenceClose": 50.70000076293945,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:52.000Z",
+      "difference": -0.199999,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "3653.TW",
+      "venue": "TWSE",
+      "name": "健策",
+      "officialClose": 7070,
+      "officialTradeVolume": 1178984,
+      "publicReferenceClose": 7190,
+      "publicReferenceQuoteAt": "2026-10-14T04:08:00.000Z",
+      "difference": 120,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "3661.TW",
+      "venue": "TWSE",
+      "name": "世芯-KY",
+      "officialClose": 3940,
+      "officialTradeVolume": 2689210,
+      "publicReferenceClose": 3945,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:20.000Z",
+      "difference": 5,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "3665.TW",
+      "venue": "TWSE",
+      "name": "貿聯-KY",
+      "officialClose": 2235,
+      "officialTradeVolume": 1821123,
+      "publicReferenceClose": 2230,
+      "publicReferenceQuoteAt": "2026-10-14T04:08:39.000Z",
+      "difference": -5,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "3711.TW",
+      "venue": "TWSE",
+      "name": "日月光投控",
+      "officialClose": 747,
+      "officialTradeVolume": 13529923,
+      "publicReferenceClose": 749,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:41.000Z",
+      "difference": 2,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "4958.TW",
+      "venue": "TWSE",
+      "name": "臻鼎-KY",
+      "officialClose": 567,
+      "officialTradeVolume": 16626725,
+      "publicReferenceClose": 562,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:52.000Z",
+      "difference": -5,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "5274.TWO",
+      "venue": "TPEx",
+      "name": "信驊",
+      "officialClose": 17500,
+      "officialTradeVolume": 370485,
+      "publicReferenceClose": 17570,
+      "publicReferenceQuoteAt": "2026-10-14T04:01:04.000Z",
+      "difference": 70,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "5289.TWO",
+      "venue": "TPEx",
+      "name": "宜鼎",
+      "officialClose": 1170,
+      "officialTradeVolume": 1283704,
+      "publicReferenceClose": 1170,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:26.000Z",
+      "difference": 0,
+      "matchStatus": "matched"
+    },
+    {
+      "symbol": "5347.TWO",
+      "venue": "TPEx",
+      "name": "世界",
+      "officialClose": 176,
+      "officialTradeVolume": 8536959,
+      "publicReferenceClose": 176.5,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:46.000Z",
+      "difference": 0.5,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "5434.TW",
+      "venue": "TWSE",
+      "name": "崇越",
+      "officialClose": 596,
+      "officialTradeVolume": 462663,
+      "publicReferenceClose": 600,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:24.000Z",
+      "difference": 4,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "5536.TWO",
+      "venue": "TPEx",
+      "name": "聖暉*",
+      "officialClose": 908,
+      "officialTradeVolume": 607581,
+      "publicReferenceClose": 904,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:04.000Z",
+      "difference": -4,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "6147.TWO",
+      "venue": "TPEx",
+      "name": "頎邦",
+      "officialClose": 232,
+      "officialTradeVolume": 36575074,
+      "publicReferenceClose": 232.5,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:53.000Z",
+      "difference": 0.5,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "6223.TWO",
+      "venue": "TPEx",
+      "name": "旺矽",
+      "officialClose": 5885,
+      "officialTradeVolume": 989372,
+      "publicReferenceClose": 5875,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:42.000Z",
+      "difference": -10,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "6274.TWO",
+      "venue": "TPEx",
+      "name": "台燿",
+      "officialClose": 1735,
+      "officialTradeVolume": 9725598,
+      "publicReferenceClose": 1725,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:51.000Z",
+      "difference": -10,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "6488.TWO",
+      "venue": "TPEx",
+      "name": "環球晶",
+      "officialClose": 1020,
+      "officialTradeVolume": 10898821,
+      "publicReferenceClose": 1015,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:38.000Z",
+      "difference": -5,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "6515.TW",
+      "venue": "TWSE",
+      "name": "穎崴",
+      "officialClose": 5615,
+      "officialTradeVolume": 459848,
+      "publicReferenceClose": 5690,
+      "publicReferenceQuoteAt": "2026-10-14T04:04:25.000Z",
+      "difference": 75,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "6531.TW",
+      "venue": "TWSE",
+      "name": "愛普*",
+      "officialClose": 923,
+      "officialTradeVolume": 4649285,
+      "publicReferenceClose": 925,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:54.000Z",
+      "difference": 2,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "6669.TW",
+      "venue": "TWSE",
+      "name": "緯穎",
+      "officialClose": 2115,
+      "officialTradeVolume": 7479924,
+      "publicReferenceClose": 2160,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:30.000Z",
+      "difference": 45,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "7769.TW",
+      "venue": "TWSE",
+      "name": "鴻勁",
+      "officialClose": 5780,
+      "officialTradeVolume": 729230,
+      "publicReferenceClose": 5910,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:54.000Z",
+      "difference": 130,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "8046.TW",
+      "venue": "TWSE",
+      "name": "南電",
+      "officialClose": 1430,
+      "officialTradeVolume": 7147101,
+      "publicReferenceClose": 1415,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:51.000Z",
+      "difference": -15,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "8299.TWO",
+      "venue": "TPEx",
+      "name": "群聯",
+      "officialClose": 1965,
+      "officialTradeVolume": 1752594,
+      "publicReferenceClose": 1975,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:28.000Z",
+      "difference": 10,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "8358.TWO",
+      "venue": "TPEx",
+      "name": "金居",
+      "officialClose": 502,
+      "officialTradeVolume": 2006318,
+      "publicReferenceClose": 500,
+      "publicReferenceQuoteAt": "2026-10-14T04:08:32.000Z",
+      "difference": -2,
+      "matchStatus": "different"
+    },
+    {
+      "symbol": "8996.TW",
+      "venue": "TWSE",
+      "name": "高力",
+      "officialClose": 1685,
+      "officialTradeVolume": 3887720,
+      "publicReferenceClose": 1650,
+      "publicReferenceQuoteAt": "2026-10-14T04:09:40.000Z",
+      "difference": -35,
+      "matchStatus": "different"
+    }
+  ]
+}
