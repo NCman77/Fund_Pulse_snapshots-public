@@ -1,0 +1,211 @@
+{
+  "schemaVersion": "1.2",
+  "market": "cn",
+  "region": "asia",
+  "capturedAt": "2026-10-19T03:30:00.698Z",
+  "session": "regular",
+  "source": "yahoo-finance-chart",
+  "isDelayed": true,
+  "quoteStatus": "current_market_date",
+  "scheduleRule": "session-watcher",
+  "scheduledAt": "2026-10-19T03:30:00.000Z",
+  "captureDelaySeconds": 1,
+  "timingStatus": "on_time",
+  "provider": {
+    "id": "yahoo-finance",
+    "endpointType": "chart"
+  },
+  "coverage": {
+    "provider": "yahoo-finance",
+    "endpointType": "chart",
+    "expectedSymbolCount": 11,
+    "requestedSymbolCount": 11,
+    "attemptedSymbolCount": 11,
+    "capturedSymbolCount": 11,
+    "failedSymbolCount": 0,
+    "notAttemptedSymbolCount": 0,
+    "requestedSymbols": [
+      "000001.SS",
+      "000300.SS",
+      "300308.SZ",
+      "300502.SZ",
+      "TWD=X",
+      "JPY=X",
+      "KRW=X",
+      "CNY=X",
+      "SGD=X",
+      "EURUSD=X",
+      "GBPUSD=X"
+    ],
+    "capturedSymbols": [
+      "000001.SS",
+      "000300.SS",
+      "300308.SZ",
+      "300502.SZ",
+      "TWD=X",
+      "JPY=X",
+      "KRW=X",
+      "CNY=X",
+      "SGD=X",
+      "EURUSD=X",
+      "GBPUSD=X"
+    ],
+    "failedSymbols": [],
+    "notAttemptedSymbols": [],
+    "requiredSymbols": [
+      "000001.SS",
+      "000300.SS",
+      "300308.SZ",
+      "300502.SZ",
+      "TWD=X",
+      "JPY=X",
+      "KRW=X",
+      "CNY=X",
+      "SGD=X",
+      "EURUSD=X",
+      "GBPUSD=X"
+    ],
+    "optionalSymbols": [],
+    "missingRequiredSymbols": [],
+    "collectionStatus": "complete",
+    "validationStatus": "valid",
+    "publishable": true,
+    "complete": true
+  },
+  "collectionStatus": "complete",
+  "validationStatus": "valid",
+  "publishable": true,
+  "quotes": [
+    {
+      "symbol": "000001.SS",
+      "open": 3727.04296875,
+      "high": 3727.04296875,
+      "low": 3727.04296875,
+      "close": 3727.04296875,
+      "previousClose": 3716.2842,
+      "quoteAt": "2026-10-19T03:14:55.000Z",
+      "currency": "CNY"
+    },
+    {
+      "symbol": "000300.SS",
+      "open": 4178.9326171875,
+      "high": 4178.9326171875,
+      "low": 4178.9326171875,
+      "close": 4178.9326171875,
+      "previousClose": 4170.6133,
+      "quoteAt": "2026-10-19T03:14:55.000Z",
+      "currency": "CNY"
+    },
+    {
+      "symbol": "300308.SZ",
+      "open": 662.7999877929688,
+      "high": 662.7999877929688,
+      "low": 662.7999877929688,
+      "close": 662.7999877929688,
+      "previousClose": 670,
+      "quoteAt": "2026-10-19T03:14:58.000Z",
+      "currency": "CNY"
+    },
+    {
+      "symbol": "300502.SZ",
+      "open": 307.20001220703125,
+      "high": 307.20001220703125,
+      "low": 307.20001220703125,
+      "close": 307.20001220703125,
+      "previousClose": 306.91,
+      "quoteAt": "2026-10-19T03:14:58.000Z",
+      "currency": "CNY"
+    },
+    {
+      "symbol": "TWD=X",
+      "open": 32.487998962402344,
+      "high": 32.487998962402344,
+      "low": 32.487998962402344,
+      "close": 32.487998962402344,
+      "previousClose": 32.428,
+      "quoteAt": "2026-10-19T03:29:58.000Z",
+      "currency": "TWD"
+    },
+    {
+      "symbol": "JPY=X",
+      "open": 158.07000732421875,
+      "high": 158.07000732421875,
+      "low": 158.07000732421875,
+      "close": 158.07000732421875,
+      "previousClose": 157.987,
+      "quoteAt": "2026-10-19T03:29:59.000Z",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "KRW=X",
+      "open": 1332.1500244140625,
+      "high": 1332.1500244140625,
+      "low": 1332.1500244140625,
+      "close": 1332.1500244140625,
+      "previousClose": 1334.2,
+      "quoteAt": "2026-10-19T03:29:53.000Z",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "CNY=X",
+      "open": 6.6809000968933105,
+      "high": 6.6809000968933105,
+      "low": 6.6809000968933105,
+      "close": 6.6809000968933105,
+      "previousClose": 6.6768,
+      "quoteAt": "2026-10-19T03:29:43.000Z",
+      "currency": "CNY"
+    },
+    {
+      "symbol": "SGD=X",
+      "open": 1.279379963874817,
+      "high": 1.279379963874817,
+      "low": 1.279379963874817,
+      "close": 1.279379963874817,
+      "previousClose": 1.2796,
+      "quoteAt": "2026-10-19T03:29:59.000Z",
+      "currency": "SGD"
+    },
+    {
+      "symbol": "EURUSD=X",
+      "open": 1.12296462059021,
+      "high": 1.12296462059021,
+      "low": 1.12296462059021,
+      "close": 1.12296462059021,
+      "previousClose": 1.1244,
+      "quoteAt": "2026-10-19T03:29:51.000Z",
+      "currency": "USD"
+    },
+    {
+      "symbol": "GBPUSD=X",
+      "open": 1.3327114582061768,
+      "high": 1.3327114582061768,
+      "low": 1.3327114582061768,
+      "close": 1.3327114582061768,
+      "previousClose": 1.333,
+      "quoteAt": "2026-10-19T03:29:51.000Z",
+      "currency": "USD"
+    }
+  ],
+  "producer": {
+    "id": "s2",
+    "role": "primary"
+  },
+  "quoteFreshness": {
+    "status": "rejected",
+    "complete": false,
+    "enforced": true,
+    "referenceAt": "2026-10-19T03:30:00.000Z",
+    "maxAgeSeconds": 300,
+    "oldestQuoteAgeSeconds": 905,
+    "newestQuoteAgeSeconds": 1,
+    "unreliableQuoteAtSymbols": [],
+    "staleSymbols": [
+      "000001.SS",
+      "000300.SS",
+      "300308.SZ",
+      "300502.SZ"
+    ],
+    "futureSymbols": []
+  }
+}
