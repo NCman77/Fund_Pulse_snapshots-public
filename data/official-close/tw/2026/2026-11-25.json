@@ -1,0 +1,603 @@
+{
+  "schemaVersion": "1.0",
+  "market": "tw",
+  "date": "2026-11-25",
+  "checkedAt": "2026-11-25T15:42:43.638Z",
+  "source": {
+    "type": "official_post_close",
+    "twse": {
+      "name": "Taiwan Stock Exchange OpenAPI",
+      "url": "https://www.twse.com.tw/rwd/zh/afterTrading/MI_INDEX?date=20261125&type=ALLBUT0999&response=json"
+    },
+    "tpex": {
+      "name": "Taipei Exchange OpenAPI",
+      "url": "https://www.tpex.org.tw/openapi/v1/tpex_mainboard_daily_close_quotes"
+    }
+  },
+  "officialCoverage": {
+    "complete": true,
+    "expectedSymbolCount": 52,
+    "availableSymbolCount": 52
+  },
+  "publicReference": null,
+  "comparison": {
+    "status": "reference_unavailable",
+    "comparableCount": 0,
+    "matchedCount": 0,
+    "differentCount": 0
+  },
+  "symbols": [
+    {
+      "symbol": "0050.TW",
+      "venue": "TWSE",
+      "name": "元大台灣50",
+      "officialClose": 90.3,
+      "officialTradeVolume": 464126099,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "1303.TW",
+      "venue": "TWSE",
+      "name": "南亞",
+      "officialClose": 226.5,
+      "officialTradeVolume": 127287826,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "2059.TW",
+      "venue": "TWSE",
+      "name": "川湖",
+      "officialClose": 6505,
+      "officialTradeVolume": 1583135,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "2303.TW",
+      "venue": "TWSE",
+      "name": "聯電",
+      "officialClose": 87.4,
+      "officialTradeVolume": 200354788,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "2308.TW",
+      "venue": "TWSE",
+      "name": "台達電",
+      "officialClose": 1055,
+      "officialTradeVolume": 39535893,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "2327.TW",
+      "venue": "TWSE",
+      "name": "國巨*",
+      "officialClose": 309,
+      "officialTradeVolume": 47309610,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "2330.TW",
+      "venue": "TWSE",
+      "name": "台積電",
+      "officialClose": 2150,
+      "officialTradeVolume": 84911914,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "2344.TW",
+      "venue": "TWSE",
+      "name": "華邦電",
+      "officialClose": 94.5,
+      "officialTradeVolume": 75172823,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "2345.TW",
+      "venue": "TWSE",
+      "name": "智邦",
+      "officialClose": 1475,
+      "officialTradeVolume": 10341950,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "2357.TW",
+      "venue": "TWSE",
+      "name": "華碩",
+      "officialClose": 769,
+      "officialTradeVolume": 4532909,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "2360.TW",
+      "venue": "TWSE",
+      "name": "致茂",
+      "officialClose": 1010,
+      "officialTradeVolume": 7765464,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "2368.TW",
+      "venue": "TWSE",
+      "name": "金像電",
+      "officialClose": 905,
+      "officialTradeVolume": 27683723,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "2376.TW",
+      "venue": "TWSE",
+      "name": "技嘉",
+      "officialClose": 261,
+      "officialTradeVolume": 11813394,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "2383.TW",
+      "venue": "TWSE",
+      "name": "台光電",
+      "officialClose": 3355,
+      "officialTradeVolume": 8860696,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "2404.TW",
+      "venue": "TWSE",
+      "name": "漢唐",
+      "officialClose": 875,
+      "officialTradeVolume": 1327679,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "2408.TW",
+      "venue": "TWSE",
+      "name": "南亞科",
+      "officialClose": 278.5,
+      "officialTradeVolume": 44925367,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "2454.TW",
+      "venue": "TWSE",
+      "name": "聯發科",
+      "officialClose": 3645,
+      "officialTradeVolume": 23694057,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "2492.TW",
+      "venue": "TWSE",
+      "name": "華新科",
+      "officialClose": 191,
+      "officialTradeVolume": 15970755,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "3017.TW",
+      "venue": "TWSE",
+      "name": "奇鋐",
+      "officialClose": 2545,
+      "officialTradeVolume": 8627975,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "3026.TW",
+      "venue": "TWSE",
+      "name": "禾伸堂",
+      "officialClose": 331,
+      "officialTradeVolume": 11312219,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "3036.TW",
+      "venue": "TWSE",
+      "name": "文曄",
+      "officialClose": 159,
+      "officialTradeVolume": 8737551,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "3037.TW",
+      "venue": "TWSE",
+      "name": "欣興",
+      "officialClose": 585,
+      "officialTradeVolume": 46627565,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "3044.TW",
+      "venue": "TWSE",
+      "name": "健鼎",
+      "officialClose": 452,
+      "officialTradeVolume": 7416688,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "3081.TWO",
+      "venue": "TPEx",
+      "name": "聯亞",
+      "officialClose": 1420,
+      "officialTradeVolume": 1091937,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "3090.TW",
+      "venue": "TWSE",
+      "name": "日電貿",
+      "officialClose": 99.2,
+      "officialTradeVolume": 2421262,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "3167.TW",
+      "venue": "TWSE",
+      "name": "大量",
+      "officialClose": 598,
+      "officialTradeVolume": 11143729,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "3189.TW",
+      "venue": "TWSE",
+      "name": "景碩",
+      "officialClose": 495,
+      "officialTradeVolume": 49460544,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "3264.TWO",
+      "venue": "TPEx",
+      "name": "欣銓",
+      "officialClose": 145.5,
+      "officialTradeVolume": 10252522,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "3443.TW",
+      "venue": "TWSE",
+      "name": "創意",
+      "officialClose": 5070,
+      "officialTradeVolume": 898200,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "3481.TW",
+      "venue": "TWSE",
+      "name": "群創",
+      "officialClose": 30.55,
+      "officialTradeVolume": 128134432,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "3653.TW",
+      "venue": "TWSE",
+      "name": "健策",
+      "officialClose": 4170,
+      "officialTradeVolume": 1921836,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "3661.TW",
+      "venue": "TWSE",
+      "name": "世芯-KY",
+      "officialClose": 3605,
+      "officialTradeVolume": 5028360,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "3665.TW",
+      "venue": "TWSE",
+      "name": "貿聯-KY",
+      "officialClose": 1630,
+      "officialTradeVolume": 11352120,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "3711.TW",
+      "venue": "TWSE",
+      "name": "日月光投控",
+      "officialClose": 488,
+      "officialTradeVolume": 37276732,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "4958.TW",
+      "venue": "TWSE",
+      "name": "臻鼎-KY",
+      "officialClose": 328.5,
+      "officialTradeVolume": 27573516,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "5274.TWO",
+      "venue": "TPEx",
+      "name": "信驊",
+      "officialClose": 8795,
+      "officialTradeVolume": 738127,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "5289.TWO",
+      "venue": "TPEx",
+      "name": "宜鼎",
+      "officialClose": 768,
+      "officialTradeVolume": 2353413,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "5347.TWO",
+      "venue": "TPEx",
+      "name": "世界",
+      "officialClose": 116.5,
+      "officialTradeVolume": 20840596,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "5434.TW",
+      "venue": "TWSE",
+      "name": "崇越",
+      "officialClose": 409,
+      "officialTradeVolume": 1000549,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "5536.TWO",
+      "venue": "TPEx",
+      "name": "聖暉*",
+      "officialClose": 598,
+      "officialTradeVolume": 1168986,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "6147.TWO",
+      "venue": "TPEx",
+      "name": "頎邦",
+      "officialClose": 124,
+      "officialTradeVolume": 17121654,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "6223.TWO",
+      "venue": "TPEx",
+      "name": "旺矽",
+      "officialClose": 3770,
+      "officialTradeVolume": 1507005,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "6274.TWO",
+      "venue": "TPEx",
+      "name": "台燿",
+      "officialClose": 739,
+      "officialTradeVolume": 28165856,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "6488.TWO",
+      "venue": "TPEx",
+      "name": "環球晶",
+      "officialClose": 477,
+      "officialTradeVolume": 8856779,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "6515.TW",
+      "venue": "TWSE",
+      "name": "穎崴",
+      "officialClose": 3015,
+      "officialTradeVolume": 787693,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "6531.TW",
+      "venue": "TWSE",
+      "name": "愛普*",
+      "officialClose": 516,
+      "officialTradeVolume": 3050759,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "6669.TW",
+      "venue": "TWSE",
+      "name": "緯穎",
+      "officialClose": 1430,
+      "officialTradeVolume": 5146711,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "7769.TW",
+      "venue": "TWSE",
+      "name": "鴻勁",
+      "officialClose": 3065,
+      "officialTradeVolume": 1672444,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "8046.TW",
+      "venue": "TWSE",
+      "name": "南電",
+      "officialClose": 665,
+      "officialTradeVolume": 20678107,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "8299.TWO",
+      "venue": "TPEx",
+      "name": "群聯",
+      "officialClose": 1485,
+      "officialTradeVolume": 8340058,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "8358.TWO",
+      "venue": "TPEx",
+      "name": "金居",
+      "officialClose": 244.5,
+      "officialTradeVolume": 16089333,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    },
+    {
+      "symbol": "8996.TW",
+      "venue": "TWSE",
+      "name": "高力",
+      "officialClose": 870,
+      "officialTradeVolume": 1140495,
+      "publicReferenceClose": null,
+      "publicReferenceQuoteAt": "",
+      "difference": null,
+      "matchStatus": "reference_missing"
+    }
+  ]
+}
