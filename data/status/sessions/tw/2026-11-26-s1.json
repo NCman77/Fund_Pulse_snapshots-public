@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "1.1",
+  "generatedAt": "2026-11-26T03:28:56.334Z",
+  "market": "tw",
+  "sessionName": "s1",
+  "localDate": "2026-11-26",
+  "timezone": "Asia/Taipei",
+  "expectedSlots": [
+    "09:10",
+    "10:00",
+    "10:30"
+  ],
+  "skippedSlots": [],
+  "summary": {
+    "expectedSlotCount": 3,
+    "capturedSlotCount": 0,
+    "onTimeSlotCount": 0,
+    "lateSlotCount": 0,
+    "failedSlotCount": 3,
+    "partialSlotCount": 0,
+    "complete": false,
+    "healthy": false
+  },
+  "slots": [
+    {
+      "slot": "09:10",
+      "scheduledAt": "2026-11-26T01:10:00.000Z",
+      "status": "missed",
+      "attempts": 0,
+      "timingStatus": "missed",
+      "captureDelaySeconds": 8336,
+      "providerFailure": "",
+      "error": "Watcher started 8336s after the approved 120s capture tolerance; no late replacement was written.",
+      "collection": null,
+      "diagnostics": []
+    },
+    {
+      "slot": "10:00",
+      "scheduledAt": "2026-11-26T02:00:00.000Z",
+      "status": "missed",
+      "attempts": 0,
+      "timingStatus": "missed",
+      "captureDelaySeconds": 5336,
+      "providerFailure": "",
+      "error": "Watcher started 5336s after the approved 120s capture tolerance; no late replacement was written.",
+      "collection": null,
+      "diagnostics": []
+    },
+    {
+      "slot": "10:30",
+      "scheduledAt": "2026-11-26T02:30:00.000Z",
+      "status": "missed",
+      "attempts": 0,
+      "timingStatus": "missed",
+      "captureDelaySeconds": 3536,
+      "providerFailure": "",
+      "error": "Watcher started 3536s after the approved 120s capture tolerance; no late replacement was written.",
+      "collection": null,
+      "diagnostics": []
+    }
+  ],
+  "producer": {
+    "id": "s1",
+    "role": "primary"
+  }
+}
